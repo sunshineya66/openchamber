@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { ButtonSmall } from '@/components/ui/button-small';
 import { Input } from '@/components/ui/input';
 import { NumberInput } from '@/components/ui/number-input';
@@ -182,6 +183,7 @@ const buildPermissionConfigWithGlobal = (
 
 
 export const AgentsPage: React.FC = () => {
+  const { t } = useTranslation();
   const { isMobile } = useDeviceInfo();
   const { selectedAgentName, getAgentByName, createAgent, updateAgent, agents, agentDraft, setAgentDraft } = useAgentsStore();
   useConfigStore();
@@ -530,13 +532,13 @@ export const AgentsPage: React.FC = () => {
     const agentName = isNewAgent ? draftName.trim().replace(/\s+/g, '-') : selectedAgentName?.trim();
 
     if (!agentName) {
-      toast.error('Agent name is required');
+      toast.error(t('features.agents.nameRequired'));
       return;
     }
 
     // Check for duplicate name when creating new agent
     if (isNewAgent && agents.some((a) => a.name === agentName)) {
-      toast.error('An agent with this name already exists');
+      toast.error(t('features.agents.nameExists'));
       return;
     }
 
@@ -568,13 +570,13 @@ export const AgentsPage: React.FC = () => {
       }
 
       if (success) {
-        toast.success(isNewAgent ? 'Agent created successfully' : 'Agent updated successfully');
+        toast.success(isNewAgent ? t('features.agents.createdSuccess') : t('features.agents.updatedSuccess'));
       } else {
-        toast.error(isNewAgent ? 'Failed to create agent' : 'Failed to update agent');
+        toast.error(isNewAgent ? t('features.agents.createError') : t('features.agents.updateError'));
       }
     } catch (error) {
       console.error('Error saving agent:', error);
-      const message = error instanceof Error && error.message ? error.message : 'An error occurred while saving';
+      const message = error instanceof Error && error.message ? error.message : t('features.agents.saveError');
       toast.error(message);
     } finally {
       setIsSaving(false);
@@ -587,8 +589,8 @@ export const AgentsPage: React.FC = () => {
       <div className="flex h-full items-center justify-center">
         <div className="text-center text-muted-foreground">
           <RiRobot2Line className="mx-auto mb-3 h-12 w-12 opacity-50" />
-          <p className="typography-body">Select an agent from the sidebar</p>
-          <p className="typography-meta mt-1 opacity-75">or create a new one</p>
+          <p className="typography-body">{t('features.agents.selectFromSidebar')}</p>
+          <p className="typography-meta mt-1 opacity-75">{t('features.agents.createNew')}</p>
         </div>
       </div>
     );
@@ -602,10 +604,10 @@ export const AgentsPage: React.FC = () => {
         <div className="mb-4 flex items-center justify-between gap-4">
           <div className="min-w-0">
             <h2 className="typography-ui-header font-semibold text-foreground truncate">
-              {isNewAgent ? 'New Agent' : selectedAgentName}
+              {isNewAgent ? t('features.agents.newAgent') : selectedAgentName}
             </h2>
             <p className="typography-meta text-muted-foreground truncate">
-              {isNewAgent ? 'Configure a new assistant persona' : 'Edit agent settings'}
+              {isNewAgent ? t('features.agents.configureNew') : t('features.agents.editSettings')}
             </p>
           </div>
         </div>
@@ -1087,7 +1089,7 @@ export const AgentsPage: React.FC = () => {
             size="xs"
             className="!font-normal"
           >
-            {isSaving ? 'Saving...' : 'Save Changes'}
+            {isSaving ? t('features.agents.saving') : t('features.agents.saveChanges')}
           </ButtonSmall>
         </div>
 

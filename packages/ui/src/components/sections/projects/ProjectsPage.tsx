@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Input } from '@/components/ui/input';
 import { ButtonSmall } from '@/components/ui/button-small';
 import { ScrollableOverlay } from '@/components/ui/ScrollableOverlay';
@@ -14,6 +15,8 @@ export const ProjectsPage: React.FC = () => {
   const updateProjectMeta = useProjectsStore((state) => state.updateProjectMeta);
   const selectedId = useUIStore((state) => state.settingsProjectsSelectedId);
   const setSelectedId = useUIStore((state) => state.setSettingsProjectsSelectedId);
+
+  const { t } = useTranslation();
 
   const selectedProject = React.useMemo(() => {
     if (!selectedId) return null;

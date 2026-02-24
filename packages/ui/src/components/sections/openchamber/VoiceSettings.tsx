@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useBrowserVoice } from '@/hooks/useBrowserVoice';
 import { useConfigStore } from '@/stores/useConfigStore';
 import { useDeviceInfo } from '@/lib/device';
@@ -48,6 +49,7 @@ const OPENAI_VOICE_OPTIONS = [
 ];
 
 export const VoiceSettings: React.FC = () => {
+    const { t } = useTranslation();
     const { isMobile } = useDeviceInfo();
     const {
         isSupported,
@@ -139,8 +141,8 @@ export const VoiceSettings: React.FC = () => {
         }
 
         const selectedVoice = browserVoices.find(v => v.name === browserVoice);
-        const voiceName = selectedVoice?.name ?? 'your browser voice';
-        const previewText = `Hello! I'm ${voiceName}. This is how I sound.`;
+        const voiceName = selectedVoice?.name ?? t('settings.voice.browserVoice');
+        const previewText = t('settings.voice.previewText', { voice: voiceName });
 
         setIsBrowserPreviewPlaying(true);
 
@@ -219,13 +221,13 @@ export const VoiceSettings: React.FC = () => {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    text: `Hello! I'm ${sayVoice}. This is how I sound.`,
+                    text: t('settings.voice.previewText', { voice: sayVoice }),
                     voice: sayVoice,
                     rate: Math.round(100 + (speechRate - 0.5) * 200),
                 }),
             });
 
-            if (!response.ok) throw new Error('Preview failed');
+            if (!response.ok) throw new Error(t('settings.voice.previewFailed'));
 
             const blob = await response.blob();
             const url = URL.createObjectURL(blob);
@@ -273,7 +275,7 @@ export const VoiceSettings: React.FC = () => {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    text: `Hello! I'm ${openaiVoice}. This is how I sound.`,
+                    text: t('settings.voice.previewText', { voice: openaiVoice }),
                     voice: openaiVoice,
                     speed: speechRate,
                     apiKey: openaiApiKey || undefined,
@@ -281,7 +283,7 @@ export const VoiceSettings: React.FC = () => {
             });
 
             if (!response.ok) {
-                const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+                const errorData = await response.json().catch(() => ({ error: t('settings.voice.unknownError') }));
                 throw new Error(errorData.error || `HTTP ${response.status}`);
             }
 
@@ -324,8 +326,8 @@ export const VoiceSettings: React.FC = () => {
             {/* Voice Setup */}
             <div className="mb-8">
                 <div className="mb-1 px-1">
-                    <h3 className="typography-ui-header font-medium text-foreground">
-                        Voice Setup
+<h3 className="typography-ui-header font-medium text-foreground">
+                        {t('settings.voice.setup')}
                     </h3>
                 </div>
 
@@ -339,8 +341,8 @@ export const VoiceSettings: React.FC = () => {
                         onClick={() => setVoiceModeEnabled(!voiceModeEnabled)}
                         onKeyDown={(e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); setVoiceModeEnabled(!voiceModeEnabled); } }}
                     >
-                        <Checkbox checked={voiceModeEnabled} onChange={setVoiceModeEnabled} ariaLabel="Enable voice mode" />
-                        <span className="typography-ui-label text-foreground">Enable Voice Mode</span>
+                        <Checkbox checked={voiceModeEnabled} onChange={setVoiceModeEnabled} ariaLabel={t('settings.voice.ariaEnableVoiceMode')} />
+                        <span className="typography-ui-label text-foreground">{t('settings.voice.enableMode')}</span>
                     </div>
 
                     {voiceModeEnabled && (
@@ -348,16 +350,22 @@ export const VoiceSettings: React.FC = () => {
                             <div className="pb-1.5 pt-0.5">
                                 <div className="flex min-w-0 flex-col gap-1.5">
                                     <div className="flex items-center gap-1.5">
-                                        <span className="typography-ui-label text-foreground">Provider</span>
+                                        <span className="typography-ui-label text-foreground">{t('settings.voice.provider')}</span>
                                         <Tooltip delayDuration={1000}>
                                             <TooltipTrigger asChild>
                                                 <RiInformationLine className="h-3.5 w-3.5 text-muted-foreground/60 cursor-help" />
                                             </TooltipTrigger>
                                             <TooltipContent sideOffset={8} className="max-w-xs">
-                                                <ul className="space-y-1">
-                                                    <li><strong>Browser:</strong> Free, offline, limited mobile support.</li>
-                                                    <li><strong>OpenAI:</strong> High quality, mobile ready, needs API key.</li>
-                                                    <li><strong>Say:</strong> macOS native. Fast, free, offline.</li>
+<ul className="space-y-1">
+                                                    {t('settings.voice.providerHint').split(' / ').map((hint, i) => {
+                                                        const [label, ...rest] = hint.split(':');
+                                                        return (
+                                                            <li key={i}>
+                                                                <strong>{label}:</strong>
+                                                                {rest.join(':')}
+                                                            </li>
+                                                        );
+                                                    })}
                                                 </ul>
                                             </TooltipContent>
                                         </Tooltip>
@@ -374,7 +382,7 @@ export const VoiceSettings: React.FC = () => {
                                                     : 'text-foreground'
                                             )}
                                         >
-                                            Browser
+                                            {t('settings.voice.providerBrowser')}
                                         </ButtonSmall>
                                         <ButtonSmall
                                             variant="outline"
@@ -387,7 +395,7 @@ export const VoiceSettings: React.FC = () => {
                                                     : 'text-foreground'
                                             )}
                                         >
-                                            OpenAI
+                                            {t('settings.voice.providerOpenai')}
                                         </ButtonSmall>
                                         {isSayAvailable && (
                                             <ButtonSmall
@@ -401,8 +409,8 @@ export const VoiceSettings: React.FC = () => {
                                                         : 'text-foreground'
                                                 )}
                                             >
-                                                <RiAppleLine className="w-3.5 h-3.5 mr-0.5" />
-                                                Say
+<RiAppleLine className="w-3.5 h-3.5 mr-0.5" />
+                                                {t('settings.voice.providerSay')}
                                             </ButtonSmall>
                                         )}
                                     </div>
@@ -412,18 +420,18 @@ export const VoiceSettings: React.FC = () => {
                             {/* OpenAI API Key */}
                             {voiceProvider === 'openai' && (
                                 <div className="py-1.5">
-                                    <span className={cn("typography-ui-label text-foreground", !isOpenAIAvailable && "text-[var(--status-error)]")}>
-                                        API Key
+<span className={cn("typography-ui-label text-foreground", !isOpenAIAvailable && "text-[var(--status-error)]")}>
+                                        {t('settings.voice.apiKey')}
                                     </span>
                                     <span className={cn("typography-meta ml-2", !isOpenAIAvailable ? "text-[var(--status-error)]/80" : "text-muted-foreground")}>
-                                        {isOpenAIAvailable && !openaiApiKey ? 'Using key from configuration' : !isOpenAIAvailable ? 'OpenAI TTS requires an API key' : 'Provide your OpenAI key'}
+                                        {isOpenAIAvailable && !openaiApiKey ? t('settings.voice.usingConfigKey') : !isOpenAIAvailable ? t('settings.voice.ttsRequiresKey') : t('settings.voice.provideKey')}
                                     </span>
                                     <div className="relative mt-1.5 max-w-xs">
                                         <input
                                             type="password"
                                             value={openaiApiKey}
                                             onChange={(e) => setOpenaiApiKey(e.target.value)}
-                                            placeholder="sk-..."
+                                            placeholder={t('settings.voice.apiKeyPlaceholder')}
                                             className="w-full h-7 rounded-lg border border-input bg-transparent px-2 typography-ui-label text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary/50 focus:border-primary/70"
                                         />
                                         {openaiApiKey && (
@@ -441,13 +449,13 @@ export const VoiceSettings: React.FC = () => {
 
                             {/* Voice Selection */}
                             <div className="flex items-center gap-8 py-1.5">
-                                <span className="typography-ui-label text-foreground sm:w-56 shrink-0">Voice</span>
+                                <span className="typography-ui-label text-foreground sm:w-56 shrink-0">{t('settings.voice.voice')}</span>
                                 <div className="flex items-center gap-2 w-fit">
                                     {voiceProvider === 'openai' && isOpenAIAvailable && (
                                         <>
                                             <Select value={openaiVoice} onValueChange={setOpenaiVoice}>
                                                 <SelectTrigger className="w-fit">
-                                                    <SelectValue placeholder="Select voice" />
+                                                    <SelectValue placeholder={t('settings.voice.voice')} />
                                                 </SelectTrigger>
                                                 <SelectContent>
                                                     {OPENAI_VOICE_OPTIONS.map((v) => (
@@ -455,7 +463,7 @@ export const VoiceSettings: React.FC = () => {
                                                     ))}
                                                 </SelectContent>
                                             </Select>
-                                            <ButtonSmall variant="ghost" className="h-7 w-7 px-0" onClick={previewOpenAIVoice} title="Preview">
+                                            <ButtonSmall variant="ghost" className="h-7 w-7 px-0" onClick={previewOpenAIVoice} title={t('settings.voice.preview')}>
                                                 {isOpenAIPreviewPlaying ? <RiStopLine className="w-3.5 h-3.5" /> : <RiPlayLine className="w-3.5 h-3.5" />}
                                             </ButtonSmall>
                                         </>
@@ -465,7 +473,7 @@ export const VoiceSettings: React.FC = () => {
                                         <>
                                             <Select value={sayVoice} onValueChange={setSayVoice}>
                                                 <SelectTrigger className="w-fit">
-                                                    <SelectValue placeholder="Select voice" />
+                                                    <SelectValue placeholder={t('settings.voice.voice')} />
                                                 </SelectTrigger>
                                                 <SelectContent>
                                                     {sayVoices.map((v) => (
@@ -473,7 +481,7 @@ export const VoiceSettings: React.FC = () => {
                                                     ))}
                                                 </SelectContent>
                                             </Select>
-                                            <ButtonSmall variant="ghost" className="h-7 w-7 px-0" onClick={previewVoice} title="Preview">
+                                            <ButtonSmall variant="ghost" className="h-7 w-7 px-0" onClick={previewVoice} title={t('settings.voice.preview')}>
                                                 {isPreviewPlaying ? <RiStopLine className="w-3.5 h-3.5" /> : <RiPlayLine className="w-3.5 h-3.5" />}
                                             </ButtonSmall>
                                         </>
@@ -483,16 +491,16 @@ export const VoiceSettings: React.FC = () => {
                                         <>
                                             <Select value={browserVoice || '__auto__'} onValueChange={(value) => setBrowserVoice(value === '__auto__' ? '' : value)}>
                                                 <SelectTrigger className="w-fit max-w-[200px]">
-                                                    <SelectValue placeholder="Auto" />
+                                                    <SelectValue placeholder={t('settings.voice.voiceAuto')} />
                                                 </SelectTrigger>
                                                 <SelectContent>
-                                                    <SelectItem value="__auto__">Auto</SelectItem>
+                                                    <SelectItem value="__auto__">{t('settings.voice.voiceAuto')}</SelectItem>
                                                     {filteredBrowserVoices.map((v) => (
                                                         <SelectItem key={v.name} value={v.name}>{v.name} ({v.lang})</SelectItem>
                                                     ))}
                                                 </SelectContent>
                                             </Select>
-                                            <ButtonSmall variant="ghost" className="h-7 w-7 px-0" onClick={previewBrowserVoice} title="Preview">
+                                            <ButtonSmall variant="ghost" className="h-7 w-7 px-0" onClick={previewBrowserVoice} title={t('settings.voice.preview')}>
                                                 {isBrowserPreviewPlaying ? <RiStopLine className="w-3.5 h-3.5" /> : <RiPlayLine className="w-3.5 h-3.5" />}
                                             </ButtonSmall>
                                         </>
@@ -500,27 +508,27 @@ export const VoiceSettings: React.FC = () => {
                                 </div>
                             </div>
 
-                            {/* Speech Rate */}
+                            {/* {t('settings.voice.speechRate')} */}
                             <div className="flex items-center gap-8 py-1.5">
-                                <span className="typography-ui-label text-foreground sm:w-56 shrink-0">Speech Rate</span>
+                                <span className="typography-ui-label text-foreground sm:w-56 shrink-0">{t('settings.voice.speechRate')}</span>
                                 <div className="flex items-center gap-2 w-fit">
                                     {!isMobile && <input type="range" min={0.5} max={2} step={0.1} value={speechRate} onChange={(e) => setSpeechRate(Number(e.target.value))} disabled={!isSupported} className={sliderClass} />}
                                     <NumberInput value={speechRate} onValueChange={setSpeechRate} min={0.5} max={2} step={0.1} className="w-16 tabular-nums" />
                                 </div>
                             </div>
 
-                            {/* Speech Pitch */}
+                            {/* {t('settings.voice.speechPitch')} */}
                             <div className="flex items-center gap-8 py-1.5">
-                                <span className="typography-ui-label text-foreground sm:w-56 shrink-0">Speech Pitch</span>
+                                <span className="typography-ui-label text-foreground sm:w-56 shrink-0">{t('settings.voice.speechPitch')}</span>
                                 <div className="flex items-center gap-2 w-fit">
                                     {!isMobile && <input type="range" min={0.5} max={2} step={0.1} value={speechPitch} onChange={(e) => setSpeechPitch(Number(e.target.value))} disabled={!isSupported} className={sliderClass} />}
                                     <NumberInput value={speechPitch} onValueChange={setSpeechPitch} min={0.5} max={2} step={0.1} className="w-16 tabular-nums" />
                                 </div>
                             </div>
 
-                            {/* Speech Volume */}
+                            {/* {t('settings.voice.speechVolume')} */}
                             <div className="flex items-center gap-8 py-1.5">
-                                <span className="typography-ui-label text-foreground sm:w-56 shrink-0">Speech Volume</span>
+                                <span className="typography-ui-label text-foreground sm:w-56 shrink-0">{t('settings.voice.speechVolume')}</span>
                                 <div className="flex items-center gap-2 w-fit">
                                     {!isMobile && <input type="range" min={0} max={1} step={0.1} value={speechVolume} onChange={(e) => setSpeechVolume(Number(e.target.value))} disabled={!isSupported} className={sliderClass} />}
                                     {isMobile ? (
@@ -533,13 +541,13 @@ export const VoiceSettings: React.FC = () => {
                                 </div>
                             </div>
 
-                            {/* Language */}
+                            {/* {t('settings.voice.language')} */}
                             <div className="flex items-center gap-8 py-1.5">
-                                <span className="typography-ui-label text-foreground sm:w-56 shrink-0">Language</span>
+                                <span className="typography-ui-label text-foreground sm:w-56 shrink-0">{t('settings.voice.language')}</span>
                                 <div className="flex items-center gap-2 w-fit">
                                     <Select value={language} onValueChange={setLanguage} disabled={!isSupported}>
                                         <SelectTrigger className="w-fit">
-                                            <SelectValue placeholder="Select language" />
+                                            <SelectValue placeholder={t('settings.voice.selectLanguage')} />
                                         </SelectTrigger>
                                         <SelectContent>
                                             {LANGUAGE_OPTIONS.map((lang) => (
@@ -558,7 +566,7 @@ export const VoiceSettings: React.FC = () => {
             <div className="mb-8">
                 <div className="mb-1 px-1">
                     <h3 className="typography-ui-header font-medium text-foreground">
-                        Playback & Summarization
+                        {t('settings.voice.playback')}
                     </h3>
                 </div>
 
@@ -571,8 +579,8 @@ export const VoiceSettings: React.FC = () => {
                         onClick={() => setShowMessageTTSButtons(!showMessageTTSButtons)}
                         onKeyDown={(e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); setShowMessageTTSButtons(!showMessageTTSButtons); } }}
                     >
-                        <Checkbox checked={showMessageTTSButtons} onChange={setShowMessageTTSButtons} ariaLabel="Message read aloud button" />
-                        <span className="typography-ui-label text-foreground">Message Read Aloud Button</span>
+                        <Checkbox checked={showMessageTTSButtons} onChange={setShowMessageTTSButtons} ariaLabel={t('settings.voice.ariaMessageReadAloud')} />
+                        <span className="typography-ui-label text-foreground">{t('settings.voice.messageButton')}</span>
                     </div>
 
                     <div
@@ -583,8 +591,8 @@ export const VoiceSettings: React.FC = () => {
                         onClick={() => setSummarizeMessageTTS(!summarizeMessageTTS)}
                         onKeyDown={(e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); setSummarizeMessageTTS(!summarizeMessageTTS); } }}
                     >
-                        <Checkbox checked={summarizeMessageTTS} onChange={setSummarizeMessageTTS} ariaLabel="Summarize before playback" />
-                        <span className="typography-ui-label text-foreground">Summarize Before Playback</span>
+                        <Checkbox checked={summarizeMessageTTS} onChange={setSummarizeMessageTTS} ariaLabel={t('settings.voice.ariaSummarizeBefore')} />
+                        <span className="typography-ui-label text-foreground">{t('settings.voice.summarizeBefore')}</span>
                     </div>
 
                     {voiceModeEnabled && (
@@ -596,15 +604,15 @@ export const VoiceSettings: React.FC = () => {
                             onClick={() => setSummarizeVoiceConversation(!summarizeVoiceConversation)}
                             onKeyDown={(e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); setSummarizeVoiceConversation(!summarizeVoiceConversation); } }}
                         >
-                            <Checkbox checked={summarizeVoiceConversation} onChange={setSummarizeVoiceConversation} ariaLabel="Summarize voice mode responses" />
-                            <span className="typography-ui-label text-foreground">Summarize Voice Mode Responses</span>
+                            <Checkbox checked={summarizeVoiceConversation} onChange={setSummarizeVoiceConversation} ariaLabel={t('settings.voice.ariaSummarizeVoice')} />
+                            <span className="typography-ui-label text-foreground">{t('settings.voice.summarizeVoice')}</span>
                         </div>
                     )}
 
                     {(summarizeMessageTTS || summarizeVoiceConversation) && (
                         <>
                             <div className="flex items-center gap-8 py-1.5">
-                                <span className="typography-ui-label text-foreground sm:w-56 shrink-0">Summarization Threshold</span>
+                                <span className="typography-ui-label text-foreground sm:w-56 shrink-0">{t('settings.voice.summarizeThreshold')}</span>
                                 <div className="flex items-center gap-2 w-fit">
                                     {!isMobile && <input type="range" min={50} max={2000} step={50} value={summarizeCharacterThreshold} onChange={(e) => setSummarizeCharacterThreshold(Number(e.target.value))} className={sliderClass} />}
                                     <NumberInput value={summarizeCharacterThreshold} onValueChange={setSummarizeCharacterThreshold} min={50} max={2000} step={50} className="w-16 tabular-nums" />
@@ -612,7 +620,7 @@ export const VoiceSettings: React.FC = () => {
                             </div>
 
                             <div className="flex items-center gap-8 py-1.5">
-                                <span className="typography-ui-label text-foreground sm:w-56 shrink-0">Summary Max Length</span>
+                                <span className="typography-ui-label text-foreground sm:w-56 shrink-0">{t('settings.voice.summaryMaxLength')}</span>
                                 <div className="flex items-center gap-2 w-fit">
                                     {!isMobile && <input type="range" min={50} max={2000} step={50} value={summarizeMaxLength} onChange={(e) => setSummarizeMaxLength(Number(e.target.value))} className={sliderClass} />}
                                     <NumberInput value={summarizeMaxLength} onValueChange={setSummarizeMaxLength} min={50} max={2000} step={50} className="w-16 tabular-nums" />
@@ -624,8 +632,8 @@ export const VoiceSettings: React.FC = () => {
 
                 {voiceModeEnabled && isSupported && (
                     <div className="mt-2 px-2">
-                        <p className="typography-meta text-muted-foreground">
-                            Press <kbd className="px-1 py-0.5 mx-0.5 rounded border border-[var(--interactive-border)] bg-background typography-mono text-[10px]">Shift</kbd> + <kbd className="px-1 py-0.5 mx-0.5 rounded border border-[var(--interactive-border)] bg-background typography-mono text-[10px]">Click</kbd> on the mic button to toggle continuous mode
+<p className="typography-meta text-muted-foreground">
+                            {t('settings.voice.continuousModeHint').split('Shift')[0]}<kbd className="px-1 py-0.5 mx-0.5 rounded border border-[var(--interactive-border)] bg-background typography-mono text-[10px]">Shift</kbd> {t('settings.voice.continuousModeHint').split('Shift')[1].split('Click')[0]}<kbd className="px-1 py-0.5 mx-0.5 rounded border border-[var(--interactive-border)] bg-background typography-mono text-[10px]">Click</kbd>{t('settings.voice.continuousModeHint').split('Click')[1]}
                         </p>
                     </div>
                 )}

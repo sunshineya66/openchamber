@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { ButtonSmall } from '@/components/ui/button-small';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -17,6 +18,7 @@ import {
 } from '@/components/ui/select';
 
 export const CommandsPage: React.FC = () => {
+  const { t } = useTranslation();
   const { selectedCommandName, getCommandByName, createCommand, updateCommand, commands, commandDraft, setCommandDraft } = useCommandsStore();
 
   const selectedCommand = selectedCommandName ? getCommandByName(selectedCommandName) : null;
@@ -104,17 +106,17 @@ export const CommandsPage: React.FC = () => {
     const commandName = isNewCommand ? draftName.trim().replace(/\s+/g, '-') : selectedCommandName?.trim();
     
     if (!commandName) {
-      toast.error('Command name is required');
+      toast.error(t('features.commands.nameRequired'));
       return;
     }
 
     if (!template.trim()) {
-      toast.error('Command template is required');
+      toast.error(t('features.commands.templateRequired'));
       return;
     }
 
     if (isNewCommand && commands.some((cmd) => cmd.name === commandName)) {
-      toast.error('A command with this name already exists');
+      toast.error(t('features.commands.nameExists'));
       return;
     }
 
@@ -144,13 +146,13 @@ export const CommandsPage: React.FC = () => {
       }
 
       if (success) {
-        toast.success(isNewCommand ? 'Command created successfully' : 'Command updated successfully');
+        toast.success(isNewCommand ? t('features.commands.createdSuccess') : t('features.commands.updatedSuccess'));
       } else {
-        toast.error(isNewCommand ? 'Failed to create command' : 'Failed to update command');
+        toast.error(isNewCommand ? t('features.commands.createError') : t('features.commands.updateError'));
       }
     } catch (error) {
       console.error('Error saving command:', error);
-      toast.error('An error occurred while saving');
+      toast.error(t('features.commands.saveError'));
     } finally {
       setIsSaving(false);
     }
@@ -161,8 +163,8 @@ export const CommandsPage: React.FC = () => {
       <div className="flex h-full items-center justify-center">
         <div className="text-center text-muted-foreground">
           <RiTerminalBoxLine className="mx-auto mb-3 h-12 w-12 opacity-50" />
-          <p className="typography-body">Select a command from the sidebar</p>
-          <p className="typography-meta mt-1 opacity-75">or create a new one</p>
+          <p className="typography-body">{t('features.commands.selectFromSidebar')}</p>
+          <p className="typography-meta mt-1 opacity-75">{t('features.commands.createNew')}</p>
         </div>
       </div>
     );
@@ -176,10 +178,10 @@ export const CommandsPage: React.FC = () => {
         <div className="mb-4 flex items-center justify-between gap-4">
           <div className="min-w-0">
             <h2 className="typography-ui-header font-semibold text-foreground truncate">
-              {isNewCommand ? 'New Command' : `/${selectedCommandName}`}
+              {isNewCommand ? t('features.commands.newCommand') : `/${selectedCommandName}`}
             </h2>
             <p className="typography-meta text-muted-foreground truncate">
-              {isNewCommand ? 'Configure a new slash command' : 'Edit command settings'}
+              {isNewCommand ? t('features.commands.configureNew') : t('features.commands.editSettings')}
             </p>
           </div>
         </div>
@@ -188,7 +190,7 @@ export const CommandsPage: React.FC = () => {
         <div className="mb-8">
           <div className="mb-1 px-1">
             <h3 className="typography-ui-header font-medium text-foreground">
-              Identity
+              {t('settings.commands.identity')}
             </h3>
           </div>
 
@@ -197,7 +199,7 @@ export const CommandsPage: React.FC = () => {
             {isNewCommand && (
               <div className="flex flex-col gap-2 py-1.5 sm:flex-row sm:items-center sm:gap-8">
                 <div className="flex min-w-0 flex-col sm:w-56 shrink-0">
-                  <span className="typography-ui-label text-foreground">Command Name</span>
+                  <span className="typography-ui-label text-foreground">{t('settings.commands.commandName')}</span>
                 </div>
                 <div className="flex min-w-0 flex-1 items-center gap-2 sm:w-fit sm:flex-initial">
                   <div className="flex items-center">
@@ -211,19 +213,19 @@ export const CommandsPage: React.FC = () => {
                   </div>
                   <Select value={draftScope} onValueChange={(v) => setDraftScope(v as CommandScope)}>
                     <SelectTrigger className="w-fit min-w-[100px]">
-                      <SelectValue placeholder="Scope" />
+                      <SelectValue placeholder={t('settings.commands.scope')} />
                     </SelectTrigger>
                     <SelectContent align="end">
                       <SelectItem value="user">
                         <div className="flex items-center gap-2">
                           <RiUser3Line className="h-3.5 w-3.5" />
-                          <span>Global</span>
+                          <span>{t('settings.commands.global')}</span>
                         </div>
                       </SelectItem>
                       <SelectItem value="project">
                         <div className="flex items-center gap-2">
                           <RiFolderLine className="h-3.5 w-3.5" />
-                          <span>Project</span>
+                          <span>{t('settings.commands.project')}</span>
                         </div>
                       </SelectItem>
                     </SelectContent>
@@ -233,12 +235,12 @@ export const CommandsPage: React.FC = () => {
             )}
 
             <div className="py-1.5">
-              <span className="typography-ui-label text-foreground">Description</span>
+              <span className="typography-ui-label text-foreground">{t('settings.commands.descriptionLabel')}</span>
               <div className="mt-1.5">
                 <Textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  placeholder="What does this command do?"
+                  placeholder={t('settings.commands.descriptionPlaceholder')}
                   rows={2}
                   className="w-full resize-none min-h-[60px] bg-transparent"
                 />
@@ -252,7 +254,7 @@ export const CommandsPage: React.FC = () => {
         <div className="mb-8">
           <div className="mb-1 px-1">
             <h3 className="typography-ui-header font-medium text-foreground">
-              Execution Context
+              {t('settings.commands.executionContext')}
             </h3>
           </div>
 
@@ -260,7 +262,7 @@ export const CommandsPage: React.FC = () => {
 
             <div className="flex flex-col gap-2 py-1.5 sm:flex-row sm:items-center sm:gap-8">
               <div className="flex min-w-0 flex-col sm:w-56 shrink-0">
-                <span className="typography-ui-label text-foreground">Override Agent</span>
+                <span className="typography-ui-label text-foreground">{t('settings.commands.overrideAgent')}</span>
               </div>
               <div className="flex min-w-0 flex-1 items-center gap-2 sm:w-fit sm:flex-initial">
                 <AgentSelector
@@ -272,7 +274,7 @@ export const CommandsPage: React.FC = () => {
 
             <div className="flex flex-col gap-2 py-1.5 sm:flex-row sm:items-center sm:gap-8">
               <div className="flex min-w-0 flex-col sm:w-56 shrink-0">
-                <span className="typography-ui-label text-foreground">Override Model</span>
+                <span className="typography-ui-label text-foreground">{t('settings.commands.overrideModel')}</span>
               </div>
               <div className="flex min-w-0 flex-1 items-center gap-2 sm:w-fit sm:flex-initial">
                 <ModelSelector
@@ -296,7 +298,7 @@ export const CommandsPage: React.FC = () => {
         <div className="mb-2">
           <div className="mb-1 px-1">
             <h3 className="typography-ui-header font-medium text-foreground">
-              Command Template
+              {t('settings.commands.commandTemplate')}
             </h3>
           </div>
 
@@ -327,7 +329,7 @@ export const CommandsPage: React.FC = () => {
             size="xs"
             className="!font-normal"
           >
-            {isSaving ? 'Saving...' : 'Save Changes'}
+            {isSaving ? t('settings.commands.saving') : t('settings.commands.saveChanges')}
           </ButtonSmall>
         </div>
 

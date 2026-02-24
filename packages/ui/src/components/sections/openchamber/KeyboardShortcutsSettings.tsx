@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { ButtonSmall } from '@/components/ui/button-small';
 import { Input } from '@/components/ui/input';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
@@ -45,6 +46,7 @@ const keyboardEventToCombo = (event: React.KeyboardEvent<HTMLInputElement>): Sho
 };
 
 export const KeyboardShortcutsSettings: React.FC = () => {
+  const { t } = useTranslation();
   const {
     shortcutOverrides,
     setShortcutOverride,
@@ -90,7 +92,7 @@ export const KeyboardShortcutsSettings: React.FC = () => {
     setShortcutOverride(actionId, normalized);
     setPendingOverwrite(null);
     setErrorText('');
-    setWarningText(isRiskyBrowserShortcut(normalized) ? 'This shortcut can conflict with browser defaults. It is still saved.' : '');
+    setWarningText(isRiskyBrowserShortcut(normalized) ? t('settings.shortcuts.browserConflictWarning') : '');
     setDraftByAction((current) => {
       const rest = { ...current };
       delete rest[actionId];
@@ -107,7 +109,7 @@ export const KeyboardShortcutsSettings: React.FC = () => {
     setShortcutOverride(pendingOverwrite.actionId, pendingOverwrite.combo);
     setPendingOverwrite(null);
     setErrorText('');
-    setWarningText(isRiskyBrowserShortcut(pendingOverwrite.combo) ? 'This shortcut can conflict with browser defaults. It is still saved.' : '');
+    setWarningText(isRiskyBrowserShortcut(pendingOverwrite.combo) ? t('settings.shortcuts.browserConflictWarning') : '');
     setDraftByAction((current) => {
       const rest = { ...current };
       delete rest[pendingOverwrite.actionId];
@@ -131,7 +133,7 @@ export const KeyboardShortcutsSettings: React.FC = () => {
     <div className="mb-8">
       <div className="mb-1 px-1">
         <div className="flex items-center gap-2">
-          <h3 className="typography-ui-header font-medium text-foreground">Keyboard Shortcuts</h3>
+          <h3 className="typography-ui-header font-medium text-foreground">{t('settings.shortcuts.title')}</h3>
           <ButtonSmall
             type="button"
             variant="outline"
@@ -144,15 +146,15 @@ export const KeyboardShortcutsSettings: React.FC = () => {
               setErrorText('');
               setWarningText('');
             }}
-          >
-            Reset All
+>
+            {t('settings.shortcuts.resetAll')}
           </ButtonSmall>
           <Tooltip delayDuration={1000}>
             <TooltipTrigger asChild>
               <RiInformationLine className="h-3.5 w-3.5 text-muted-foreground/60 cursor-help" />
             </TooltipTrigger>
             <TooltipContent sideOffset={8} className="max-w-xs">
-              Capture a new key combo, save it, and bindings will update immediately.
+              {t('settings.shortcuts.hint')}
             </TooltipContent>
           </Tooltip>
         </div>
@@ -162,12 +164,12 @@ export const KeyboardShortcutsSettings: React.FC = () => {
         <div className="mb-2 space-y-2 px-1">
           {pendingOverwrite && (
             <div className="rounded-lg border border-[var(--status-warning-border)] bg-[var(--status-warning-background)] p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <span className="typography-meta text-foreground">
-                This combo is already used by another shortcut. Overwrite and clear that other mapping?
+<span className="typography-meta text-foreground">
+                {t('settings.shortcuts.conflictWarning')}
               </span>
-              <div className="flex gap-2 shrink-0">
-                <ButtonSmall type="button" size="xs" className="!font-normal" onClick={confirmOverwrite}>Overwrite</ButtonSmall>
-                <ButtonSmall type="button" size="xs" className="!font-normal" variant="ghost" onClick={() => setPendingOverwrite(null)}>Cancel</ButtonSmall>
+<div className="flex gap-2 shrink-0">
+                <ButtonSmall type="button" size="xs" className="!font-normal" onClick={confirmOverwrite}>{t('common.overwrite')}</ButtonSmall>
+                <ButtonSmall type="button" size="xs" className="!font-normal" variant="ghost" onClick={() => setPendingOverwrite(null)}>{t('common.cancel')}</ButtonSmall>
               </div>
             </div>
           )}
@@ -199,7 +201,7 @@ export const KeyboardShortcutsSettings: React.FC = () => {
               <div className="flex min-w-0 flex-1 items-center gap-2 sm:w-fit sm:flex-initial">
                 <Input
                   readOnly
-                  value={capturingActionId === action.id ? 'Press keys...' : formatShortcutForDisplay(displayCombo)}
+                  value={capturingActionId === action.id ? t('settings.shortcuts.pressKeys') : formatShortcutForDisplay(displayCombo)}
                   onFocus={() => {
                     setCapturingActionId(action.id);
                     setErrorText('');
@@ -241,17 +243,17 @@ export const KeyboardShortcutsSettings: React.FC = () => {
                   onClick={() => {
                     const next = draftByAction[action.id];
                     if (!next) {
-                      setErrorText('Capture a shortcut first.');
+                      setErrorText(t('settings.shortcuts.captureFirst'));
                       return;
                     }
                     saveCombo(action.id, next);
                   }}
-                  disabled={!hasDraft}
+disabled={!hasDraft}
                 >
-                  Save
+                  {t('common.save')}
                 </ButtonSmall>
-                <ButtonSmall type="button" size="xs" className="!font-normal" variant="ghost" onClick={() => resetOne(action.id)}>
-                  Reset
+<ButtonSmall type="button" size="xs" className="!font-normal" variant="ghost" onClick={() => resetOne(action.id)}>
+                  {t('common.reset')}
                 </ButtonSmall>
               </div>
             </div>

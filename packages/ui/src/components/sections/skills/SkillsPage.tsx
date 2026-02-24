@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { ButtonSmall } from '@/components/ui/button-small';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -50,6 +51,8 @@ const SkillsInstalledPage: React.FC = () => {
     setSkillDraft,
     setSelectedSkill,
   } = useSkillsStore();
+
+  const { t } = useTranslation();
 
   const selectedSkill = selectedSkillName ? getSkillByName(selectedSkillName) : null;
   const isNewSkill = Boolean(skillDraft && skillDraft.name === selectedSkillName && !selectedSkill);
@@ -132,22 +135,22 @@ const SkillsInstalledPage: React.FC = () => {
     const skillName = isNewSkill ? draftName.trim().replace(/\s+/g, '-').toLowerCase() : selectedSkillName?.trim();
 
     if (!skillName) {
-      toast.error('Skill name is required');
+      toast.error(t('settings.skills.skillNameRequired'));
       return;
     }
 
     if (!/^[a-z0-9][a-z0-9-]*[a-z0-9]$|^[a-z0-9]$/.test(skillName) || skillName.length > 64) {
-      toast.error('Skill name must be 1-64 lowercase alphanumeric characters with hyphens, cannot start or end with hyphen');
+      toast.error(t('settings.skills.skillNameInvalid'));
       return;
     }
 
     if (!description.trim()) {
-      toast.error('Description is required');
+      toast.error(t('settings.skills.descriptionRequired'));
       return;
     }
 
     if (isNewSkill && skills.some((s) => s.name === skillName)) {
-      toast.error('A skill with this name already exists');
+      toast.error(t('settings.skills.skillExists'));
       return;
     }
 
@@ -180,13 +183,13 @@ const SkillsInstalledPage: React.FC = () => {
       }
 
       if (success) {
-        toast.success(isNewSkill ? 'Skill created successfully' : 'Skill updated successfully');
+        toast.success(isNewSkill ? t('settings.skills.createdSuccess') : t('settings.skills.updatedSuccess'));
       } else {
-        toast.error(isNewSkill ? 'Failed to create skill' : 'Failed to update skill');
+        toast.error(isNewSkill ? t('settings.skills.createError') : t('settings.skills.updateError'));
       }
     } catch (error) {
       console.error('Error saving skill:', error);
-      toast.error('An error occurred while saving');
+      toast.error(t('settings.skills.saveError'));
     } finally {
       setIsSaving(false);
     }
@@ -224,7 +227,7 @@ const SkillsInstalledPage: React.FC = () => {
       setNewFileContent(content || '');
       setOriginalFileContent(content || '');
     } catch {
-      toast.error('Failed to load file content');
+      toast.error(t('settings.skills.loadFileError'));
       setNewFileContent('');
       setOriginalFileContent('');
     } finally {
@@ -234,7 +237,7 @@ const SkillsInstalledPage: React.FC = () => {
 
   const handleSaveFile = async () => {
     if (!newFileName.trim()) {
-      toast.error('File name is required');
+      toast.error(t('settings.skills.fileNameRequired'));
       return;
     }
 
@@ -246,14 +249,14 @@ const SkillsInstalledPage: React.FC = () => {
         setPendingFiles(prev => prev.map(f => 
           f.path === editingFilePath ? { path: filePath, content: newFileContent } : f
         ));
-        toast.success(`File "${filePath}" updated`);
-      } else {
-        if (pendingFiles.some(f => f.path === filePath)) {
-          toast.error('A file with this name already exists');
-          return;
-        }
-        setPendingFiles(prev => [...prev, { path: filePath, content: newFileContent }]);
-        toast.success(`File "${filePath}" added`);
+          toast.success(t('settings.skills.fileUpdated', { name: filePath }));
+        } else {
+          if (pendingFiles.some(f => f.path === filePath)) {
+            toast.error(t('settings.skills.fileExists'));
+            return;
+          }
+          setPendingFiles(prev => [...prev, { path: filePath, content: newFileContent }]);
+          toast.success(t('settings.skills.fileAdded', { name: filePath }));
       }
       setIsFileDialogOpen(false);
       setEditingFilePath(null);
@@ -261,7 +264,7 @@ const SkillsInstalledPage: React.FC = () => {
     }
 
     if (!selectedSkillName) {
-      toast.error('No skill selected');
+      toast.error(t('settings.skills.noSkillSelected'));
       return;
     }
 
@@ -269,7 +272,7 @@ const SkillsInstalledPage: React.FC = () => {
     const success = await writeSupportingFile(selectedSkillName, filePath, newFileContent);
     
     if (success) {
-      toast.success(isEditing ? `File "${filePath}" updated` : `File "${filePath}" created`);
+      toast.success(isEditing ? t('settings.skills.fileUpdated', { name: filePath }) : t('settings.skills.fileCreated', { name: filePath }));
       setIsFileDialogOpen(false);
       setEditingFilePath(null);
       const detail = await getSkillDetail(selectedSkillName);
@@ -277,14 +280,14 @@ const SkillsInstalledPage: React.FC = () => {
         setSupportingFiles(detail.sources.md.supportingFiles || []);
       }
     } else {
-      toast.error(isEditing ? 'Failed to update file' : 'Failed to create file');
+      toast.error(isEditing ? t('settings.skills.saveFileError') : t('settings.skills.saveFileError'));
     }
   };
 
   const handleDeleteFile = (filePath: string) => {
     if (isNewSkill) {
       setPendingFiles(prev => prev.filter(f => f.path !== filePath));
-      toast.success(`File "${filePath}" removed`);
+      toast.success(t('settings.skills.fileRemove', { name: filePath }));
       return;
     }
 
@@ -305,14 +308,14 @@ const SkillsInstalledPage: React.FC = () => {
     const success = await deleteSupportingFile(selectedSkillName, deleteFilePath);
 
     if (success) {
-      toast.success(`File "${deleteFilePath}" deleted`);
+      toast.success(t('settings.skills.fileDeleted', { name: deleteFilePath }));
       const detail = await getSkillDetail(selectedSkillName);
       if (detail) {
         setSupportingFiles(detail.sources.md.supportingFiles || []);
       }
       setDeleteFilePath(null);
     } else {
-      toast.error('Failed to delete file');
+      toast.error(t('settings.skills.deleteFileError'));
     }
 
     setIsDeletingFile(false);
