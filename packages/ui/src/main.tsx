@@ -1,7 +1,8 @@
-import { StrictMode } from 'react'
+import { StrictMode, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
 import './styles/fonts'
 import './index.css'
+import './i18n'
 import App from './App.tsx'
 import { SessionAuthGate } from './components/auth/SessionAuthGate'
 import { ThemeSystemProvider } from './contexts/ThemeSystemContext'
@@ -13,6 +14,7 @@ import { applyPersistedDirectoryPreferences } from './lib/directoryPersistence'
 import { startTypographyWatcher } from './lib/typographyWatcher'
 import { startModelPrefsAutoSave } from './lib/modelPrefsAutoSave'
 import type { RuntimeAPIs } from './lib/api/types'
+import { LoadingFallback } from './components/ui/LoadingFallback'
 
 declare global {
   interface Window {
@@ -90,12 +92,14 @@ if (!rootElement) {
 
 createRoot(rootElement).render(
   <StrictMode>
-    <ThemeSystemProvider>
-      <ThemeProvider>
-        <SessionAuthGate>
-          <App apis={runtimeAPIs} />
-        </SessionAuthGate>
-      </ThemeProvider>
-    </ThemeSystemProvider>
+    <Suspense fallback={<LoadingFallback />}>
+      <ThemeSystemProvider>
+        <ThemeProvider>
+          <SessionAuthGate>
+            <App apis={runtimeAPIs} />
+          </SessionAuthGate>
+        </ThemeProvider>
+      </ThemeSystemProvider>
+    </Suspense>
   </StrictMode>,
 );
