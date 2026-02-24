@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Dialog,
   DialogContent,
@@ -11,6 +12,7 @@ import { useUIStore } from '@/stores/useUIStore';
 import { copyTextToClipboard } from '@/lib/clipboard';
 
 export const OpenCodeStatusDialog: React.FC = () => {
+  const { t } = useTranslation();
   const {
     isOpenCodeStatusDialogOpen,
     setOpenCodeStatusDialogOpen,
@@ -24,19 +26,19 @@ export const OpenCodeStatusDialog: React.FC = () => {
 
     const result = await copyTextToClipboard(openCodeStatusText);
     if (result.ok) {
-      toast.success('Copied', { description: 'OpenCode status copied to clipboard.' });
+      toast.success(t('ui.openCodeStatus.copied'), { description: t('ui.openCodeStatus.copiedDesc') });
       return;
     }
-    toast.error('Copy failed');
-  }, [openCodeStatusText]);
+    toast.error(t('ui.openCodeStatus.copyFailed'));
+  }, [openCodeStatusText, t]);
 
   return (
     <Dialog open={isOpenCodeStatusDialogOpen} onOpenChange={setOpenCodeStatusDialogOpen}>
       <DialogContent className="max-w-2xl">
         <DialogHeader>
-          <DialogTitle>OpenCode Status</DialogTitle>
+          <DialogTitle>{t('ui.openCodeStatus.title')}</DialogTitle>
           <DialogDescription>
-            Diagnostic snapshot for support and debugging.
+            {t('ui.openCodeStatus.description')}
           </DialogDescription>
         </DialogHeader>
 
@@ -46,12 +48,12 @@ export const OpenCodeStatusDialog: React.FC = () => {
             onClick={handleCopy}
             className="app-region-no-drag inline-flex h-9 items-center justify-center rounded-md px-3 typography-ui-label font-medium text-muted-foreground transition-colors hover:bg-interactive-hover hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           >
-            Copy
+            {t('ui.openCodeStatus.copy')}
           </button>
         </div>
 
         <pre className="max-h-[60vh] overflow-auto rounded-lg bg-surface-muted p-4 typography-code text-foreground whitespace-pre-wrap">
-          {openCodeStatusText || 'No data.'}
+          {openCodeStatusText || t('ui.openCodeStatus.noData')}
         </pre>
       </DialogContent>
     </Dialog>

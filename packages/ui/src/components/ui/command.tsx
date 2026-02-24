@@ -3,6 +3,7 @@
 import * as React from "react"
 import { Command as CommandPrimitive } from "cmdk"
 import { RiCommandLine, RiArrowUpLine, RiSearchLine } from "@remixicon/react";
+import { useTranslation } from 'react-i18next';
 
 import { cn } from "@/lib/utils"
 import { ScrollableOverlay } from "@/components/ui/ScrollableOverlay";
@@ -35,8 +36,8 @@ function Command({
 }
 
 function CommandDialog({
-  title = "Command Palette",
-  description = "Search for a command to run...",
+  title,
+  description,
   children,
   className,
   showCloseButton = true,
@@ -47,11 +48,12 @@ function CommandDialog({
   className?: string
   showCloseButton?: boolean
 }) {
+  const { t } = useTranslation();
   return (
     <Dialog {...props}>
       <DialogHeader className="sr-only">
-        <DialogTitle>{title}</DialogTitle>
-        <DialogDescription>{description}</DialogDescription>
+        <DialogTitle>{title || t('ui.command.title')}</DialogTitle>
+        <DialogDescription>{description || t('ui.command.description')}</DialogDescription>
       </DialogHeader>
       <DialogContent
         className={cn("overflow-hidden p-0 transform-gpu will-change-transform", className)}
@@ -114,12 +116,15 @@ function CommandList({
 function CommandEmpty({
   ...props
 }: React.ComponentProps<typeof CommandPrimitive.Empty>) {
+  const { t } = useTranslation();
   return (
     <CommandPrimitive.Empty
       data-slot="command-empty"
       className="py-6 text-center typography-ui-label"
       {...props}
-    />
+    >
+      {props.children || t('ui.command.empty')}
+    </CommandPrimitive.Empty>
   )
 }
 

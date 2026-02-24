@@ -6,6 +6,8 @@ import { useDeviceInfo } from '@/lib/device';
 import { toast } from '@/components/ui';
 import { cn } from '@/lib/utils';
 import { ButtonSmall } from '@/components/ui/button-small';
+import { LanguageSelector } from '@/components/ui/LanguageSelector';
+import { useTranslation } from 'react-i18next';
 
 const GITHUB_URL = 'https://github.com/btriapitsyn/openchamber';
 
@@ -16,6 +18,7 @@ export const AboutSettings: React.FC = () => {
   const [showChecking, setShowChecking] = React.useState(false);
   const updateStore = useUpdateStore();
   const { isMobile } = useDeviceInfo();
+  const { t } = useTranslation();
 
   const currentVersion = updateStore.info?.currentVersion || 'unknown';
 
@@ -79,6 +82,12 @@ export const AboutSettings: React.FC = () => {
         {updateStore.error && (
           <p className="typography-micro text-[var(--status-error)] truncate">{updateStore.error}</p>
         )}
+
+        {/* Language selector row */}
+        <div className="flex items-center justify-between">
+          <span className="typography-meta text-muted-foreground">{t('settings.language')}</span>
+          <LanguageSelector />
+        </div>
 
         {/* Links row */}
         <div className="flex items-center gap-3">
@@ -183,6 +192,14 @@ export const AboutSettings: React.FC = () => {
             <p className="typography-meta text-[var(--status-error)]">{updateStore.error}</p>
           </div>
         )}
+
+        <div className="flex items-center justify-between gap-4 px-4 py-3 border-b border-[var(--surface-subtle)]">
+          <div className="flex min-w-0 flex-col">
+            <span className="typography-ui-label text-foreground">{t('settings.language')}</span>
+            <span className="typography-meta text-muted-foreground">{t('settings.languageDescription')}</span>
+          </div>
+          <LanguageSelector />
+        </div>
 
         <div className="flex items-center gap-4 px-4 py-4">
           <a

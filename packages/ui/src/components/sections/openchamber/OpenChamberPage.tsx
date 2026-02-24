@@ -12,7 +12,7 @@ import { OpenCodeCliSettings } from './OpenCodeCliSettings';
 import { KeyboardShortcutsSettings } from './KeyboardShortcutsSettings';
 import { ScrollableOverlay } from '@/components/ui/ScrollableOverlay';
 import { useDeviceInfo } from '@/lib/device';
-import { isVSCodeRuntime, isWebRuntime } from '@/lib/desktop';
+import { isVSCodeRuntime } from '@/lib/desktop';
 import type { OpenChamberSection } from './types';
 
 interface OpenChamberPageProps {
@@ -22,7 +22,6 @@ interface OpenChamberPageProps {
 
 export const OpenChamberPage: React.FC<OpenChamberPageProps> = ({ section }) => {
     const { isMobile } = useDeviceInfo();
-    const showAbout = isMobile && isWebRuntime();
     const isVSCode = isVSCodeRuntime();
 
     // If no section specified, show all (mobile/legacy behavior)
@@ -46,11 +45,9 @@ export const OpenChamberPage: React.FC<OpenChamberPageProps> = ({ section }) => 
                     <div className="border-t border-border/40 pt-6">
                         <SessionRetentionSettings />
                     </div>
-                    {showAbout && (
-                        <div className="border-t border-border/40 pt-6">
-                            <AboutSettings />
-                        </div>
-                    )}
+                    <div className="border-t border-border/40 pt-6">
+                        <AboutSettings />
+                    </div>
                 </div>
             </ScrollableOverlay>
         );

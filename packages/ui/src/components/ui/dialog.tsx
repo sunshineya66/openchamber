@@ -1,6 +1,7 @@
 import * as React from "react"
 import * as DialogPrimitive from "@radix-ui/react-dialog"
 import { RiCloseLine } from '@remixicon/react';
+import { useTranslation } from 'react-i18next';
 
 import { cn } from "@/lib/utils"
 
@@ -69,6 +70,7 @@ function DialogContent({
   showCloseButton?: boolean
   keyboardAvoid?: boolean
 }) {
+  const { t } = useTranslation();
   return (
     <DialogPortal data-slot="dialog-portal">
       <DialogOverlay className="rounded-none" />
@@ -89,7 +91,7 @@ function DialogContent({
             className="ring-offset-background focus:ring-ring data-[state=open]:bg-interactive-active data-[state=open]:text-foreground absolute top-2 right-2 rounded-lg opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none text-muted-foreground hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
           >
             <RiCloseLine/>
-            <span className="sr-only">Close</span>
+            <span className="sr-only">{t('ui.dialog.close')}</span>
           </DialogPrimitive.Close>
         )}
       </DialogPrimitive.Content>

@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from 'react-i18next';
 import {
   Dialog,
   DialogContent,
@@ -53,162 +54,163 @@ const renderShortcut = (id: string, fallbackCombo: string, overrides: Record<str
 };
 
 export const HelpDialog: React.FC = () => {
+  const { t } = useTranslation();
   const { isHelpDialogOpen, setHelpDialogOpen, shortcutOverrides } = useUIStore();
   const settingsAutoCreateWorktree = useConfigStore((state) => state.settingsAutoCreateWorktree);
   const mod = getModifierLabel();
 
   const shortcuts: ShortcutSection[] = [
     {
-      category: "Navigation & Commands",
+      category: t('ui.help.category.navigation'),
       items: [
         {
           id: 'open_command_palette',
-          description: "Open Command Palette",
+          description: t('ui.help.shortcut.openCommandPalette'),
           icon: RiCommandLine,
           keys: '',
         },
         {
           id: 'open_help',
-          description: "Show Keyboard Shortcuts (this dialog)",
+          description: t('ui.help.shortcut.showKeyboardShortcuts'),
           icon: RiQuestionLine,
           keys: '',
         },
         {
           id: 'toggle_sidebar',
-          description: "Toggle Session Sidebar",
+          description: t('ui.help.shortcut.toggleSidebar'),
           icon: RiLayoutLeftLine,
           keys: '',
         },
         {
           keys: ["Tab"],
-          description: "Cycle Agent (chat input)",
+          description: t('ui.help.shortcut.cycleAgent'),
           icon: RiAiAgentLine,
         },
         {
           id: 'open_model_selector',
-          description: "Open Model Selector",
+          description: t('ui.help.shortcut.openModelSelector'),
           icon: RiAiGenerate2,
           keys: '',
         },
         {
           id: 'cycle_thinking_variant',
-          description: "Cycle Thinking Variant",
+          description: t('ui.help.shortcut.cycleThinkingVariant'),
           icon: RiBrainAi3Line,
           keys: '',
         },
         {
           keys: [`Shift + Alt + ${mod} + N`],
-          description: "New Window (desktop only)",
+          description: t('ui.help.shortcut.newWindow'),
           icon: RiWindowLine,
         },
       ],
     },
     {
-      category: "Session Management",
+      category: t('ui.help.category.session'),
       items: [
         {
           id: 'new_chat',
-          description: settingsAutoCreateWorktree ? "Create New Session in Worktree" : "Create New Session",
+          description: settingsAutoCreateWorktree ? t('ui.help.shortcut.createNewSessionInWorktree') : t('ui.help.shortcut.createNewSession'),
           icon: settingsAutoCreateWorktree ? RiGitBranchLine : RiAddLine,
           keys: '',
         },
         {
           id: 'new_chat_worktree',
-          description: settingsAutoCreateWorktree ? "Create New Session" : "Create New Session in Worktree",
+          description: settingsAutoCreateWorktree ? t('ui.help.shortcut.createNewSession') : t('ui.help.shortcut.createNewSessionInWorktree'),
           icon: settingsAutoCreateWorktree ? RiAddLine : RiGitBranchLine,
           keys: '',
         },
-        { id: 'focus_input', description: "Focus Chat Input", icon: RiText, keys: '' },
+        { id: 'focus_input', description: t('ui.help.shortcut.focusChatInput'), icon: RiText, keys: '' },
         {
           id: 'abort_run',
-          description: "Abort active run (double press)",
+          description: t('ui.help.shortcut.abortRun'),
           icon: RiCloseCircleLine,
           keys: '',
         },
       ],
     },
     {
-      category: "Panels",
+      category: t('ui.help.category.panels'),
       items: [
         {
           id: 'toggle_right_sidebar',
-          description: 'Toggle Right Sidebar',
+          description: t('ui.help.shortcut.toggleRightSidebarPanel'),
           icon: RiLayoutRightLine,
           keys: '',
         },
         {
           id: 'open_right_sidebar_git',
-          description: 'Open Right Sidebar Git Tab',
+          description: t('ui.help.shortcut.openRightSidebarGitTab'),
           icon: RiGitBranchLine,
           keys: '',
         },
         {
           id: 'open_right_sidebar_files',
-          description: 'Open Right Sidebar Files Tab',
+          description: t('ui.help.shortcut.openRightSidebarFilesTab'),
           icon: RiLayoutRightLine,
           keys: '',
         },
         {
           id: 'cycle_right_sidebar_tab',
-          description: 'Cycle Right Sidebar Tab',
+          description: t('ui.help.shortcut.cycleRightSidebarTab'),
           icon: RiLayoutRightLine,
           keys: '',
         },
         {
           id: 'toggle_terminal',
-          description: 'Toggle Terminal Dock',
+          description: t('ui.help.shortcut.toggleTerminalDock'),
           icon: RiWindowLine,
           keys: '',
         },
         {
           id: 'toggle_terminal_expanded',
-          description: 'Toggle Terminal Expanded',
+          description: t('ui.help.shortcut.toggleTerminalExpanded'),
           icon: RiWindowLine,
           keys: '',
         },
         {
           id: 'toggle_context_plan',
-          description: 'Toggle Plan Context Panel',
+          description: t('ui.help.shortcut.togglePlanContextPanel'),
           icon: RiTimeLine,
           keys: '',
         },
       ],
     },
     {
-      category: "Interface",
+      category: t('ui.help.category.interface'),
       items: [
         {
           id: 'cycle_theme',
-          description: "Cycle Theme (Light → Dark → System)",
+          description: t('ui.help.shortcut.cycleTheme'),
           icon: RiPaletteLine,
           keys: '',
         },
         {
           keys: [`${mod} + 1...9`],
-          description: "Switch Project or Main Tab",
+          description: t('ui.help.shortcut.switchProjectOrMainTab'),
           icon: RiLayoutLeftLine,
         },
         {
           id: 'open_timeline',
-          description: "Open Timeline",
+          description: t('ui.help.shortcut.openTimelineDialog'),
           icon: RiTimeLine,
           keys: '',
         },
         {
           id: 'toggle_services_menu',
-          description: 'Toggle Services Menu',
+          description: t('ui.help.shortcut.toggleServicesMenu'),
           icon: RiStackLine,
           keys: '',
         },
         {
           id: 'cycle_services_tab',
-          description: 'Cycle Services Tab',
+          description: t('ui.help.shortcut.cycleServicesTab'),
           icon: RiStackLine,
           keys: '',
         },
         {
           id: 'open_settings',
-          description: "Open Settings",
+          description: t('ui.help.shortcut.openSettingsDialog'),
           icon: RiSettings3Line,
           keys: '',
         },
@@ -222,10 +224,10 @@ export const HelpDialog: React.FC = () => {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <RiSettings3Line className="h-5 w-5" />
-            Keyboard Shortcuts
+            {t('ui.help.title')}
           </DialogTitle>
           <DialogDescription>
-            Use these keyboard shortcuts to navigate OpenChamber efficiently
+            {t('ui.help.description')}
           </DialogDescription>
         </DialogHeader>
 
@@ -281,17 +283,16 @@ export const HelpDialog: React.FC = () => {
             <div className="flex items-start gap-2">
               <RiQuestionLine className="h-3.5 w-3.5 text-muted-foreground mt-0.5" />
               <div className="typography-meta text-muted-foreground">
-                <p className="font-medium mb-1">Pro Tips:</p>
+                <p className="font-medium mb-1">{t('ui.help.proTips')}</p>
                 <ul className="space-y-0.5 typography-meta">
                   <li>
-                    • Use Command Palette ({renderShortcut('open_command_palette', `${mod} K`, shortcutOverrides)}) to quickly access all
-                    actions
+                    • {t('ui.help.proTip.commandPalette', { shortcut: renderShortcut('open_command_palette', `${mod} K`, shortcutOverrides) })}
                   </li>
                   <li>
-                    • The 5 most recent sessions appear in the Command Palette
+                    • {t('ui.help.proTip.recentSessions')}
                   </li>
                   <li>
-                    • Theme cycling remembers your preference across sessions
+                    • {t('ui.help.proTip.themePreference')}
                   </li>
                 </ul>
               </div>

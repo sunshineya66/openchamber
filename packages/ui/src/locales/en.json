@@ -30,5 +30,145 @@
     "send": "Send",
     "newChat": "New Chat",
     "history": "History"
+  },
+  "ui": {
+    "dialog": {
+      "close": "Close"
+    },
+    "toast": {
+      "ok": "OK",
+      "copy": "Copy",
+      "success": "Success",
+      "error": "Error",
+      "warning": "Warning"
+    },
+    "command": {
+      "title": "Command Palette",
+      "description": "Search for a command to run...",
+      "placeholder": "Type a command or search...",
+      "empty": "No results found."
+    },
+    "commandPalette": {
+      "openSessionList": "Open Session List",
+      "newSession": "New Session",
+      "newSessionWithWorktree": "New Session with Worktree",
+      "toggleRightSidebar": "Toggle Right Sidebar",
+      "openRightSidebarGit": "Open Right Sidebar Git",
+      "openRightSidebarFiles": "Open Right Sidebar Files",
+      "toggleTerminal": "Toggle Terminal Dock",
+      "toggleTerminalExpanded": "Toggle Terminal Expanded",
+      "openSettings": "Open Settings",
+      "toggleTheme": "Toggle Theme",
+      "openTimeline": "Open Timeline",
+      "openDiffPanel": "Open Diff Panel",
+      "openTerminal": "Open Terminal",
+      "openGitPanel": "Open Git Panel",
+      "openSkillsCatalog": "Open Skills Catalog",
+      "untitledSession": "Untitled Session",
+      "group": {
+        "actions": "Actions",
+        "settings": "Settings",
+        "theme": "Theme",
+        "recentSessions": "Recent Sessions"
+      },
+      "theme": {
+        "light": "Light Theme",
+        "dark": "Dark Theme",
+        "system": "System Theme"
+      }
+    },
+    "numberInput": {
+      "decrease": "Decrease value",
+      "increase": "Increase value"
+    },
+    "loading": "Loading",
+    "help": {
+      "title": "Keyboard Shortcuts",
+      "description": "Use these keyboard shortcuts to navigate OpenChamber efficiently",
+      "category": {
+        "navigation": "Navigation & Commands",
+        "session": "Session Management",
+        "panels": "Panels",
+        "interface": "Interface"
+      },
+      "shortcut": {
+        "openCommandPalette": "Open Command Palette",
+        "showKeyboardShortcuts": "Show Keyboard Shortcuts (this dialog)",
+        "toggleSidebar": "Toggle Session Sidebar",
+        "cycleAgent": "Cycle Agent (chat input)",
+        "openModelSelector": "Open Model Selector",
+        "cycleThinkingVariant": "Cycle Thinking Variant",
+        "newWindow": "New Window (desktop only)",
+        "createNewSession": "Create New Session",
+        "createNewSessionInWorktree": "Create New Session in Worktree",
+        "focusChatInput": "Focus Chat Input",
+        "abortRun": "Abort active run (double press)",
+        "toggleRightSidebarPanel": "Toggle Right Sidebar",
+        "openRightSidebarGitTab": "Open Right Sidebar Git Tab",
+        "openRightSidebarFilesTab": "Open Right Sidebar Files Tab",
+        "cycleRightSidebarTab": "Cycle Right Sidebar Tab",
+        "toggleTerminalDock": "Toggle Terminal Dock",
+        "toggleTerminalExpanded": "Toggle Terminal Expanded",
+        "togglePlanContextPanel": "Toggle Plan Context Panel",
+        "cycleTheme": "Cycle Theme (Light → Dark → System)",
+        "switchProjectOrMainTab": "Switch Project or Main Tab",
+        "openTimelineDialog": "Open Timeline",
+        "toggleServicesMenu": "Toggle Services Menu",
+        "cycleServicesTab": "Cycle Services Tab",
+        "openSettingsDialog": "Open Settings"
+      },
+      "proTips": "Pro Tips:",
+      "proTip": {
+        "commandPalette": "Use Command Palette ({shortcut}) to quickly access all actions",
+        "recentSessions": "The 5 most recent sessions appear in the Command Palette",
+        "themePreference": "Theme cycling remembers your preference across sessions"
+      }
+    },
+    "about": {
+      "name": "OpenChamber",
+      "version": "Version {version}",
+      "description": "A fan-made interface for OpenCode agent",
+      "copyDiagnostics": "Copy diagnostics",
+      "diagnosticsCopied": "Diagnostics copied",
+      "preparingDiagnostics": "Preparing diagnostics...",
+      "diagnosticsInfo": "Includes OpenChamber state, OpenCode health, directories, and projects.",
+      "footer": "Made with love to community",
+      "copyFailed": "Copy failed",
+      "diagnosticsNotReady": "Diagnostics not ready yet. Wait a second and retry."
+    },
+    "openCodeStatus": {
+      "title": "OpenCode Status",
+      "description": "Diagnostic snapshot for support and debugging.",
+      "copy": "Copy",
+      "noData": "No data.",
+      "copied": "Copied",
+      "copiedDesc": "OpenCode status copied to clipboard.",
+      "copyFailed": "Copy failed"
+    },
+    "update": {
+      "title": "What's new",
+      "updatingOpenChamber": "Updating OpenChamber...",
+      "updateAvailable": "Update Available",
+      "installingUpdate": "Installing update...",
+      "serverRestarting": "Server restarting...",
+      "waitingForServer": "Waiting for server...",
+      "pageWillReload": "The page will reload automatically when the update is complete.",
+      "downloadUpdate": "Download Update",
+      "downloading": "Downloading...",
+      "restartToUpdate": "Restart to Update",
+      "updateNow": "Update Now",
+      "updating": "Updating...",
+      "downloadingUpdatePayload": "Downloading update payload...",
+      "orUpdateViaTerminal": "Or update via terminal:",
+      "github": "GitHub"
+    },
+    "validation": {
+      "required": "This field is required",
+      "minLength": "Minimum {{min}} characters required",
+      "maxLength": "Maximum {{max}} characters allowed",
+      "pattern": "Invalid format",
+      "email": "Please enter a valid email address",
+      "url": "Please enter a valid URL"
+    }
   }
 }

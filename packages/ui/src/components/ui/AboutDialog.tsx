@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Dialog,
   DialogContent,
@@ -20,6 +21,7 @@ export const AboutDialog: React.FC<AboutDialogProps> = ({
   open,
   onOpenChange,
 }) => {
+  const { t } = useTranslation();
   const [version, setVersion] = React.useState<string | null>(null);
   const [isCopyingDiagnostics, setIsCopyingDiagnostics] = React.useState(false);
   const [copiedDiagnostics, setCopiedDiagnostics] = React.useState(false);
@@ -32,8 +34,8 @@ export const AboutDialog: React.FC<AboutDialogProps> = ({
     setCopiedDiagnostics(false);
     try {
       if (!diagnosticsReport) {
-        toast.error('Copy failed', {
-          description: 'Diagnostics not ready yet. Wait a second and retry.',
+        toast.error(t('ui.about.copyFailed'), {
+          description: t('ui.about.diagnosticsNotReady'),
         });
         return;
       }
@@ -41,19 +43,19 @@ export const AboutDialog: React.FC<AboutDialogProps> = ({
       const result = await debugUtils.copyTextToClipboard(diagnosticsReport);
       if (result.ok) {
         setCopiedDiagnostics(true);
-        toast.success('Diagnostics copied');
+        toast.success(t('ui.about.diagnosticsCopied'));
       } else {
-        toast.error('Copy failed', {
+        toast.error(t('ui.about.copyFailed'), {
           description: result.error,
         });
       }
     } catch (error) {
-      toast.error('Copy failed');
+      toast.error(t('ui.about.copyFailed'));
       console.error('Failed to copy diagnostics:', error);
     } finally {
       setIsCopyingDiagnostics(false);
     }
-  }, [diagnosticsReport, isCopyingDiagnostics]);
+  }, [diagnosticsReport, isCopyingDiagnostics, t]);
 
   React.useEffect(() => {
     if (!open) return;
@@ -114,25 +116,16 @@ export const AboutDialog: React.FC<AboutDialogProps> = ({
           <OpenChamberLogo width={64} height={64} />
 
           <div className="space-y-1">
-            <h2 className="text-lg font-semibold">OpenChamber</h2>
+            <h2 className="text-lg font-semibold">{t('ui.about.name')}</h2>
             {displayVersion && (
               <p className="typography-meta text-muted-foreground">
-                Version {displayVersion}
+                {t('ui.about.version', { version: displayVersion })}
               </p>
             )}
           </div>
 
           <p className="typography-meta text-muted-foreground">
-            A fan-made interface for{' '}
-            <a
-              href="https://opencode.ai/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-foreground transition-colors"
-            >
-              OpenCode
-            </a>{' '}
-            agent
+            {t('ui.about.description')}
           </p>
 
           <div className="flex flex-col items-center gap-2 pt-2">
@@ -146,13 +139,13 @@ export const AboutDialog: React.FC<AboutDialogProps> = ({
               )}
             >
               {copiedDiagnostics
-                ? 'Diagnostics copied'
+                ? t('ui.about.diagnosticsCopied')
                 : isPreparingDiagnostics
-                  ? 'Preparing diagnostics...'
-                  : 'Copy diagnostics'}
+                  ? t('ui.about.preparingDiagnostics')
+                  : t('ui.about.copyDiagnostics')}
             </button>
             <p className="typography-micro text-muted-foreground">
-              Includes OpenChamber state, OpenCode health, directories, and projects.
+              {t('ui.about.diagnosticsInfo')}
             </p>
           </div>
 
@@ -187,7 +180,7 @@ export const AboutDialog: React.FC<AboutDialogProps> = ({
           </div>
 
           <p className="typography-meta text-muted-foreground/60 pt-2">
-            Made with love to comunity
+            {t('ui.about.footer')}
           </p>
         </div>
       </DialogContent>

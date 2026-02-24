@@ -30,5 +30,145 @@
     "send": "发送",
     "newChat": "新建对话",
     "history": "历史记录"
+  },
+  "ui": {
+    "dialog": {
+      "close": "关闭"
+    },
+    "toast": {
+      "ok": "确定",
+      "copy": "复制",
+      "success": "成功",
+      "error": "错误",
+      "warning": "警告"
+    },
+    "command": {
+      "title": "命令面板",
+      "description": "搜索要执行的命令...",
+      "placeholder": "输入命令或搜索...",
+      "empty": "未找到结果"
+    },
+    "commandPalette": {
+      "openSessionList": "打开会话列表",
+      "newSession": "新建会话",
+      "newSessionWithWorktree": "使用 Worktree 新建会话",
+      "toggleRightSidebar": "切换右侧边栏",
+      "openRightSidebarGit": "打开右侧边栏 Git",
+      "openRightSidebarFiles": "打开右侧边栏文件",
+      "toggleTerminal": "切换终端面板",
+      "toggleTerminalExpanded": "展开终端面板",
+      "openSettings": "打开设置",
+      "toggleTheme": "切换主题",
+      "openTimeline": "打开时间线",
+      "openDiffPanel": "打开差异面板",
+      "openTerminal": "打开终端",
+      "openGitPanel": "打开 Git 面板",
+      "openSkillsCatalog": "打开技能目录",
+      "untitledSession": "未命名会话",
+      "group": {
+        "actions": "操作",
+        "settings": "设置",
+        "theme": "主题",
+        "recentSessions": "最近会话"
+      },
+      "theme": {
+        "light": "浅色主题",
+        "dark": "深色主题",
+        "system": "跟随系统"
+      }
+    },
+    "numberInput": {
+      "decrease": "减少数值",
+      "increase": "增加数值"
+    },
+    "loading": "加载中",
+    "help": {
+      "title": "键盘快捷键",
+      "description": "使用这些键盘快捷键高效浏览 OpenChamber",
+      "category": {
+        "navigation": "导航和命令",
+        "session": "会话管理",
+        "panels": "面板",
+        "interface": "界面"
+      },
+      "shortcut": {
+        "openCommandPalette": "打开命令面板",
+        "showKeyboardShortcuts": "显示键盘快捷键（当前对话框）",
+        "toggleSidebar": "切换会话侧边栏",
+        "cycleAgent": "切换智能体（聊天输入框）",
+        "openModelSelector": "打开模型选择器",
+        "cycleThinkingVariant": "切换思考变体",
+        "newWindow": "新窗口（仅桌面端）",
+        "createNewSession": "创建新会话",
+        "createNewSessionInWorktree": "在 Worktree 中创建新会话",
+        "focusChatInput": "聚焦聊天输入框",
+        "abortRun": "中止运行（双击）",
+        "toggleRightSidebarPanel": "切换右侧边栏",
+        "openRightSidebarGitTab": "打开右侧边栏 Git 标签",
+        "openRightSidebarFilesTab": "打开右侧边栏文件标签",
+        "cycleRightSidebarTab": "切换右侧边栏标签",
+        "toggleTerminalDock": "切换终端面板",
+        "toggleTerminalExpanded": "展开终端面板",
+        "togglePlanContextPanel": "切换计划上下文面板",
+        "cycleTheme": "切换主题（浅色 → 深色 → 跟随系统）",
+        "switchProjectOrMainTab": "切换项目或主标签",
+        "openTimelineDialog": "打开时间线",
+        "toggleServicesMenu": "切换服务菜单",
+        "cycleServicesTab": "切换服务标签",
+        "openSettingsDialog": "打开设置"
+      },
+      "proTips": "使用技巧：",
+      "proTip": {
+        "commandPalette": "使用命令面板（{shortcut}）快速访问所有操作",
+        "recentSessions": "最近 5 个会话会显示在命令面板中",
+        "themePreference": "主题切换会记住您的偏好"
+      }
+    },
+    "about": {
+      "name": "OpenChamber",
+      "version": "版本 {version}",
+      "description": "OpenCode 智能体的社区界面",
+      "copyDiagnostics": "复制诊断信息",
+      "diagnosticsCopied": "诊断信息已复制",
+      "preparingDiagnostics": "正在准备诊断信息...",
+      "diagnosticsInfo": "包含 OpenChamber 状态、OpenCode 健康状况、目录和项目信息。",
+      "footer": "用心为社区打造",
+      "copyFailed": "复制失败",
+      "diagnosticsNotReady": "诊断信息尚未准备好，请稍后重试。"
+    },
+    "openCodeStatus": {
+      "title": "OpenCode 状态",
+      "description": "用于支持和技术调试的诊断快照。",
+      "copy": "复制",
+      "noData": "无数据",
+      "copied": "已复制",
+      "copiedDesc": "OpenCode 状态已复制到剪贴板。",
+      "copyFailed": "复制失败"
+    },
+    "update": {
+      "title": "更新内容",
+      "updatingOpenChamber": "正在更新 OpenChamber...",
+      "updateAvailable": "有可用更新",
+      "installingUpdate": "正在安装更新...",
+      "serverRestarting": "服务器正在重启...",
+      "waitingForServer": "等待服务器响应...",
+      "pageWillReload": "更新完成后页面将自动刷新。",
+      "downloadUpdate": "下载更新",
+      "downloading": "下载中...",
+      "restartToUpdate": "重启以更新",
+      "updateNow": "立即更新",
+      "updating": "更新中...",
+      "downloadingUpdatePayload": "正在下载更新文件...",
+      "orUpdateViaTerminal": "或通过终端更新：",
+      "github": "GitHub"
+    },
+    "validation": {
+      "required": "此字段为必填项",
+      "minLength": "最少需要 {{min}} 个字符",
+      "maxLength": "最多允许 {{max}} 个字符",
+      "pattern": "格式无效",
+      "email": "请输入有效的电子邮件地址",
+      "url": "请输入有效的 URL"
+    }
   }
 }
