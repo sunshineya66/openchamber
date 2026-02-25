@@ -26,6 +26,7 @@ import { useFileSystemAccess } from '@/hooks/useFileSystemAccess';
 import { isDesktopLocalOriginActive, isTauriShell } from '@/lib/desktop';
 import { useDeviceInfo } from '@/lib/device';
 import { sessionEvents } from '@/lib/sessionEvents';
+import { useTranslation } from 'react-i18next';
 
 const renderToastDescription = (text?: string) =>
     text ? <span className="text-foreground/80 dark:text-foreground/70">{text}</span> : undefined;
@@ -72,6 +73,7 @@ export const SessionDialogs: React.FC = () => {
     const { requestAccess, startAccessing } = useFileSystemAccess();
     const { isMobile, isTablet, hasTouchInput } = useDeviceInfo();
     const useMobileOverlay = isMobile || isTablet || hasTouchInput;
+    const { t } = useTranslation();
 
     const projectDirectory = React.useMemo(() => {
         const targetProject = activeProjectId
@@ -670,10 +672,10 @@ export const SessionDialogs: React.FC = () => {
             </div>
             <div className="flex items-center gap-2">
                 <Button variant="ghost" onClick={closeDeleteDialog} disabled={isProcessingDelete}>
-                    Cancel
+                    {t('features.git.cancel')}
                 </Button>
                 <Button variant="destructive" onClick={handleConfirmDelete} disabled={isProcessingDelete}>
-                    {isProcessingDelete ? 'Deleting…' : 'Delete worktree'}
+                    {isProcessingDelete ? t('features.git.deleting') : t('features.git.deleteWorktree')}
                 </Button>
             </div>
         </div>
@@ -704,7 +706,7 @@ export const SessionDialogs: React.FC = () => {
     );
 
     const deleteDialogTitle = isWorktreeDelete
-        ? 'Delete worktree'
+        ? t('features.git.deleteWorktree')
         : deleteDialog?.sessions.length === 1
             ? 'Delete session'
             : 'Delete sessions';

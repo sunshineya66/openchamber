@@ -1,4 +1,6 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+import i18next from 'i18next';
 import { Button } from '@/components/ui/button';
 import { ButtonLarge } from '@/components/ui/button-large';
 import { ButtonSmall } from '@/components/ui/button-small';
@@ -74,6 +76,7 @@ function parseShellCommand(raw: string): string[] {
 }
 
 const CommandTextarea: React.FC<CommandTextareaProps> = ({ value, onChange }) => {
+  const { t } = useTranslation();
   // Internal: one arg per line
   const [text, setText] = React.useState(() => value.join('\n'));
 
@@ -101,9 +104,9 @@ const CommandTextarea: React.FC<CommandTextareaProps> = ({ value, onChange }) =>
         : parseShellCommand(trimmed);
       setText(lines.join('\n'));
       onChange(lines);
-      toast.success(`Pasted ${lines.length} argument${lines.length !== 1 ? 's' : ''}`);
+toast.success(t('settings.mcp.pasted', { count: lines.length }));
     } catch {
-      toast.error('Cannot read clipboard');
+      toast.error(t('settings.mcp.noClipboard'));
     }
   };
 
@@ -118,8 +121,8 @@ const CommandTextarea: React.FC<CommandTextareaProps> = ({ value, onChange }) =>
           type="button"
           title="Paste full command from clipboard and auto-split"
         >
-          <RiClipboardLine className="h-3 w-3" />
-          Paste command
+<RiClipboardLine className="h-3 w-3" />
+          {t('settings.mcp.pasteCommand')}
         </ButtonSmall>
       </div>
 
@@ -149,8 +152,8 @@ const CommandTextarea: React.FC<CommandTextareaProps> = ({ value, onChange }) =>
       {/* Formatted preview of what will be saved */}
       {value.length > 0 && (
         <details className="group">
-          <summary className="typography-micro text-muted-foreground/60 cursor-pointer select-none hover:text-muted-foreground">
-            Preview ({value.length} args)
+<summary className="typography-micro text-muted-foreground/60 cursor-pointer select-none hover:text-muted-foreground">
+            {t('settings.mcp.preview')} ({t('settings.mcp.args', { count: value.length })})
           </summary>
           <div className="mt-1 rounded-md bg-[var(--surface-elevated)] px-3 py-2 overflow-x-auto">
             <code className="typography-micro text-foreground/80 whitespace-pre">
@@ -179,6 +182,7 @@ interface EnvEditorProps {
 }
 
 const EnvEditor: React.FC<EnvEditorProps> = ({ value, onChange }) => {
+  const { t } = useTranslation();
   const [revealedKeys, setRevealedKeys] = React.useState<Set<number>>(new Set());
 
   const addRow = () => onChange([...value, { key: '', value: '' }]);
@@ -224,8 +228,8 @@ const EnvEditor: React.FC<EnvEditorProps> = ({ value, onChange }) => {
         }
         if (key) parsed.push({ key, value: val });
       }
-      if (parsed.length === 0) {
-        toast.error('No KEY=VALUE pairs found in clipboard');
+if (parsed.length === 0) {
+        toast.error(t('settings.mcp.noKeyValue'));
         return;
       }
       // Merge: update existing keys, append new ones
@@ -236,9 +240,9 @@ const EnvEditor: React.FC<EnvEditorProps> = ({ value, onChange }) => {
         else merged.push(p);
       }
       onChange(merged);
-      toast.success(`Imported ${parsed.length} variable${parsed.length !== 1 ? 's' : ''}`);
+      toast.success(t('settings.mcp.imported', { count: parsed.length }));
     } catch {
-      toast.error('Cannot read clipboard');
+      toast.error(t('settings.mcp.noClipboard'));
     }
   };
 
@@ -248,9 +252,9 @@ const EnvEditor: React.FC<EnvEditorProps> = ({ value, onChange }) => {
     <div className="space-y-2">
       {/* Header row */}
       <div className="flex items-center justify-between gap-2">
-        <div className="flex items-center gap-3">
-          <span className="typography-micro text-muted-foreground w-32 shrink-0">Key</span>
-          <span className="typography-micro text-muted-foreground">Value</span>
+<div className="flex items-center gap-3">
+          <span className="typography-micro text-muted-foreground w-32 shrink-0">{t('settings.mcp.key')}</span>
+          <span className="typography-micro text-muted-foreground">{t('settings.mcp.value')}</span>
         </div>
         <ButtonSmall
           variant="ghost"
@@ -258,10 +262,10 @@ const EnvEditor: React.FC<EnvEditorProps> = ({ value, onChange }) => {
           className="!font-normal gap-1 text-muted-foreground"
           onClick={handlePasteDotEnv}
           type="button"
-          title="Paste KEY=VALUE lines from clipboard"
+          title={t('settings.mcp.pasteEnv')}
         >
           <RiClipboardLine className="h-3 w-3" />
-          Paste .env
+          {t('settings.mcp.pasteEnv')}
         </ButtonSmall>
       </div>
 
@@ -291,7 +295,7 @@ const EnvEditor: React.FC<EnvEditorProps> = ({ value, onChange }) => {
                 type="button"
                 onClick={() => toggleReveal(idx)}
                 className="absolute right-2 text-muted-foreground/60 hover:text-muted-foreground"
-                title={revealedKeys.has(idx) ? 'Hide' : 'Show'}
+                title={revealedKeys.has(idx) ? t('settings.mcp.hide') : t('settings.mcp.show')}
               >
                 {revealedKeys.has(idx)
                   ? <RiEyeOffLine className="h-3.5 w-3.5" />
@@ -317,13 +321,13 @@ const EnvEditor: React.FC<EnvEditorProps> = ({ value, onChange }) => {
         onClick={addRow}
         type="button"
       >
-        <RiAddLine className="h-3.5 w-3.5" />
-        Add variable
+<RiAddLine className="h-3.5 w-3.5" />
+        {t('settings.mcp.addVariable')}
       </ButtonSmall>
 
       {hasSensitiveValues && (
         <p className="typography-micro text-muted-foreground/60">
-          ⚠ Values are stored as plain text in opencode.json
+          ⚠ {t('settings.mcp.plainTextWarning')}
         </p>
       )}
     </div>
@@ -334,10 +338,10 @@ const EnvEditor: React.FC<EnvEditorProps> = ({ value, onChange }) => {
 // Status badge
 // ─────────────────────────────────────────────────────────────
 const STATUS_LABEL: Record<string, string> = {
-  connected: 'Connected',
-  failed: 'Failed',
-  needs_auth: 'Needs auth',
-  needs_client_registration: 'Needs registration',
+  connected: i18next.t('settings.mcp.statusConnected'),
+  failed: i18next.t('settings.mcp.statusFailed'),
+  needs_auth: i18next.t('settings.mcp.statusNeedsAuth'),
+  needs_client_registration: i18next.t('settings.mcp.statusNeedsRegistration'),
 };
 
 const StatusBadge: React.FC<{ status: string | undefined; enabled: boolean }> = ({ status, enabled }) => {
@@ -362,6 +366,7 @@ const StatusBadge: React.FC<{ status: string | undefined; enabled: boolean }> = 
 // McpPage
 // ─────────────────────────────────────────────────────────────
 export const McpPage: React.FC = () => {
+  const { t } = useTranslation();
   const {
     selectedMcpName,
     mcpServers,
@@ -440,17 +445,17 @@ export const McpPage: React.FC = () => {
     );
   }, [mcpType, command, url, envEntries, enabled]);
 
-  const handleSave = async () => {
+const handleSave = async () => {
     const name = isNewServer ? draftName.trim() : selectedMcpName ?? '';
-    if (!name) { toast.error('Name is required'); return; }
+    if (!name) { toast.error(t('settings.mcp.nameRequired')); return; }
     if (isNewServer && mcpServers.some((s) => s.name === name)) {
-      toast.error('A server with this name already exists'); return;
+      toast.error(t('settings.mcp.serverExists')); return;
     }
     if (mcpType === 'local' && command.filter(Boolean).length === 0) {
-      toast.error('Command cannot be empty for a local server'); return;
+      toast.error(t('settings.mcp.commandRequired')); return;
     }
     if (mcpType === 'remote' && !url.trim()) {
-      toast.error('URL cannot be empty for a remote server'); return;
+      toast.error(t('settings.mcp.urlRequired')); return;
     }
 
     const draft: McpDraft = { name, scope: draftScope, type: mcpType, command, url, environment: envEntries, enabled };
@@ -459,12 +464,12 @@ export const McpPage: React.FC = () => {
       const success = isNewServer ? await createMcp(draft) : await updateMcp(name, draft);
       if (success) {
         if (isNewServer) { setMcpDraft(null); setSelectedMcp(name); }
-        toast.success(isNewServer ? 'MCP server created. OpenCode reloading…' : 'Saved. OpenCode reloading…');
+        toast.success(isNewServer ? t('settings.mcp.serverCreated') : t('settings.mcp.saved'));
       } else {
-        toast.error('Failed to save');
+        toast.error(t('settings.mcp.saveError'));
       }
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : 'An error occurred');
+      toast.error(err instanceof Error ? err.message : t('settings.mcp.createError'));
     } finally {
       setIsSaving(false);
     }
@@ -474,8 +479,8 @@ export const McpPage: React.FC = () => {
     if (!selectedMcpName) return;
     setIsDeleting(true);
     const ok = await deleteMcp(selectedMcpName);
-    if (ok) { toast.success(`"${selectedMcpName}" deleted`); setShowDeleteConfirm(false); }
-    else toast.error('Failed to delete');
+if (ok) { toast.success(t('settings.mcp.deleted', { name: selectedMcpName })); setShowDeleteConfirm(false); }
+    else toast.error(t('settings.mcp.deleteFailed'));
     setIsDeleting(false);
   };
 
@@ -486,14 +491,14 @@ export const McpPage: React.FC = () => {
       const isConnected = mcpStatus[selectedMcpName]?.status === 'connected';
       if (isConnected) {
         await disconnectMcp(selectedMcpName, currentDirectory);
-        toast.success('Disconnected');
+        toast.success(t('settings.mcp.disconnected'));
       } else {
         await connectMcp(selectedMcpName, currentDirectory);
-        toast.success('Connected');
+        toast.success(t('settings.mcp.connected'));
       }
       await refreshStatus({ directory: currentDirectory, silent: true });
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : 'Connection failed');
+      toast.error(err instanceof Error ? err.message : t('settings.mcp.connectionFailed'));
     } finally {
       setIsConnecting(false);
     }
@@ -502,11 +507,11 @@ export const McpPage: React.FC = () => {
   // ── Empty state ──
   if (!selectedMcpName) {
     return (
-      <div className="flex h-full items-center justify-center">
+<div className="flex h-full items-center justify-center">
         <div className="text-center text-muted-foreground">
           <RiPlugLine className="mx-auto mb-3 h-12 w-12 opacity-50" />
-          <p className="typography-body">Select an MCP server from the sidebar</p>
-          <p className="typography-meta mt-1 opacity-75">or add a new one</p>
+          <p className="typography-body">{t('features.mcp.selectFromSidebar')}</p>
+          <p className="typography-meta mt-1 opacity-75">{t('features.mcp.orAddNew')}</p>
         </div>
       </div>
     );
@@ -531,8 +536,8 @@ export const McpPage: React.FC = () => {
               </div>
             )}
             <div className="flex items-center gap-2 mt-0.5">
-              <p className="typography-meta text-muted-foreground truncate">
-                {isNewServer ? 'Configure a new MCP server' : `${mcpType === 'local' ? 'Local · stdio' : 'Remote · SSE'} transport`}
+<p className="typography-meta text-muted-foreground truncate">
+                {isNewServer ? t('settings.mcp.configureNew') : `${mcpType === 'local' ? t('settings.mcp.localTransport') : t('settings.mcp.remoteTransport')}`}
               </p>
               {!isNewServer && (
                 <ButtonSmall
@@ -542,7 +547,7 @@ export const McpPage: React.FC = () => {
                   onClick={handleToggleConnect}
                   disabled={isConnecting || !enabled}
                 >
-                  {isConnecting ? 'Working...' : isConnected ? 'Disconnect' : 'Connect'}
+                  {isConnecting ? t('settings.mcp.working') : isConnected ? t('settings.mcp.disconnect') : t('settings.mcp.connect')}
                 </ButtonSmall>
               )}
             </div>
@@ -570,21 +575,21 @@ export const McpPage: React.FC = () => {
                     className="h-7 w-48 font-mono px-2"
                     autoFocus
                   />
-                  <Select value={draftScope} onValueChange={(value) => setDraftScope(value as McpScope)}>
-                    <SelectTrigger className="!h-7 !w-7 !min-w-0 !px-0 !py-0 justify-center [&>svg:last-child]:hidden" title={draftScope === 'user' ? 'User scope' : 'Project scope'}>
+<Select value={draftScope} onValueChange={(value) => setDraftScope(value as McpScope)}>
+                    <SelectTrigger className="!h-7 !w-7 !min-w-0 !px-0 !py-0 justify-center [&>svg:last-child]:hidden" title={draftScope === 'user' ? t('settings.mcp.userScope') : t('settings.mcp.projectScope')}>
                       {draftScope === 'user' ? <RiUser3Line className="h-3.5 w-3.5" /> : <RiFolderLine className="h-3.5 w-3.5" />}
                     </SelectTrigger>
                     <SelectContent align="end">
                       <SelectItem value="user">
                         <div className="flex items-center gap-2">
                           <RiUser3Line className="h-3.5 w-3.5" />
-                          <span>User</span>
+                          <span>{t('settings.mcp.user')}</span>
                         </div>
                       </SelectItem>
                       <SelectItem value="project">
                         <div className="flex items-center gap-2">
                           <RiFolderLine className="h-3.5 w-3.5" />
-                          <span>Project</span>
+                          <span>{t('settings.mcp.project')}</span>
                         </div>
                       </SelectItem>
                     </SelectContent>
@@ -651,11 +656,11 @@ export const McpPage: React.FC = () => {
           </section>
         </div>
 
-        {/* Connection */}
+{/* Connection */}
         <div className="mb-8">
           <div className="mb-1 px-1">
             <h3 className="typography-ui-header font-medium text-foreground">
-              {mcpType === 'local' ? 'Command' : 'Server URL'}
+              {mcpType === 'local' ? t('settings.mcp.command') : t('settings.mcp.serverUrl')}
             </h3>
           </div>
 
@@ -677,7 +682,7 @@ export const McpPage: React.FC = () => {
         <div className="mb-2">
           <div className="mb-1 px-1">
             <h3 className="typography-ui-header font-medium text-foreground">
-              Environment Variables
+              {t('settings.mcp.envVariables')}
               {envEntries.length > 0 && (
                 <span className="ml-1.5 typography-micro text-muted-foreground font-normal">
                   ({envEntries.length})
@@ -691,7 +696,7 @@ export const McpPage: React.FC = () => {
           </section>
         </div>
 
-        {/* Actions */}
+{/* Actions */}
         <div className="flex items-center gap-2 px-2 py-1">
           <ButtonSmall
             onClick={handleSave}
@@ -699,7 +704,7 @@ export const McpPage: React.FC = () => {
             size="xs"
             className="!font-normal"
           >
-            {isSaving ? 'Saving...' : isNewServer ? 'Create' : 'Save Changes'}
+            {isSaving ? t('settings.mcp.saving') : isNewServer ? t('settings.mcp.create') : t('settings.mcp.saveChanges')}
           </ButtonSmall>
           {!isNewServer && (
             <ButtonSmall
@@ -708,7 +713,7 @@ export const McpPage: React.FC = () => {
               className="!font-normal text-[var(--status-error)] hover:text-[var(--status-error)]"
               onClick={() => setShowDeleteConfirm(true)}
             >
-              Delete
+              {t('settings.mcp.delete')}
             </ButtonSmall>
           )}
         </div>
@@ -721,23 +726,22 @@ export const McpPage: React.FC = () => {
       >
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle>Delete "{selectedMcpName}"?</DialogTitle>
+            <DialogTitle>{t('settings.mcp.deleteServer')}</DialogTitle>
             <DialogDescription>
-              This removes the server from <code className="text-foreground">opencode.json</code>.
-              OpenCode will need to reload.
+              {t('settings.mcp.deleteConfirm', { name: selectedMcpName })} <code className="text-foreground">opencode.json</code>.
             </DialogDescription>
           </DialogHeader>
-          <DialogFooter>
+<DialogFooter>
             <Button
               variant="ghost"
               onClick={() => setShowDeleteConfirm(false)}
               disabled={isDeleting}
               className="text-foreground hover:bg-interactive-hover hover:text-foreground"
             >
-              Cancel
+              {t('settings.mcp.cancel')}
             </Button>
             <ButtonLarge onClick={handleDelete} disabled={isDeleting}>
-              {isDeleting ? 'Deleting…' : 'Delete'}
+              {isDeleting ? t('settings.mcp.deleting') : t('settings.mcp.delete')}
             </ButtonLarge>
           </DialogFooter>
         </DialogContent>

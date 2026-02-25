@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text } from '@/components/ui/text';
+import { useTranslation } from 'react-i18next';
 
 interface WorkingPlaceholderProps {
   isWorking: boolean;
@@ -18,6 +19,7 @@ export function WorkingPlaceholder({
   isWaitingForPermission,
   retryInfo,
 }: WorkingPlaceholderProps) {
+  const { t } = useTranslation();
   const [displayedText, setDisplayedText] = React.useState<string | null>(null);
   const [displayedPermission, setDisplayedPermission] = React.useState<boolean>(false);
 
@@ -99,7 +101,7 @@ export function WorkingPlaceholder({
       return;
     }
 
-    const incomingText = isWaitingForPermission ? 'waiting for permission' : statusText;
+    const incomingText = isWaitingForPermission ? t('chat.status.waitingForPermission') : statusText;
     const incomingPermission = Boolean(isWaitingForPermission);
     const incomingGeneric = Boolean(isGenericStatus) && !incomingPermission;
 
@@ -152,7 +154,7 @@ export function WorkingPlaceholder({
   if (retryInfo) {
     const attemptLabel = retryInfo.attempt && retryInfo.attempt > 1 ? ` (attempt ${retryInfo.attempt})` : '';
     const countdownLabel = retryCountdown !== null && retryCountdown > 0 ? ` in ${retryCountdown}s` : '';
-    const retryText = `Retrying${countdownLabel}${attemptLabel}...`;
+    const retryText = t('chat.status.retrying', { countdown: countdownLabel, attempt: attemptLabel });
 
     return (
       <div

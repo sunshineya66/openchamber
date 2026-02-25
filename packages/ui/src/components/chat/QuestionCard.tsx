@@ -5,6 +5,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { cn } from '@/lib/utils';
 import type { QuestionRequest } from '@/types/question';
 import { useSessionStore } from '@/stores/useSessionStore';
+import { useTranslation } from 'react-i18next';
 
 interface QuestionCardProps {
   question: QuestionRequest;
@@ -14,6 +15,7 @@ type TabKey = string;
 const SUMMARY_TAB = 'summary';
 
 export const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
+  const { t } = useTranslation();
   const { respondToQuestion, rejectQuestion } = useSessionStore();
   const isFromSubagent = useSessionStore(
     React.useCallback((state) => {
@@ -369,7 +371,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
                           el.style.height = `${Math.min(Math.max(el.scrollHeight, minHeight), maxHeight)}px`;
                           setCustomText((prev) => ({ ...prev, [activeIndex]: el.value }));
                         }}
-                        placeholder="Your answer"
+placeholder={t('chat.question.yourAnswer')}
                         disabled={isResponding}
                         rows={2}
                         className="w-full bg-transparent border border-border/30 focus:border-primary rounded px-2 py-1 outline-none typography-meta text-foreground placeholder:text-muted-foreground/50 transition-colors resize-none overflow-hidden"

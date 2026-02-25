@@ -2,6 +2,7 @@
 import React from 'react';
 import { RuntimeAPIContext } from '@/contexts/runtimeAPIContext';
 import { RiAiAgentLine, RiArrowDownSLine, RiArrowRightSLine, RiBookLine, RiExternalLinkLine, RiFileEditLine, RiFileList2Line, RiFileSearchLine, RiFileTextLine, RiFolder6Line, RiGitBranchLine, RiGlobalLine, RiListCheck3, RiMenuSearchLine, RiPencilLine, RiSurveyLine, RiTaskLine, RiTerminalBoxLine, RiToolsLine } from '@remixicon/react';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { SimpleMarkdownRenderer } from '../../MarkdownRenderer';
 import { getToolMetadata, getLanguageFromExtension, isImageFile, getImageMimeType } from '@/lib/toolHelpers';
@@ -185,7 +186,7 @@ const parseQuestionOutput = (output: string): Array<{ question: string; answer: 
     return pairs.length > 0 ? pairs : null;
 };
 
-const getToolDescription = (part: ToolPartType, state: ToolStateUnion, isMobile: boolean, currentDirectory: string): string => {
+const getToolDescription = (part: ToolPartType, state: ToolStateUnion, isMobile: boolean, currentDirectory: string, t: (key: string, options?: Record<string, unknown>) => string): string => {
     const stateWithData = state as ToolStateWithMetadata;
     const metadata = stateWithData.metadata;
     const input = stateWithData.input;
@@ -195,18 +196,18 @@ const getToolDescription = (part: ToolPartType, state: ToolStateUnion, isMobile:
         const firstFile = files[0] as { relativePath?: string; filePath?: string } | undefined;
         const filePath = firstFile?.relativePath || firstFile?.filePath;
         if (files.length > 1) {
-            return `${files.length} files`;
+            return t('chat.tool.filesCount', { count: files.length });
         }
         if (typeof filePath === 'string') {
             return getRelativePath(filePath, currentDirectory, isMobile);
         }
-        return 'Patch';
+        return t('chat.tool.patch');
     }
 
     // Question tool: show "Asked N question(s)"
     if (part.tool === 'question' && input?.questions && Array.isArray(input.questions)) {
         const count = input.questions.length;
-        return `Asked ${count} question${count !== 1 ? 's' : ''}`;
+        return t('chat.tool.askedQuestions', { count });
     }
 
     if ((part.tool === 'edit' || part.tool === 'multiedit') && input) {
@@ -237,11 +238,11 @@ const getToolDescription = (part: ToolPartType, state: ToolStateUnion, isMobile:
     }
 
     if (part.tool === 'plan_enter') {
-        return 'Switching to planning';
+        return t('chat.tool.switchingToPlanning');
     }
 
     if (part.tool === 'plan_exit') {
-        return 'Switching to building';
+        return t('chat.tool.switchingToBuilding');
     }
 
     const desc = input?.description || metadata?.description || ('title' in state && state.title) || '';
@@ -460,6 +461,7 @@ const TaskToolSummary: React.FC<{
     sessionId?: string;
     onShowPopup?: (content: ToolPopupContent) => void;
 }> = ({ entries, isExpanded, hasPrevTool, hasNextTool, output, sessionId, onShowPopup }) => {
+    const { t } = useTranslation();
     const setCurrentSession = useSessionStore((state) => state.setCurrentSession);
     const displayEntries = React.useMemo(() => {
         const nonPending = entries.filter((entry) => entry.state?.status !== 'pending');
@@ -499,7 +501,7 @@ const TaskToolSummary: React.FC<{
                 <ToolScrollableSection maxHeightClass={isExpanded ? 'max-h-[40vh]' : 'max-h-56'} disableHorizontal>
                     <div className="w-full min-w-0 space-y-1">
                         {hiddenCount > 0 ? (
-                            <div className="typography-micro text-muted-foreground/70">+{hiddenCount} more…</div>
+                            <div className="typography-micro text-muted-foreground/70">{t('chat.tool.moreEntries', { count: hiddenCount })}</div>
                         ) : null}
 
                         {visibleEntries.map((entry, idx) => {
@@ -532,7 +534,7 @@ const TaskToolSummary: React.FC<{
                     onClick={handleOpenSession}
                 >
                     <RiExternalLinkLine className="h-3.5 w-3.5 flex-shrink-0" />
-                    <span className="typography-meta text-primary font-medium">Open subAgent session</span>
+                    <span className="typography-meta text-primary font-medium">{t('chat.tool.openSubagentSession')}</span>
                 </button>
             )}
 
@@ -553,7 +555,7 @@ const TaskToolSummary: React.FC<{
                         ) : (
                             <RiArrowRightSLine className="h-3.5 w-3.5 flex-shrink-0" />
                         )}
-                        <span className="typography-meta text-foreground/80 font-medium">Output</span>
+                        <span className="typography-meta text-foreground/80 font-medium">{t('chat.tool.output')}</span>
                     </button>
                     {isOutputExpanded ? (
                         <ToolScrollableSection maxHeightClass="max-h-[50vh]">
@@ -575,6 +577,7 @@ interface DiffPreviewProps {
 }
 
 const DiffPreview: React.FC<DiffPreviewProps> = React.memo(({ diff, syntaxTheme, input }) => {
+    const { t } = useTranslation();
     const hunks = React.useMemo(() => parseDiffToUnified(diff), [diff]);
 
     return (
@@ -595,7 +598,7 @@ const DiffPreview: React.FC<DiffPreviewProps> = React.memo(({ diff, syntaxTheme,
                 return (
                     <div key={hunkIdx} className="-mx-1 px-1 last:border-b-0" style={{ borderBottomWidth: '1px', borderBottomColor: 'var(--tools-border)' }}>
                         <div className="bg-muted/20 px-2 py-1 typography-meta font-medium text-muted-foreground break-words -mx-1" style={{ borderBottomWidth: '1px', borderBottomColor: 'var(--tools-border)' }}>
-                            {`${hunk.file} (line ${hunk.oldStart})`}
+                            {`${hunk.file} ${t('chat.tool.lineNumber', { line: hunk.oldStart })}`}
                         </div>
                         <VirtualizedCodeBlock
                             lines={codeLines}
@@ -627,6 +630,7 @@ interface WriteInputPreviewProps {
 }
 
 const WriteInputPreview: React.FC<WriteInputPreviewProps> = React.memo(({ content, syntaxTheme, filePath, displayPath }) => {
+    const { t } = useTranslation();
     const language = React.useMemo(
         () => getLanguageFromExtension(filePath ?? '') || detectLanguageFromOutput(content, 'write', filePath ? { filePath } : undefined),
         [content, filePath]
@@ -641,7 +645,7 @@ const WriteInputPreview: React.FC<WriteInputPreviewProps> = React.memo(({ conten
     }, [content]);
 
     const lineCount = Math.max(codeLines.length, 1);
-    const headerLineLabel = lineCount === 1 ? 'line 1' : `lines 1-${lineCount}`;
+    const headerLineLabel = lineCount === 1 ? t('chat.tool.lineOne') : t('chat.tool.lineRange', { count: lineCount });
 
     return (
         <div className="w-full min-w-0">
@@ -788,6 +792,7 @@ const ToolExpandedContent: React.FC<ToolExpandedContentProps> = React.memo(({
     hasPrevTool,
     hasNextTool,
 }) => {
+    const { t } = useTranslation();
     const stateWithData = state as ToolStateWithMetadata;
     const metadata = stateWithData.metadata;
     const input = stateWithData.input;
@@ -815,7 +820,7 @@ const ToolExpandedContent: React.FC<ToolExpandedContentProps> = React.memo(({
     const shouldShowWriteInputPreview = part.tool === 'write' && !!writeInputContent;
     const isWriteImageFile = writeFilePath ? isImageFile(writeFilePath) : false;
     const writeDisplayPath = shouldShowWriteInputPreview
-        ? (writeFilePath ? getRelativePath(writeFilePath, currentDirectory, isMobile) : 'New file')
+        ? (writeFilePath ? getRelativePath(writeFilePath, currentDirectory, isMobile) : t('chat.tool.newFile'))
         : null;
 
     const inputTextContent = React.useMemo(() => {
@@ -872,7 +877,7 @@ const ToolExpandedContent: React.FC<ToolExpandedContentProps> = React.memo(({
             if (state.status === 'error' && 'error' in state) {
                 return (
                     <div>
-                        <div className="typography-meta font-medium text-muted-foreground mb-1">Error:</div>
+                        <div className="typography-meta font-medium text-muted-foreground mb-1">{t('chat.error.tool')}</div>
                         <div className="typography-meta p-2 rounded-xl border" style={{
                             backgroundColor: 'var(--status-error-background)',
                             color: 'var(--status-error)',
@@ -884,7 +889,7 @@ const ToolExpandedContent: React.FC<ToolExpandedContentProps> = React.memo(({
                 );
             }
 
-            return <div className="typography-meta text-muted-foreground">Awaiting response...</div>;
+            return <div className="typography-meta text-muted-foreground">{t('chat.tool.awaitingResponse')}</div>;
         }
 
         if (part.tool === 'todowrite' || part.tool === 'todoread') {
@@ -892,7 +897,7 @@ const ToolExpandedContent: React.FC<ToolExpandedContentProps> = React.memo(({
                 const todoContent = renderTodoOutput(outputString, { unstyled: true });
                 return renderScrollableBlock(
                     todoContent ?? (
-                        <div className="typography-meta text-muted-foreground">Unable to parse todo list</div>
+                        <div className="typography-meta text-muted-foreground">{t('chat.tool.unableToParseTodo')}</div>
                     )
                 );
             }
@@ -900,7 +905,7 @@ const ToolExpandedContent: React.FC<ToolExpandedContentProps> = React.memo(({
             if (state.status === 'error' && 'error' in state) {
                 return (
                     <div>
-                        <div className="typography-meta font-medium text-muted-foreground mb-1">Error:</div>
+                        <div className="typography-meta font-medium text-muted-foreground mb-1">{t('chat.error.tool')}</div>
                         <div className="typography-meta p-2 rounded-xl border" style={{
                             backgroundColor: 'var(--status-error-background)',
                             color: 'var(--status-error)',
@@ -912,7 +917,7 @@ const ToolExpandedContent: React.FC<ToolExpandedContentProps> = React.memo(({
                 );
             }
 
-            return <div className="typography-meta text-muted-foreground">Processing todo list...</div>;
+            return <div className="typography-meta text-muted-foreground">{t('chat.tool.processingTodo')}</div>;
         }
 
         if (part.tool === 'list' && hasStringOutput) {
@@ -1026,7 +1031,7 @@ const ToolExpandedContent: React.FC<ToolExpandedContentProps> = React.memo(({
         }
 
         return renderScrollableBlock(
-            <div className="typography-meta text-muted-foreground/70">No output produced</div>,
+            <div className="typography-meta text-muted-foreground/70">{t('chat.tool.noOutput')}</div>,
             { maxHeightClass: 'max-h-60' }
         );
     };
@@ -1056,7 +1061,7 @@ const ToolExpandedContent: React.FC<ToolExpandedContentProps> = React.memo(({
                                 <ImagePreview
                                     content={writeInputContent as string}
                                     filePath={writeFilePath as string}
-                                    displayPath={writeDisplayPath ?? 'New file'}
+                                    displayPath={writeDisplayPath ?? t('chat.tool.newFile')}
                                 />
                             )}
                         </div>
@@ -1067,7 +1072,7 @@ const ToolExpandedContent: React.FC<ToolExpandedContentProps> = React.memo(({
                                     content={writeInputContent as string}
                                     syntaxTheme={syntaxTheme}
                                     filePath={writeFilePath}
-                                    displayPath={writeDisplayPath ?? 'New file'}
+                                    displayPath={writeDisplayPath ?? t('chat.tool.newFile')}
                                 />
                             )}
                         </div>
@@ -1093,7 +1098,7 @@ const ToolExpandedContent: React.FC<ToolExpandedContentProps> = React.memo(({
 
                     {state.status === 'error' && 'error' in state && (
                         <div>
-                            <div className="typography-meta font-medium text-muted-foreground/80 mb-1">Error:</div>
+                            <div className="typography-meta font-medium text-muted-foreground/80 mb-1">{t('chat.error.tool')}</div>
                             <div className="typography-meta p-2 rounded-xl border" style={{
                                 backgroundColor: 'var(--status-error-background)',
                                 color: 'var(--status-error)',
@@ -1122,6 +1127,7 @@ const ToolPart: React.FC<ToolPartProps> = ({
     hasPrevTool = false,
     hasNextTool = false,
 }) => {
+    const { t } = useTranslation();
     const state = part.state;
     const currentDirectory = useDirectoryStore((s) => s.currentDirectory);
 
@@ -1291,7 +1297,7 @@ const ToolPart: React.FC<ToolPartProps> = ({
     }, [isTaskTool, onContentChange, taskSummaryEntries.length]);
 
     const diffStats = (part.tool === 'edit' || part.tool === 'multiedit' || part.tool === 'apply_patch') ? parseDiffStats(metadata) : null;
-    const description = getToolDescription(part, state, isMobile, currentDirectory);
+    const description = getToolDescription(part, state, isMobile, currentDirectory, t);
     const displayName = getToolMetadata(part.tool).displayName;
     
     // Get justification text (tool title/description) when setting is enabled

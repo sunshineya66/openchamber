@@ -7,6 +7,7 @@ import { useSessionStore } from '@/stores/useSessionStore';
 import { useContextStore } from '@/stores/contextStore';
 import { useUIStore } from '@/stores/useUIStore';
 import { useModelLists } from '@/hooks/useModelLists';
+import { useTranslation } from 'react-i18next';
 import {
     formatEffortLabel,
     getQuickEffortOptions,
@@ -63,6 +64,8 @@ export const UnifiedControlsDrawer: React.FC<UnifiedControlsDrawerProps> = ({
     const sessionAgentName = useContextStore((state) =>
         currentSessionId ? state.getSessionAgentSelection(currentSessionId) : null
     );
+
+    const { t } = useTranslation();
 
     const uiAgentName = currentSessionId ? (sessionAgentName || null) : null;
 
@@ -157,7 +160,7 @@ export const UnifiedControlsDrawer: React.FC<UnifiedControlsDrawerProps> = ({
     };
 
     return (
-        <MobileOverlayPanel open={open} onClose={onClose} title="Controls">
+        <MobileOverlayPanel open={open} onClose={onClose} title={t('chat.drawer.controls')}>
             <div className="flex flex-col gap-3">
                 <div className="flex flex-col gap-2">
                     <div className="typography-meta font-semibold uppercase tracking-wide text-muted-foreground">
@@ -205,7 +208,7 @@ export const UnifiedControlsDrawer: React.FC<UnifiedControlsDrawerProps> = ({
                             type="button"
                             onClick={onOpenModel}
                             className="flex min-h-[44px] w-full items-center justify-center border-t border-border/30 px-3 py-2 typography-meta font-medium text-muted-foreground"
-                            aria-label="More models"
+                            aria-label={t('chat.drawer.moreModels')}
                         >
                             ...
                         </button>
@@ -242,7 +245,7 @@ export const UnifiedControlsDrawer: React.FC<UnifiedControlsDrawerProps> = ({
                                     type="button"
                                     onClick={onOpenEffort}
                                     className="inline-flex items-center rounded-full border border-border/40 px-2.5 py-1 typography-meta font-medium text-muted-foreground hover:bg-interactive-hover/50"
-                                    aria-label="More effort options"
+                                    aria-label={t('chat.drawer.moreEffortOptions')}
                                 >
                                     ...
                                 </button>

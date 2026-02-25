@@ -28,6 +28,7 @@ import { getRootBranch } from '@/lib/worktrees/worktreeStatus';
 import { getWorktreeSetupCommands } from '@/lib/openchamberConfig';
 import { sessionEvents } from '@/lib/sessionEvents';
 import { useSessionStore } from '@/stores/useSessionStore';
+import { useTranslation } from 'react-i18next';
 
 export interface BranchPickerProject {
   id: string;
@@ -80,6 +81,7 @@ export function BranchPickerDialog({ open, onOpenChange, project }: BranchPicker
   const [editingBranch, setEditingBranch] = React.useState<string | null>(null);
   const [editValue, setEditValue] = React.useState('');
   const [renamingBranchKey, setRenamingBranchKey] = React.useState<string | null>(null);
+  const { t } = useTranslation();
 
   const refresh = React.useCallback(async () => {
     if (!project) return;
@@ -303,17 +305,17 @@ export function BranchPickerDialog({ open, onOpenChange, project }: BranchPicker
         <DialogHeader className="flex-shrink-0">
           <DialogTitle className="flex items-center gap-2">
             <RiGitBranchLine className="h-5 w-5" />
-            Manage Branches
+            {t('features.git.manageBranches')}
           </DialogTitle>
           <DialogDescription>
-            {project ? `Local branches for ${displayProjectName(project)}` : 'Select a project'}
+            {project ? t('features.git.localBranchesFor', { project: displayProjectName(project) }) : t('features.git.noProjectSelected')}
           </DialogDescription>
         </DialogHeader>
 
         <div className="relative flex-shrink-0">
           <RiSearchLine className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search branches..."
+            placeholder={t('features.git.searchBranches')}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-9"
@@ -323,14 +325,14 @@ export function BranchPickerDialog({ open, onOpenChange, project }: BranchPicker
         <div className="flex-1 min-h-0 overflow-y-auto">
           <div className="space-y-1">
             {!project ? (
-              <div className="text-center py-8 text-muted-foreground">No project selected</div>
+              <div className="text-center py-8 text-muted-foreground">{t('features.git.noProjectSelected')}</div>
             ) : loading ? (
-              <div className="px-2 py-2 text-muted-foreground text-sm">Loading branches...</div>
+              <div className="px-2 py-2 text-muted-foreground text-sm">{t('features.git.loadingBranches')}</div>
             ) : error ? (
               <div className="px-2 py-2 text-destructive text-sm">{error}</div>
             ) : localBranches.length === 0 ? (
               <div className="px-2 py-2 text-muted-foreground text-sm">
-                {searchQuery ? 'No matching branches' : 'No branches found'}
+                {searchQuery ? t('features.git.noMatchingBranches') : t('features.git.noBranchesFound')}
               </div>
             ) : (
               localBranches.map((branchName) => {
@@ -386,7 +388,7 @@ export function BranchPickerDialog({ open, onOpenChange, project }: BranchPicker
                               onChange={(event) => setEditValue(event.target.value)}
                               className="flex-1 min-w-0 h-5 bg-transparent text-sm leading-none outline-none placeholder:text-muted-foreground"
                               autoFocus
-                              placeholder="Rename branch"
+                              placeholder={t('features.git.renameBranch')}
                               onKeyDown={(event) => {
                                 if (event.key === 'Escape') {
                                   event.preventDefault();
@@ -407,13 +409,13 @@ export function BranchPickerDialog({ open, onOpenChange, project }: BranchPicker
 
                         {isCurrent && (
                           <span className="text-xs bg-primary/10 text-primary px-1.5 py-0.5 rounded flex-shrink-0 whitespace-nowrap">
-                            HEAD
+                            {t('features.git.head')}
                           </span>
                         )}
 
                         {hasAttachedWorktree && !isEditing && (
                           <span className="text-xs bg-muted/40 text-muted-foreground px-1.5 py-0.5 rounded flex-shrink-0 whitespace-nowrap">
-                            worktree
+                            {t('features.git.worktree')}
                           </span>
                         )}
                       </div>
@@ -450,7 +452,7 @@ export function BranchPickerDialog({ open, onOpenChange, project }: BranchPicker
                             </button>
                           </TooltipTrigger>
                           <TooltipContent side="left">
-                            {hasAttachedWorktree ? 'Worktree already exists' : 'Create worktree'}
+                            {hasAttachedWorktree ? t('features.git.worktreeExists') : t('features.git.createWorktree')}
                           </TooltipContent>
                         </Tooltip>
 
@@ -461,13 +463,13 @@ export function BranchPickerDialog({ open, onOpenChange, project }: BranchPicker
                               onClick={() => beginRename(branchName)}
                               disabled={disableRename}
                               className="inline-flex h-7 w-7 items-center justify-center rounded-md hover:bg-interactive-hover/40 text-muted-foreground hover:text-foreground transition-colors disabled:opacity-50"
-                              aria-label="Rename"
+                              aria-label={t('features.git.rename')}
                             >
                               <RiPencilLine className="h-4 w-4" />
                             </button>
                           </TooltipTrigger>
                           <TooltipContent side="left">
-                            {isProjectRootBranch ? 'Rename disabled for root branch' : 'Rename'}
+                            {isProjectRootBranch ? t('features.git.renameDisabled') : t('features.git.rename')}
                           </TooltipContent>
                         </Tooltip>
 
@@ -484,7 +486,7 @@ export function BranchPickerDialog({ open, onOpenChange, project }: BranchPicker
                               }}
                               disabled={hasAttachedWorktree ? disableWorktreeDelete : disableDelete}
                               className="inline-flex h-7 w-7 items-center justify-center rounded-md hover:bg-destructive/10 text-muted-foreground hover:text-destructive transition-colors disabled:opacity-50"
-                              aria-label={hasAttachedWorktree ? 'Delete worktree' : 'Delete'}
+                              aria-label={hasAttachedWorktree ? t('features.git.deleteWorktree') : t('features.git.delete')}
                             >
                               {isDeleting ? (
                                 <RiLoader4Line className="h-4 w-4 animate-spin" />
@@ -496,13 +498,13 @@ export function BranchPickerDialog({ open, onOpenChange, project }: BranchPicker
                           <TooltipContent side="left">
                             {hasAttachedWorktree
                               ? isProjectRootBranch
-                                ? 'Delete worktree (root branch protected)'
-                                : 'Delete worktree'
+                                ? t('features.git.deleteWorktreeRoot')
+                                : t('features.git.deleteWorktree')
                               : isCurrent
-                                ? 'Delete (current branch)'
+                                ? t('features.git.deleteCurrentBranch')
                                 : isProjectRootBranch
-                                  ? 'Delete disabled for root branch'
-                                  : 'Delete'}
+                                  ? t('features.git.renameDisabled')
+                                  : t('features.git.delete')}
                           </TooltipContent>
                         </Tooltip>
                       </div>
@@ -540,7 +542,7 @@ export function BranchPickerDialog({ open, onOpenChange, project }: BranchPicker
                           'text-xs mr-1',
                           isForceDelete ? 'text-destructive' : 'text-muted-foreground'
                         )}>
-                          {isForceDelete ? 'Force delete?' : 'Delete?'}
+                          {isForceDelete ? t('features.git.forceDelete') : t('features.git.deleteConfirm')}
                         </span>
                         <button
                           type="button"

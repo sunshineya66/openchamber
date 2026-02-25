@@ -266,6 +266,7 @@ export const CommandsSidebar: React.FC<CommandsSidebarProps> = ({ onItemSelect }
                       duplicate: t('settings.commands.duplicate'),
                       reset: t('settings.commands.reset'),
                       delete: t('settings.commands.delete'),
+                      system: t('settings.agents.system'),
                     }}
                   />
                 ))}
@@ -297,6 +298,7 @@ export const CommandsSidebar: React.FC<CommandsSidebarProps> = ({ onItemSelect }
                       duplicate: t('settings.commands.duplicate'),
                       reset: t('settings.commands.reset'),
                       delete: t('settings.commands.delete'),
+                      system: t('settings.agents.system'),
                     }}
                   />
                 ))}
@@ -390,6 +392,7 @@ interface CommandListItemProps {
     duplicate: string;
     reset: string;
     delete: string;
+    system: string;
   };
 }
 
@@ -429,7 +432,7 @@ const CommandListItem: React.FC<CommandListItemProps> = ({
             </span>
             {(command.scope || isCommandBuiltIn(command)) && (
               <span className="typography-micro text-muted-foreground bg-muted px-1 rounded flex-shrink-0 leading-none pb-px border border-border/50">
-                {isCommandBuiltIn(command) ? 'system' : command.scope}
+                {isCommandBuiltIn(command) ? labels.system : command.scope}
               </span>
             )}
           </div>

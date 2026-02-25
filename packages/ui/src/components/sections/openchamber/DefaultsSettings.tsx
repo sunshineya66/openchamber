@@ -11,6 +11,7 @@ import { useConfigStore } from '@/stores/useConfigStore';
 import { useUIStore } from '@/stores/useUIStore';
 import { getRegisteredRuntimeAPIs } from '@/contexts/runtimeAPIRegistry';
 import { getModifierLabel, cn } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 const UTILITY_PROVIDER_ID = 'zen';
 const UTILITY_PREFERRED_MODEL_ID = 'big-pickle';
@@ -86,6 +87,7 @@ export const DefaultsSettings: React.FC = () => {
   const showDeletionDialog = useUIStore((state) => state.showDeletionDialog);
   const setShowDeletionDialog = useUIStore((state) => state.setShowDeletionDialog);
   const providers = useConfigStore((state) => state.providers);
+  const { t } = useTranslation();
 
   const [defaultModel, setDefaultModel] = React.useState<string | undefined>();
   const [defaultVariant, setDefaultVariant] = React.useState<string | undefined>();
@@ -331,20 +333,20 @@ export const DefaultsSettings: React.FC = () => {
     <div className="mb-6">
       <div className="mb-0.5 px-1">
         <div className="flex items-center gap-2">
-          <h3 className="typography-ui-header font-medium text-foreground">Session Defaults</h3>
+          <h3 className="typography-ui-header font-medium text-foreground">{t('settings.defaults.title')}</h3>
         </div>
       </div>
 
       <section className="px-2 pb-2 pt-0 space-y-0">
         <div className="mt-0 mb-1 typography-meta text-muted-foreground">
-          New sessions will start with:{' '}
+          {t('settings.defaults.description')}{' '}
           {parsedModel.providerId ? (
             <span className="text-foreground">
               {parsedModel.providerId}/{parsedModel.modelId}
-              {supportsVariants ? ` (${defaultVariant ?? 'default'})` : ''}
+              {supportsVariants ? ` (${defaultVariant ?? t('settings.defaults.defaultVariant')})` : ''}
             </span>
           ) : (
-            <span className="text-foreground">opencode agent default</span>
+            <span className="text-foreground">{t('settings.defaults.agentDefault')}</span>
           )}
           {defaultAgent && (
             <>
@@ -356,7 +358,7 @@ export const DefaultsSettings: React.FC = () => {
 
         <div className={cn('flex flex-col gap-2 py-1 sm:flex-row sm:items-center sm:gap-8')}>
           <div className="flex min-w-0 flex-col sm:w-56 shrink-0">
-            <span className="typography-ui-label text-foreground">Default Model</span>
+            <span className="typography-ui-label text-foreground">{t('settings.defaults.model')}</span>
           </div>
           <div className="flex min-w-0 flex-1 items-center gap-2 sm:w-fit sm:flex-initial">
             <ModelSelector providerId={parsedModel.providerId} modelId={parsedModel.modelId} onChange={handleModelChange} />
@@ -365,15 +367,15 @@ export const DefaultsSettings: React.FC = () => {
 
         <div className="flex flex-col gap-2 py-1 sm:flex-row sm:items-center sm:gap-8">
           <div className="flex min-w-0 flex-col sm:w-56 shrink-0">
-            <span className="typography-ui-label text-foreground">Default Thinking</span>
+            <span className="typography-ui-label text-foreground">{t('settings.defaults.thinking')}</span>
           </div>
           <div className="flex items-center gap-2 sm:w-fit">
             <Select value={defaultVariant ?? DEFAULT_VARIANT_VALUE} onValueChange={handleVariantChange} disabled={!supportsVariants}>
               <SelectTrigger className="w-fit min-w-[120px]">
-                <SelectValue placeholder="Thinking" />
+                <SelectValue placeholder={t('settings.defaults.thinkingPlaceholder')} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value={DEFAULT_VARIANT_VALUE}>Default</SelectItem>
+                <SelectItem value={DEFAULT_VARIANT_VALUE}>{t('settings.defaults.defaultVariant')}</SelectItem>
                 {availableVariants.map((variant) => (
                   <SelectItem key={variant} value={variant}>
                     {variant}
@@ -386,7 +388,7 @@ export const DefaultsSettings: React.FC = () => {
 
         <div className="flex flex-col gap-2 py-1 sm:flex-row sm:items-center sm:gap-8">
           <div className="flex min-w-0 flex-col sm:w-56 shrink-0">
-            <span className="typography-ui-label text-foreground">Default Agent</span>
+            <span className="typography-ui-label text-foreground">{t('settings.defaults.agent')}</span>
           </div>
           <div className="flex min-w-0 flex-1 items-center gap-2 sm:w-fit sm:flex-initial">
             <AgentSelector agentName={defaultAgent || ''} onChange={handleAgentChange} />
@@ -396,13 +398,13 @@ export const DefaultsSettings: React.FC = () => {
         <div className="flex flex-col gap-2 py-1 sm:flex-row sm:items-center sm:gap-8">
           <div className="flex min-w-0 flex-col sm:w-56 shrink-0">
             <div className="flex items-center gap-2">
-              <span className="typography-ui-label text-foreground">Utility Model</span>
+              <span className="typography-ui-label text-foreground">{t('settings.defaults.utilityModel')}</span>
               <Tooltip delayDuration={1000}>
                 <TooltipTrigger asChild>
                   <RiInformationLine className="h-3.5 w-3.5 text-muted-foreground/60 cursor-help" />
                 </TooltipTrigger>
                 <TooltipContent sideOffset={8} className="max-w-xs">
-                  The model used for lightweight background tasks like commit messages, PR descriptions, and summarization.
+                  {t('settings.defaults.utilityModelHint')}
                 </TooltipContent>
               </Tooltip>
             </div>
@@ -429,8 +431,8 @@ export const DefaultsSettings: React.FC = () => {
             }
           }}
         >
-          <Checkbox checked={showDeletionDialog} onChange={setShowDeletionDialog} ariaLabel="Show deletion dialog" />
-          <span className="typography-ui-label text-foreground">Show Deletion Dialog</span>
+          <Checkbox checked={showDeletionDialog} onChange={setShowDeletionDialog} ariaLabel={t('settings.defaults.deletionDialogAria')} />
+          <span className="typography-ui-label text-foreground">{t('settings.defaults.deletionDialog')}</span>
         </div>
 
         {!isVSCode && (
@@ -454,11 +456,11 @@ export const DefaultsSettings: React.FC = () => {
               onChange={(checked) => {
                 void handleAutoWorktreeChange(checked);
               }}
-              ariaLabel="Always create worktree"
+              ariaLabel={t('settings.defaults.worktreeAria')}
             />
             <div className="flex min-w-0 flex-col">
               <div className="flex items-center gap-1.5">
-                <span className="typography-ui-label text-foreground">Always Create Worktree</span>
+                <span className="typography-ui-label text-foreground">{t('settings.defaults.worktree')}</span>
                 <Tooltip delayDuration={1000}>
                   <TooltipTrigger asChild>
                     <RiInformationLine className="h-3.5 w-3.5 text-muted-foreground/60 cursor-help" />

@@ -3,6 +3,7 @@ import { RiCloseLine, RiMessage2Line } from '@remixicon/react';
 import { useMessageQueueStore, type QueuedMessage } from '@/stores/messageQueueStore';
 import { useSessionStore } from '@/stores/useSessionStore';
 import { useFileStore } from '@/stores/fileStore';
+import { useTranslation } from 'react-i18next';
 
 interface QueuedMessageChipProps {
     message: QueuedMessage;
@@ -11,6 +12,7 @@ interface QueuedMessageChipProps {
 }
 
 const QueuedMessageChip = memo(({ message, sessionId, onEdit }: QueuedMessageChipProps) => {
+    const { t } = useTranslation();
     const removeFromQueue = useMessageQueueStore((state) => state.removeFromQueue);
 
     // Get first line of message, truncated
@@ -29,11 +31,11 @@ const QueuedMessageChip = memo(({ message, sessionId, onEdit }: QueuedMessageChi
     return (
         <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-muted/30 border border-border/30 rounded-xl typography-meta group">
             <RiMessage2Line className="h-3 w-3 text-muted-foreground flex-shrink-0" />
-            <button
+<button
                 type="button"
                 onClick={() => onEdit(message)}
                 className="flex items-center gap-1.5 hover:text-foreground transition-colors text-left"
-                title="Click to edit"
+                title={t('chat.queue.edit')}
             >
                 <span className="truncate max-w-[200px]">
                     {firstLine || '(empty)'}
@@ -44,11 +46,11 @@ const QueuedMessageChip = memo(({ message, sessionId, onEdit }: QueuedMessageChi
                     </span>
                 )}
             </button>
-            <button
+<button
                 type="button"
                 onClick={() => removeFromQueue(sessionId, message.id)}
                 className="ml-1 hover:text-destructive p-0.5 opacity-60 group-hover:opacity-100 transition-opacity"
-                title="Remove from queue"
+                title={t('chat.queue.remove')}
             >
                 <RiCloseLine className="h-3 w-3" />
             </button>

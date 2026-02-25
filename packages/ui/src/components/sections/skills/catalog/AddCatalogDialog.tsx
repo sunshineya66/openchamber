@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { toast } from '@/components/ui';
 
 import {
@@ -77,6 +78,7 @@ interface AddCatalogDialogProps {
 }
 
 export const AddCatalogDialog: React.FC<AddCatalogDialogProps> = ({ open, onOpenChange }) => {
+  const { t } = useTranslation();
   const { scanRepo, loadCatalog, isScanning } = useSkillsCatalogStore();
   const defaultGitIdentityId = useGitIdentitiesStore((s) => s.defaultGitIdentityId);
   const loadDefaultGitIdentityId = useGitIdentitiesStore((s) => s.loadDefaultGitIdentityId);
@@ -143,7 +145,7 @@ export const AddCatalogDialog: React.FC<AddCatalogDialogProps> = ({ open, onOpen
       gitIdentityId: gitIdentityId || undefined,
     });
 
-    if (!result.ok) {
+if (!result.ok) {
       if (result.error?.kind === 'authRequired') {
         if (isVSCodeRuntime()) {
           toast.error('Private repositories are not supported in VS Code yet');
@@ -165,21 +167,21 @@ export const AddCatalogDialog: React.FC<AddCatalogDialogProps> = ({ open, onOpen
         return;
       }
 
-      toast.error(result.error?.message || 'Failed to scan repository');
+      toast.error(result.error?.message || t('features.skills.scanError'));
       return;
     }
 
     const count = result.items?.length || 0;
     setScanCount(count);
     if (count === 0) {
-      toast.error('No skills found in this repository');
+      toast.error(t('features.skills.noSkillsInRepo'));
       setScanOk(false);
       return;
     }
 
     setIdentityOptions([]);
     setScanOk(true);
-    toast.success(`Found ${count} skill(s)`);
+    toast.success(`Found ${count} ${t('features.skills.foundPlural')}`);
   };
 
   const handleAdd = async () => {
@@ -231,8 +233,8 @@ export const AddCatalogDialog: React.FC<AddCatalogDialogProps> = ({ open, onOpen
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-xl" keyboardAvoid>
-        <DialogHeader>
-          <DialogTitle>Add skills catalog</DialogTitle>
+<DialogHeader>
+          <DialogTitle>{t('features.skills.addCatalog')}</DialogTitle>
           <DialogDescription>
             Add a Git repository as a new catalog source. OpenChamber will scan it for folders containing <code className="font-mono">SKILL.md</code>.
           </DialogDescription>
@@ -297,9 +299,9 @@ export const AddCatalogDialog: React.FC<AddCatalogDialogProps> = ({ open, onOpen
             </div>
           ) : null}
 
-          {scanCount !== null ? (
+{scanCount !== null ? (
             <div className="typography-meta text-muted-foreground">
-              Scan result: {scanCount} skill(s) found
+              {t('features.skills.scanResult')}: {scanCount} {t('features.skills.foundPlural')}
             </div>
           ) : null}
 

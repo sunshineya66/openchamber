@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Message, Part } from '@opencode-ai/sdk/v2';
 import { useShallow } from 'zustand/react/shallow';
+import { useTranslation } from 'react-i18next';
 
 import { defaultCodeDark, defaultCodeLight } from '@/lib/codeTheme';
 import { MessageFreshnessDetector } from '@/lib/messageFreshness';
@@ -80,6 +81,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
     animationHandlers,
     turnGroupingContext,
 }) => {
+    const { t } = useTranslation();
     const { isMobile, hasTouchInput } = useDeviceInfo();
     const { currentTheme } = useThemeSystem();
     const messageContainerRef = React.useRef<HTMLDivElement | null>(null);
@@ -650,12 +652,12 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
             return undefined;
         }
         if (errorName === 'SessionRetry') {
-            return `Opencode failed to send a message. Retry attempt info: \n\`${detail}\``;
+            return t('chat.error.sendRetryFailed', { detail });
         }
         if (isLikelyProviderAuthFailure(detail)) {
             return PROVIDER_AUTH_FAILURE_MESSAGE;
         }
-        return `Opencode failed to send message with error:\n\`${detail}\``;
+        return t('chat.error.sendFailed', { detail });
     }, [isUser, message.info]);
 
     const messageTextContent = React.useMemo(() => {

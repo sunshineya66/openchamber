@@ -96,13 +96,13 @@ export const ProjectsPage: React.FC = () => {
             {/* Name */}
             <div className="py-1.5">
               <div className="flex min-w-0 flex-col">
-                <span className="typography-ui-label text-foreground">Project Name</span>
+                <span className="typography-ui-label text-foreground">{t('settings.projects.name')}</span>
               </div>
               <div className="mt-1.5 flex min-w-0 items-center gap-2">
                 <Input 
                   value={name} 
                   onChange={(e) => setName(e.target.value)} 
-                  placeholder="Project name" 
+                  placeholder={t('settings.projects.namePlaceholder')} 
                   className="h-7 min-w-0 w-full sm:max-w-[19rem]" 
                 />
               </div>
@@ -111,7 +111,7 @@ export const ProjectsPage: React.FC = () => {
             {/* Color */}
             <div className="py-1.5">
               <div className="flex min-w-0 flex-col">
-                <span className="typography-ui-label text-foreground">Accent Color</span>
+                <span className="typography-ui-label text-foreground">{t('settings.projects.accentColor')}</span>
               </div>
               <div className="mt-1.5 flex flex-wrap items-center gap-2">
                 <button
@@ -123,7 +123,7 @@ export const ProjectsPage: React.FC = () => {
                       ? 'border-2 border-foreground bg-[var(--primary-base)]/10'
                       : 'border-border/40 hover:border-border hover:bg-[var(--surface-muted)]'
                   )}
-                  title="None"
+                  title={t('settings.projects.iconNone')}
                 >
                   <RiCloseLine className="h-4 w-4 text-muted-foreground" />
                 </button>
@@ -148,7 +148,7 @@ export const ProjectsPage: React.FC = () => {
             {/* Icon */}
             <div className="py-1.5">
               <div className="flex min-w-0 flex-col">
-                <span className="typography-ui-label text-foreground">Project Icon</span>
+                <span className="typography-ui-label text-foreground">{t('settings.projects.icon')}</span>
               </div>
               <div className="mt-1.5 flex max-w-[22rem] flex-wrap items-center gap-2">
                 <button
@@ -160,7 +160,7 @@ export const ProjectsPage: React.FC = () => {
                       ? 'border-2 border-foreground bg-[var(--primary-base)]/10'
                       : 'border-border/40 hover:border-border hover:bg-[var(--surface-muted)]'
                   )}
-                  title="None"
+                  title={t('settings.projects.iconNone')}
                 >
                   <RiCloseLine className="h-4 w-4 text-muted-foreground" />
                 </button>
@@ -195,7 +195,7 @@ export const ProjectsPage: React.FC = () => {
               size="xs"
               className="!font-normal"
             >
-              Save Changes
+              {t('settings.projects.saveChanges')}
             </ButtonSmall>
           </div>
         </div>
@@ -204,7 +204,7 @@ export const ProjectsPage: React.FC = () => {
         <div className="mb-8">
           <div className="mb-1 px-1">
             <h3 className="typography-ui-header font-medium text-foreground">
-              Worktree
+              {t('settings.projects.worktree')}
             </h3>
           </div>
           <section className="px-2 pb-2 pt-0">

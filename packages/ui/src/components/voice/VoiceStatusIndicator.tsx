@@ -18,6 +18,7 @@
  */
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
     RiMicLine,
     RiMicOffLine,
@@ -60,36 +61,36 @@ const statusConfig: Record<
     {
         icon: typeof RiMicLine;
         color: string;
-        label: string;
+        labelKey: string;
         animation?: string;
     }
 > = {
     idle: {
         icon: RiMicOffLine,
         color: 'text-muted-foreground',
-        label: 'Voice Ready',
+        labelKey: 'features.voice.voiceReady',
     },
     listening: {
         icon: RiMicLine,
         color: 'text-primary',
-        label: 'Listening...',
+        labelKey: 'features.voice.listening',
         animation: 'animate-pulse',
     },
     processing: {
         icon: RiLoader4Line,
         color: 'text-primary',
-        label: 'Processing...',
+        labelKey: 'features.voice.processing',
         animation: 'animate-spin',
     },
     speaking: {
         icon: RiVolumeUpLine,
         color: 'text-green-500',
-        label: 'Speaking...',
+        labelKey: 'features.voice.speaking',
     },
     error: {
         icon: RiAlertLine,
         color: 'text-destructive',
-        label: 'Voice Error',
+        labelKey: 'features.voice.error',
     },
 };
 
@@ -103,6 +104,7 @@ export function VoiceStatusIndicator({
     className = '',
     conversationMode = false,
 }: VoiceStatusIndicatorProps) {
+    const { t } = useTranslation();
     const config = statusConfig[status];
     const Icon = config.icon;
     const sizeClass = sizeClasses[size];
@@ -119,7 +121,6 @@ export function VoiceStatusIndicator({
                     `}
                     aria-hidden="true"
                 />
-                {/* Conversation mode indicator dot - only when idle and conversation mode is on */}
                 {conversationMode && status === 'idle' && (
                     <span
                         className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-green-500 rounded-full"
@@ -129,7 +130,7 @@ export function VoiceStatusIndicator({
             </div>
             {showLabel && (
                 <span className={`typography-meta ${config.color}`}>
-                    {config.label}
+                    {t(config.labelKey)}
                 </span>
             )}
         </div>

@@ -6,6 +6,7 @@ import { toast } from '@/components/ui';
 import { cn } from '@/lib/utils';
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { useIsVSCodeRuntime } from '@/hooks/useRuntimeAPIs';
+import { useTranslation } from 'react-i18next';
 
 import type { ToolPopupContent } from './message/types';
 
@@ -14,6 +15,7 @@ export const FileAttachmentButton = memo(() => {
   const { addAttachedFile } = useSessionStore();
   const { isMobile } = useUIStore();
   const isVSCodeRuntime = useIsVSCodeRuntime();
+  const { t } = useTranslation();
   const buttonSizeClass = isMobile ? 'h-9 w-9' : 'h-7 w-7';
   const iconSizeClass = isMobile ? 'h-5 w-5' : 'h-[18px] w-[18px]';
 
@@ -30,11 +32,11 @@ export const FileAttachmentButton = memo(() => {
         }
       } catch (error) {
         console.error('File attach failed', error);
-        toast.error(error instanceof Error ? error.message : 'Failed to attach file');
+        toast.error(error instanceof Error ? error.message : t('chat.input.file.attachError'));
       }
     }
     if (attachedCount > 0) {
-      toast.success(`Attached ${attachedCount} file${attachedCount > 1 ? 's' : ''}`);
+      toast.success(t('chat.input.file.attachedFiles', { count: attachedCount }));
     }
   };
 
@@ -56,8 +58,8 @@ export const FileAttachmentButton = memo(() => {
       const skipped = Array.isArray(data?.skipped) ? data.skipped : [];
 
       if (skipped.length > 0) {
-        const summary = skipped.map((s: { name?: string; reason?: string }) => `${s?.name || 'file'}: ${s?.reason || 'skipped'}`).join('\n');
-        toast.error(`Some files were skipped:\n${summary}`);
+        const summary = skipped.map((s: { name?: string; reason?: string }) => `${s?.name || t('chat.tool.file')}: ${s?.reason || 'skipped'}`).join('\n');
+        toast.error(t('chat.input.file.skippedFiles', { summary }));
       }
 
       const asFiles = picked
@@ -86,7 +88,7 @@ export const FileAttachmentButton = memo(() => {
       }
     } catch (error) {
       console.error('VS Code file pick failed', error);
-      toast.error(error instanceof Error ? error.message : 'Failed to pick files in VS Code');
+      toast.error(error instanceof Error ? error.message : t('chat.input.file.vscodePickError'));
     }
   };
 
@@ -109,11 +111,11 @@ export const FileAttachmentButton = memo(() => {
             fileInputRef.current?.click();
           }
         }}
-        className={cn(
+className={cn(
           buttonSizeClass,
           'flex items-center justify-center text-muted-foreground transition-none outline-none focus:outline-none flex-shrink-0'
         )}
-        title='Attach files'
+        title={t('chat.file.attach')}
       >
         <RiAttachment2 className={cn(iconSizeClass, 'text-current')} />
       </button>
@@ -127,6 +129,7 @@ interface FileChipProps {
 }
 
 const FileChip = memo(({ file, onRemove }: FileChipProps) => {
+  const { t } = useTranslation();
   const getFileIcon = () => {
     if (file.mimeType.startsWith('image/')) {
       return <RiFileImageLine className="h-3.5 w-3.5" />;
@@ -173,10 +176,10 @@ const FileChip = memo(({ file, onRemove }: FileChipProps) => {
           className="h-full w-full object-cover"
           loading="lazy"
         />
-        <button
+<button
           onClick={onRemove}
           className="absolute top-1 right-1 h-5 w-5 rounded-full bg-background/80 text-foreground hover:text-destructive flex items-center justify-center focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-          title="Remove image"
+          title={t('chat.file.removeImage')}
           aria-label={`Remove ${displayName}`}
         >
           <RiCloseLine className="h-3 w-3" />
@@ -185,9 +188,9 @@ const FileChip = memo(({ file, onRemove }: FileChipProps) => {
     );
   }
 
-  return (
+return (
     <div className="flex w-full sm:inline-flex sm:w-auto items-center gap-1.5 px-3 sm:px-2.5 py-1 bg-muted/30 border border-border/30 rounded-xl typography-meta max-w-full min-w-0">
-      <div title={file.source === 'server' ? "Server file" : "Local file"}>
+      <div title={file.source === 'server' ? t('chat.file.serverFile') : t('chat.file.localFile')}>
         {file.source === 'server' ? (
           <RiHardDrive3Line className="h-3 w-3 text-primary flex-shrink-0" />
         ) : (
@@ -203,10 +206,10 @@ const FileChip = memo(({ file, onRemove }: FileChipProps) => {
       <span className="ml-auto text-muted-foreground flex-shrink-0 text-xs">
         {formatFileSize(file.size)}
       </span>
-      <button
+<button
         onClick={onRemove}
         className="hover:text-destructive min-h-6 min-w-6 sm:min-h-0 sm:min-w-0 sm:p-0.5 flex items-center justify-center flex-shrink-0 rounded focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-        title="Remove file"
+        title={t('chat.file.removeFile')}
       >
         <RiCloseLine className="h-4 w-4 sm:h-3 sm:w-3" />
       </button>
@@ -249,11 +252,11 @@ interface MessageFilesDisplayProps {
 }
 
 export const MessageFilesDisplay = memo(({ files, onShowPopup, compact = false }: MessageFilesDisplayProps) => {
-
+  const { t } = useTranslation();
   const fileItems = files.filter(f => f.type === 'file' && (f.mime || f.url));
 
   const extractFilename = (path?: string): string => {
-    if (!path) return 'Unnamed file';
+    if (!path) return t('chat.file.unnamed');
 
     const normalized = path.replace(/\\/g, '/');
     const parts = normalized.split('/');
@@ -336,7 +339,7 @@ export const MessageFilesDisplay = memo(({ files, onShowPopup, compact = false }
     () =>
       imageFiles.flatMap((file) => {
           if (!file.url) return [];
-          const filename = extractFilename(file.filename) || 'Image';
+          const filename = extractFilename(file.filename) || t('chat.file.image');
           return [{
             url: file.url,
             mimeType: file.mime,
@@ -355,7 +358,7 @@ export const MessageFilesDisplay = memo(({ files, onShowPopup, compact = false }
     const file = imageGallery[index];
     if (!file?.url) return;
 
-    const filename = file.filename || 'Image';
+    const filename = file.filename || t('chat.file.image');
 
     const popupPayload: ToolPopupContent = {
       open: true,
@@ -433,7 +436,7 @@ export const MessageFilesDisplay = memo(({ files, onShowPopup, compact = false }
       {mermaidFiles.length > 0 && (
         <div className={cn('flex flex-wrap', compact ? 'gap-1.5' : 'gap-2')}>
           {mermaidFiles.map((file, index) => {
-            const filename = extractFilename(file.filename) || 'Diagram';
+    const filename = extractFilename(file.filename) || t('chat.file.diagram');
 
             return (
               <button
@@ -445,8 +448,8 @@ export const MessageFilesDisplay = memo(({ files, onShowPopup, compact = false }
                   'hover:bg-muted/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1',
                   compact ? 'gap-1 px-2 py-0.5 rounded-lg' : 'gap-1.5 px-2.5 py-1 rounded-xl'
                 )}
-                title={`Open ${filename}`}
-                aria-label={`Open diagram ${filename}`}
+title={t('chat.file.open', { filename })}
+                aria-label={t('chat.file.openDiagram', { filename })}
               >
                 {getFileIcon(file.mime)}
                 <div className={cn('overflow-hidden', compact ? 'max-w-[140px]' : 'max-w-[200px]')}>
@@ -465,7 +468,7 @@ export const MessageFilesDisplay = memo(({ files, onShowPopup, compact = false }
         <div className={cn('overflow-x-auto -mx-1 px-1 scrollbar-thin', compact ? 'py-0.5' : 'py-1')}>
           <div className={cn('flex snap-x snap-mandatory', compact ? 'gap-2' : 'gap-3')}>
             {imageFiles.map((file, index) => {
-    const filename = extractFilename(file.filename) || 'Image';
+    const filename = extractFilename(file.filename) || t('chat.file.image');
 
               return (
                 <Tooltip key={`img-${file.url || file.filename || index}`} delayDuration={1000}>

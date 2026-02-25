@@ -24,6 +24,7 @@ import {
 } from '@/components/ui/command';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import type { GitRemote } from '@/lib/api/types';
+import { useTranslation } from 'react-i18next';
 
 interface BranchInfo {
   ahead?: number;
@@ -73,6 +74,7 @@ export const BranchSelector: React.FC<BranchSelectorProps> = ({
   const [newBranchName, setNewBranchName] = React.useState('');
   const [isCreating, setIsCreating] = React.useState(false);
   const createInputRef = React.useRef<HTMLInputElement>(null);
+  const { t } = useTranslation();
 
   const hasMultipleRemotes = remotes.length > 1;
 
@@ -175,21 +177,21 @@ export const BranchSelector: React.FC<BranchSelectorProps> = ({
             >
               <RiGitBranchLine className="size-4 text-primary" />
               <span className="min-w-0 truncate font-medium text-left">
-                {currentBranch || 'Detached HEAD'}
+                {currentBranch || t('features.git.detachedHead')}
               </span>
               <RiArrowDownSLine className="size-4 opacity-60" />
             </Button>
           </DropdownMenuTrigger>
         </TooltipTrigger>
         <TooltipContent sideOffset={8}>
-          Current branch
+          {t('features.git.currentBranch')}
         </TooltipContent>
       </Tooltip>
 
       <DropdownMenuContent align="start" className="w-72 p-0 max-h-[60vh] flex flex-col">
         <Command className="h-full min-h-0">
           <CommandInput
-            placeholder="Search branches..."
+            placeholder={t('features.git.searchBranches')}
             value={search}
             onValueChange={setSearch}
           />
@@ -197,7 +199,7 @@ export const BranchSelector: React.FC<BranchSelectorProps> = ({
             scrollbarClassName="overlay-scrollbar--flush overlay-scrollbar--dense overlay-scrollbar--zero"
             disableHorizontal
           >
-            <CommandEmpty>No branches found.</CommandEmpty>
+            <CommandEmpty>{t('features.git.noBranchesFound')}</CommandEmpty>
 
             <CommandGroup>
               {showRemoteSelect ? (
@@ -213,7 +215,7 @@ export const BranchSelector: React.FC<BranchSelectorProps> = ({
                       <RiArrowLeftLine className="size-4" />
                     </button>
                     <span className="typography-meta text-muted-foreground">
-                      Push <span className="text-foreground font-medium">{sanitizedNewBranch}</span> to:
+                      {t('features.git.pushTo', { branch: sanitizedNewBranch })}
                     </span>
                   </div>
                   <div className="flex flex-col gap-1">
@@ -241,13 +243,13 @@ export const BranchSelector: React.FC<BranchSelectorProps> = ({
               ) : !showCreate ? (
                 <CommandItem onSelect={handleShowCreate}>
                   <RiAddLine className="size-4" />
-                  <span>Create new branch...</span>
+                  <span>{t('features.git.createNewBranch')}</span>
                 </CommandItem>
               ) : (
                 <div className="flex items-center gap-2 px-2 py-1.5 rounded-lg">
                   <input
                     ref={createInputRef}
-                    placeholder="New branch name"
+                    placeholder={t('features.git.newBranchName')}
                     value={newBranchName}
                     onChange={(e) => setNewBranchName(e.target.value)}
                     onKeyDown={(e) => {
@@ -287,7 +289,7 @@ export const BranchSelector: React.FC<BranchSelectorProps> = ({
 
             <CommandSeparator />
 
-            <CommandGroup heading="Local branches">
+            <CommandGroup heading={t('features.git.localBranches')}>
               {filteredLocal.map((branch) => (
                 <CommandItem
                   key={`local-${branch}`}
@@ -299,20 +301,19 @@ export const BranchSelector: React.FC<BranchSelectorProps> = ({
                     </span>
                     {(branchInfo?.[branch]?.ahead || branchInfo?.[branch]?.behind) && (
                       <span className="typography-micro text-muted-foreground">
-                        {branchInfo[branch].ahead || 0} ahead ·{' '}
-                        {branchInfo[branch].behind || 0} behind
+                        {t('features.git.aheadBehind', { ahead: branchInfo[branch].ahead || 0, behind: branchInfo[branch].behind || 0 })}
                       </span>
                     )}
                   </span>
                   {currentBranch === branch && (
-                    <span className="typography-micro text-primary">Current</span>
+                    <span className="typography-micro text-primary">{t('features.git.current')}</span>
                   )}
                 </CommandItem>
               ))}
               {filteredLocal.length === 0 && (
                 <CommandItem disabled className="justify-center">
                   <span className="typography-meta text-muted-foreground">
-                    No local branches
+                    {t('features.git.noLocalBranches')}
                   </span>
                 </CommandItem>
               )}
@@ -320,7 +321,7 @@ export const BranchSelector: React.FC<BranchSelectorProps> = ({
 
             <CommandSeparator />
 
-            <CommandGroup heading="Remote branches">
+            <CommandGroup heading={t('features.git.remoteBranches')}>
               {filteredRemote.map((branch) => (
                 <CommandItem
                   key={`remote-${branch}`}
@@ -332,7 +333,7 @@ export const BranchSelector: React.FC<BranchSelectorProps> = ({
               {filteredRemote.length === 0 && (
                 <CommandItem disabled className="justify-center">
                   <span className="typography-meta text-muted-foreground">
-                    No remote branches
+                    {t('features.git.noRemoteBranches')}
                   </span>
                 </CommandItem>
               )}

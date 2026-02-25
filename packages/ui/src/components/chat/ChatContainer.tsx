@@ -2,6 +2,7 @@ import React from 'react';
 import { RiArrowDownLine } from '@remixicon/react';
 import { useShallow } from 'zustand/react/shallow';
 import type { Message, Part } from '@opencode-ai/sdk/v2';
+import { useTranslation } from 'react-i18next';
 
 import { ChatInput } from './ChatInput';
 import { useSessionStore } from '@/stores/useSessionStore';
@@ -69,6 +70,7 @@ const flattenBlockingRequests = <T extends { id: string }>(
 };
 
 export const ChatContainer: React.FC = () => {
+    const { t } = useTranslation();
     const {
         currentSessionId,
         isLoading,
@@ -561,7 +563,7 @@ export const ChatContainer: React.FC = () => {
                                   size="sm"
                                   onClick={() => scrollToBottom({ force: true })}
                                   className="rounded-full h-8 w-8 p-0 shadow-none bg-background/95 hover:bg-interactive-hover"
-                                  aria-label="Scroll to bottom"
+                                  aria-label={t('chat.scrollToBottom')}
                                 >
 
                             <RiArrowDownLine className="h-4 w-4" />

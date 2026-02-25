@@ -2,6 +2,7 @@ import React from 'react';
 import type { ComponentType } from 'react';
 import type { Part } from '@opencode-ai/sdk/v2';
 import { RiArrowDownSLine, RiArrowRightSLine, RiBrainAi3Line, RiChatAi3Line } from '@remixicon/react';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import type { ContentChangeReason } from '@/hooks/useChatScrollManager';
 import { ScrollableOverlay } from '@/components/ui/ScrollableOverlay';
@@ -69,10 +70,12 @@ export const ReasoningTimelineBlock: React.FC<ReasoningTimelineBlockProps> = ({
     onContentChange,
     blockId,
 }) => {
+    const { t } = useTranslation();
     const [isExpanded, setIsExpanded] = React.useState(false);
 
     const summary = React.useMemo(() => getReasoningSummary(text), [text]);
-    const { label, Icon } = variantConfig[variant];
+    const label = variant === 'thinking' ? t('chat.status.thinking') : t('chat.status.justification');
+    const Icon = variantConfig[variant].Icon;
 
     React.useEffect(() => {
         if (text.trim().length === 0) {

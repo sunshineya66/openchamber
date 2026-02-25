@@ -81,11 +81,11 @@ export const SkillsSidebar: React.FC<SkillsSidebarProps> = ({ onItemSelect }) =>
 
     setIsDeletePending(true);
     const success = await deleteSkill(deleteDialogSkill.name);
-    if (success) {
-      toast.success(`Skill "${deleteDialogSkill.name}" deleted successfully`);
+if (success) {
+      toast.success(t('settings.skills.deleteSuccess', { name: deleteDialogSkill.name }));
       setDeleteDialogSkill(null);
     } else {
-      toast.error('Failed to delete skill');
+      toast.error(t('features.skills.deleteSkillError'));
     }
     setIsDeletePending(false);
   };
@@ -101,9 +101,9 @@ export const SkillsSidebar: React.FC<SkillsSidebarProps> = ({ onItemSelect }) =>
     }
 
     // Get full skill detail to copy
-    const detail = await getSkillDetail(skill.name);
+const detail = await getSkillDetail(skill.name);
     if (!detail) {
-      toast.error('Failed to load skill details for duplication');
+      toast.error(t('features.skills.loadForDuplicationError'));
       return;
     }
 
@@ -131,7 +131,7 @@ export const SkillsSidebar: React.FC<SkillsSidebarProps> = ({ onItemSelect }) =>
     const sanitizedName = renameNewName.trim().replace(/\s+/g, '-').toLowerCase();
 
     if (!sanitizedName) {
-      toast.error('Skill name is required');
+      toast.error(t('settings.skills.skillNameRequired'));
       return;
     }
 
@@ -141,14 +141,14 @@ export const SkillsSidebar: React.FC<SkillsSidebarProps> = ({ onItemSelect }) =>
     }
 
     if (skills.some((s) => s.name === sanitizedName)) {
-      toast.error('A skill with this name already exists');
+      toast.error(t('settings.skills.skillExists'));
       return;
     }
 
     // Get full detail to copy
     const detail = await getSkillDetail(renameDialogSkill.name);
     if (!detail) {
-      toast.error('Failed to load skill details');
+      toast.error(t('features.skills.loadDetailsError'));
       setRenameDialogSkill(null);
       return;
     }
@@ -156,7 +156,7 @@ export const SkillsSidebar: React.FC<SkillsSidebarProps> = ({ onItemSelect }) =>
     // Create new skill with new name
     const success = await createSkill({
       name: sanitizedName,
-      description: 'Renamed skill', // Will need proper description
+      description: t('settings.skills.renamedSkill'),
       scope: renameDialogSkill.scope,
       source: renameDialogSkill.source,
     });
@@ -165,13 +165,13 @@ export const SkillsSidebar: React.FC<SkillsSidebarProps> = ({ onItemSelect }) =>
       // Delete old skill
       const deleteSuccess = await deleteSkill(renameDialogSkill.name);
       if (deleteSuccess) {
-        toast.success(`Skill renamed to "${sanitizedName}"`);
+        toast.success(t('settings.skills.renameSuccess', { name: sanitizedName }));
         setSelectedSkill(sanitizedName);
       } else {
-        toast.error('Failed to remove old skill after rename');
+        toast.error(t('features.skills.removeOldSkillError'));
       }
     } else {
-      toast.error('Failed to rename skill');
+      toast.error(t('features.skills.renameError'));
     }
 
     setRenameDialogSkill(null);
@@ -343,9 +343,9 @@ export const SkillsSidebar: React.FC<SkillsSidebarProps> = ({ onItemSelect }) =>
       >
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle>Delete Skill</DialogTitle>
+            <DialogTitle>{t('settings.skills.deleteSkillTitle')}</DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete skill "{deleteDialogSkill?.name}"?
+              {t('settings.skills.deleteSkillConfirm', { name: deleteDialogSkill?.name })}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
@@ -355,10 +355,10 @@ export const SkillsSidebar: React.FC<SkillsSidebarProps> = ({ onItemSelect }) =>
               disabled={isDeletePending}
               className="text-foreground hover:bg-interactive-hover hover:text-foreground"
             >
-              Cancel
+              {t('common.cancel')}
             </ButtonLarge>
             <ButtonLarge onClick={handleConfirmDeleteSkill} disabled={isDeletePending}>
-              Delete
+              {t('common.delete')}
             </ButtonLarge>
           </DialogFooter>
         </DialogContent>
@@ -368,15 +368,15 @@ export const SkillsSidebar: React.FC<SkillsSidebarProps> = ({ onItemSelect }) =>
       <Dialog open={renameDialogSkill !== null} onOpenChange={(open) => !open && setRenameDialogSkill(null)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Rename Skill</DialogTitle>
+            <DialogTitle>{t('settings.skills.renameSkillTitle')}</DialogTitle>
             <DialogDescription>
-              Enter a new name for the skill "{renameDialogSkill?.name}"
+              {t('settings.skills.renameSkillDescription', { name: renameDialogSkill?.name })}
             </DialogDescription>
           </DialogHeader>
           <Input
             value={renameNewName}
             onChange={(e) => setRenameNewName(e.target.value)}
-            placeholder="New skill name..."
+            placeholder={t('settings.skills.newSkillNamePlaceholder')}
             className="text-foreground placeholder:text-muted-foreground"
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
@@ -390,10 +390,10 @@ export const SkillsSidebar: React.FC<SkillsSidebarProps> = ({ onItemSelect }) =>
               onClick={() => setRenameDialogSkill(null)}
               className="text-foreground hover:bg-interactive-hover hover:text-foreground"
             >
-              Cancel
+              {t('common.cancel')}
             </ButtonLarge>
             <ButtonLarge onClick={handleRenameSkill}>
-              Rename
+              {t('settings.skills.rename')}
             </ButtonLarge>
           </DialogFooter>
         </DialogContent>
@@ -423,6 +423,7 @@ const SkillListItem: React.FC<SkillListItemProps> = ({
   isMenuOpen,
   onMenuOpenChange,
 }) => {
+  const { t } = useTranslation();
   const isMobile = isMobileDeviceViaCSS();
   return (
     <div
@@ -478,7 +479,7 @@ const SkillListItem: React.FC<SkillListItemProps> = ({
               }}
             >
               <RiEditLine className="h-4 w-4 mr-px" />
-              Rename
+              {t('settings.skills.rename')}
             </DropdownMenuItem>
 
             <DropdownMenuItem
@@ -488,7 +489,7 @@ const SkillListItem: React.FC<SkillListItemProps> = ({
               }}
             >
               <RiFileCopyLine className="h-4 w-4 mr-px" />
-              Duplicate
+              {t('settings.skills.duplicate')}
             </DropdownMenuItem>
 
             <DropdownMenuItem
@@ -499,7 +500,7 @@ const SkillListItem: React.FC<SkillListItemProps> = ({
               className="text-destructive focus:text-destructive"
             >
               <RiDeleteBinLine className="h-4 w-4 mr-px" />
-              Delete
+              {t('settings.skills.delete')}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

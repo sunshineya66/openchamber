@@ -1,5 +1,6 @@
 import React from 'react';
 import { RiCheckLine, RiCloseLine, RiTimeLine } from '@remixicon/react';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import type { PermissionRequest as PermissionRequestPayload, PermissionResponse } from '@/types/permission';
 import { useSessionStore } from '@/stores/useSessionStore';
@@ -13,6 +14,7 @@ export const PermissionRequest: React.FC<PermissionRequestProps> = ({
   permission,
   onResponse
 }) => {
+  const { t } = useTranslation();
   const [isResponding, setIsResponding] = React.useState(false);
   const [hasResponded, setHasResponded] = React.useState(false);
   const { respondToPermission } = useSessionStore();
@@ -42,7 +44,7 @@ export const PermissionRequest: React.FC<PermissionRequestProps> = ({
       <div className="flex items-center gap-2 min-w-0 flex-1">
         <div className="min-w-0">
           <span className="typography-ui-label font-medium text-muted-foreground">
-            Permission required:
+            {t('chat.permission.required')}
           </span>
           <code className="ml-2 typography-meta bg-amber-100/50 dark:bg-amber-800/30 px-1.5 py-0.5 rounded font-mono text-amber-800 dark:text-amber-200">
             {command}
@@ -70,7 +72,7 @@ export const PermissionRequest: React.FC<PermissionRequestProps> = ({
           }}
         >
           <RiCheckLine className="h-3 w-3" />
-          Once
+          {t('chat.permission.once')}
         </button>
 
         <button
@@ -92,7 +94,7 @@ export const PermissionRequest: React.FC<PermissionRequestProps> = ({
           }}
         >
           <RiTimeLine className="h-3 w-3" />
-          Always
+          {t('chat.permission.always')}
         </button>
 
         <button
@@ -114,7 +116,7 @@ export const PermissionRequest: React.FC<PermissionRequestProps> = ({
           }}
         >
           <RiCloseLine className="h-3 w-3" />
-          Reject
+          {t('chat.permission.reject')}
         </button>
 
         {isResponding && (

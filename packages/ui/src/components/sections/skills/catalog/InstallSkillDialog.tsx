@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { toast } from '@/components/ui';
 
 import {
@@ -38,6 +39,7 @@ interface InstallSkillDialogProps {
 }
 
 export const InstallSkillDialog: React.FC<InstallSkillDialogProps> = ({ open, onOpenChange, item }) => {
+  const { t } = useTranslation();
   const { installSkills, isInstalling } = useSkillsCatalogStore();
   const [scope, setScope] = React.useState<'user' | 'project'>('user');
   const [targetSource, setTargetSource] = React.useState<'opencode' | 'agents'>('opencode');
@@ -121,8 +123,8 @@ export const InstallSkillDialog: React.FC<InstallSkillDialogProps> = ({ open, on
       conflictDecisions: request.conflictDecisions,
     }, { directory: request.directoryOverride ?? null });
 
-    if (result.ok) {
-      toast.success('Skill installed successfully');
+if (result.ok) {
+      toast.success(t('features.skills.installSuccess'));
       onOpenChange(false);
       return;
     }
@@ -141,12 +143,12 @@ export const InstallSkillDialog: React.FC<InstallSkillDialogProps> = ({ open, on
       return;
     }
 
-    if (result.error?.kind === 'authRequired') {
+if (result.error?.kind === 'authRequired') {
       toast.error(result.error.message || 'Authentication required');
       return;
     }
 
-    toast.error(result.error?.message || 'Failed to install skill');
+    toast.error(result.error?.message || t('features.skills.installError'));
   };
 
   if (!item) {
@@ -158,15 +160,15 @@ export const InstallSkillDialog: React.FC<InstallSkillDialogProps> = ({ open, on
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent className="max-w-md" keyboardAvoid>
           <DialogHeader>
-            <DialogTitle>Install skill</DialogTitle>
+            <DialogTitle>{t('features.skills.installSkillTitle')}</DialogTitle>
             <DialogDescription>
-              Install <span className="font-semibold text-foreground">{item.skillName}</span> into one of four target locations.
+              Install <span className="font-semibold text-foreground">{item?.skillName}</span> into one of four target locations.
             </DialogDescription>
           </DialogHeader>
 
           <div className="mt-2 space-y-3">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="typography-ui-label text-foreground">Destination</span>
+              <span className="typography-ui-label text-foreground">{t('features.skills.destination')}</span>
               <Select
                 value={locationValueFrom(scope, targetSource)}
                 onValueChange={(v) => {
@@ -199,9 +201,9 @@ export const InstallSkillDialog: React.FC<InstallSkillDialogProps> = ({ open, on
 
             {scope === 'project' && (
               <div className="flex flex-wrap items-center gap-2">
-                <span className="typography-ui-label text-foreground">Project</span>
+                <span className="typography-ui-label text-foreground">{t('features.skills.chooseProject')}</span>
                 {projects.length === 0 ? (
-                  <span className="typography-meta text-muted-foreground">No projects available</span>
+                  <span className="typography-meta text-muted-foreground">{t('features.skills.noProjectsAvailable')}</span>
                 ) : (
                   <Select
                     value={resolvedTargetProjectId ?? ''}
@@ -209,7 +211,7 @@ export const InstallSkillDialog: React.FC<InstallSkillDialogProps> = ({ open, on
                     disabled={projects.length === 1}
                   >
                     <SelectTrigger className="w-fit">
-                      <SelectValue placeholder="Choose project" />
+                      <SelectValue placeholder={t('features.skills.chooseProject')} />
                     </SelectTrigger>
                     <SelectContent align="start">
                       {projects.map((p) => (
@@ -235,7 +237,7 @@ export const InstallSkillDialog: React.FC<InstallSkillDialogProps> = ({ open, on
               variant="ghost"
               onClick={() => onOpenChange(false)}
             >
-              Cancel
+              {t('common.cancel')}
             </ButtonLarge>
             <ButtonLarge
               disabled={isInstalling || !item.installable || (scope === 'project' && !directoryOverride)}
@@ -250,7 +252,7 @@ export const InstallSkillDialog: React.FC<InstallSkillDialogProps> = ({ open, on
                 })
               }
             >
-              {isInstalling ? 'Installing...' : 'Install'}
+              {isInstalling ? t('features.skills.installing') : t('features.skills.install')}
             </ButtonLarge>
           </DialogFooter>
         </DialogContent>

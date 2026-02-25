@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils';
 import { RiFileCopyLine, RiCheckLine, RiDownloadLine } from '@remixicon/react';
 import { toast } from '@/components/ui';
 import { copyTextToClipboard } from '@/lib/clipboard';
+import { useTranslation } from 'react-i18next';
 
 import { isVSCodeRuntime } from '@/lib/desktop';
 import { useOptionalThemeSystem } from '@/contexts/useThemeSystem';
@@ -250,6 +251,7 @@ const downloadFile = (filename: string, content: string, mimeType: string) => {
 
 // Table copy button with dropdown
 const TableCopyButton: React.FC<{ tableRef: React.RefObject<HTMLDivElement | null> }> = ({ tableRef }) => {
+  const { t } = useTranslation();
   const [copied, setCopied] = React.useState(false);
   const [showMenu, setShowMenu] = React.useState(false);
   const menuRef = React.useRef<HTMLDivElement>(null);
@@ -295,10 +297,10 @@ const TableCopyButton: React.FC<{ tableRef: React.RefObject<HTMLDivElement | nul
 
   return (
     <div className="relative" ref={menuRef}>
-      <button
+<button
         onClick={() => setShowMenu(!showMenu)}
         className="p-1 rounded hover:bg-interactive-hover/60 text-muted-foreground hover:text-foreground transition-colors"
-        title="Copy table"
+        title={t('chat.markdown.copyTable')}
       >
         {copied ? <RiCheckLine className="size-3.5" /> : <RiFileCopyLine className="size-3.5" />}
       </button>
@@ -324,6 +326,7 @@ const TableCopyButton: React.FC<{ tableRef: React.RefObject<HTMLDivElement | nul
 
 // Table download button with dropdown
 const TableDownloadButton: React.FC<{ tableRef: React.RefObject<HTMLDivElement | null> }> = ({ tableRef }) => {
+  const { t } = useTranslation();
   const [showMenu, setShowMenu] = React.useState(false);
   const menuRef = React.useRef<HTMLDivElement>(null);
 
@@ -356,10 +359,10 @@ const TableDownloadButton: React.FC<{ tableRef: React.RefObject<HTMLDivElement |
 
   return (
     <div className="relative" ref={menuRef}>
-      <button
+<button
         onClick={() => setShowMenu(!showMenu)}
         className="p-1 rounded hover:bg-interactive-hover/60 text-muted-foreground hover:text-foreground transition-colors"
-        title="Download table"
+        title={t('chat.markdown.downloadTable')}
       >
         <RiDownloadLine className="size-3.5" />
       </button>
@@ -424,6 +427,7 @@ const getMermaidInfo = (children: React.ReactNode): { isMermaid: boolean; source
 };
 
 const CodeBlockWrapper: React.FC<CodeBlockWrapperProps> = ({ children, className, style, ...props }) => {
+  const { t } = useTranslation();
   const [copied, setCopied] = React.useState(false);
   const codeRef = React.useRef<HTMLDivElement>(null);
   const mermaidInfo = getMermaidInfo(children);
@@ -514,10 +518,10 @@ const CodeBlockWrapper: React.FC<CodeBlockWrapperProps> = ({ children, className
         {codeChild}
       </pre>
       <div className="absolute top-1 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-        <button
+<button
           onClick={handleCopy}
           className="p-1 rounded hover:bg-interactive-hover/60 text-muted-foreground hover:text-foreground transition-colors"
-          title="Copy"
+          title={t('chat.markdown.copy')}
         >
           {copied ? <RiCheckLine className="size-3.5" /> : <RiFileCopyLine className="size-3.5" />}
         </button>

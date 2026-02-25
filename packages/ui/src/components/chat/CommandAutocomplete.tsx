@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { RiCommandLine, RiFileLine, RiFlashlightLine, RiRefreshLine, RiScissorsLine, RiTerminalBoxLine, RiArrowGoBackLine, RiArrowGoForwardLine, RiTimeLine } from '@remixicon/react';
 import { cn, fuzzyMatch } from '@/lib/utils';
 import { useSessionStore } from '@/stores/useSessionStore';
@@ -65,6 +66,7 @@ export const CommandAutocomplete = React.forwardRef<CommandAutocompleteHandle, C
   const pointerStartRef = React.useRef<{ x: number; y: number } | null>(null);
   const pointerMovedRef = React.useRef(false);
   const ignoreTabClickRef = React.useRef(false);
+  const { t } = useTranslation();
 
   React.useEffect(() => {
     const handlePointerDown = (event: MouseEvent | TouchEvent) => {
@@ -257,11 +259,11 @@ export const CommandAutocomplete = React.forwardRef<CommandAutocompleteHandle, C
     >
       {showTabs ? (
         <div className="px-2 pt-2 pb-1 border-b border-border/60">
-          <div className="flex items-center gap-1 rounded-lg bg-[var(--surface-elevated)] p-1">
+        <div className="flex items-center gap-1 rounded-lg bg-[var(--surface-elevated)] p-1">
             {([
-              { id: 'commands' as const, label: 'Commands' },
-              { id: 'agents' as const, label: 'Agents' },
-              { id: 'files' as const, label: 'Files' },
+              { id: 'commands' as const, label: t('chat.autocomplete.tabs.commands') },
+              { id: 'agents' as const, label: t('chat.autocomplete.tabs.agents') },
+              { id: 'files' as const, label: t('chat.autocomplete.tabs.files') },
             ]).map((tab) => (
               <button
                 key={tab.id}
@@ -401,14 +403,14 @@ export const CommandAutocomplete = React.forwardRef<CommandAutocompleteHandle, C
             })}
             {commands.length === 0 && (
               <div className="px-3 py-2 typography-ui-label text-muted-foreground">
-                No commands found
+                {t('chat.autocomplete.noCommandsFound')}
               </div>
             )}
           </div>
         )}
       </ScrollableOverlay>
       <div className="px-3 pt-1 pb-1.5 border-t typography-meta text-muted-foreground">
-        ↑↓ navigate • Enter select • Esc close
+        {t('chat.autocomplete.keyboardHint')}
       </div>
     </div>
   );

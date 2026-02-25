@@ -3,6 +3,7 @@ import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { RiArrowLeftSLine, RiArrowRightSLine, RiBrainAi3Line, RiCloseLine, RiFileImageLine, RiFileList2Line, RiFilePdfLine, RiFileSearchLine, RiFolder6Line, RiGitBranchLine, RiGlobalLine, RiListCheck3, RiLoader4Line, RiPencilAiLine, RiSearchLine, RiTaskLine, RiTerminalBoxLine, RiToolsLine } from '@remixicon/react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { createPortal } from 'react-dom';
+import { useTranslation } from 'react-i18next';
 
 import { cn } from '@/lib/utils';
 import { SimpleMarkdownRenderer } from '../MarkdownRenderer';
@@ -244,6 +245,7 @@ const ImagePreviewDialog: React.FC<{
     onOpenChange: (open: boolean) => void;
     isMobile: boolean;
 }> = ({ popup, onOpenChange, isMobile }) => {
+    const { t } = useTranslation();
     const gallery = React.useMemo(() => {
         const baseImage = popup.image;
         if (!baseImage) return [] as Array<{ url: string; mimeType?: string; filename?: string; size?: number }>;
@@ -376,7 +378,7 @@ const ImagePreviewDialog: React.FC<{
                         onMouseDown={(event) => event.stopPropagation()}
                         onClick={showPrevious}
                         className="absolute left-3 top-1/2 -translate-y-1/2 z-10 h-10 w-10 flex items-center justify-center rounded-full bg-black/25 text-foreground/90 backdrop-blur-sm hover:bg-black/35 focus:outline-none focus:ring-2 focus:ring-primary/60"
-                        aria-label="Previous image"
+                        aria-label={t('chat.preview.previousImage')}
                     >
                         <RiArrowLeftSLine className="h-6 w-6" />
                     </button>
@@ -385,7 +387,7 @@ const ImagePreviewDialog: React.FC<{
                         onMouseDown={(event) => event.stopPropagation()}
                         onClick={showNext}
                         className="absolute right-3 top-1/2 -translate-y-1/2 z-10 h-10 w-10 flex items-center justify-center rounded-full bg-black/25 text-foreground/90 backdrop-blur-sm hover:bg-black/35 focus:outline-none focus:ring-2 focus:ring-primary/60"
-                        aria-label="Next image"
+                        aria-label={t('chat.preview.nextImage')}
                     >
                         <RiArrowRightSLine className="h-6 w-6" />
                     </button>
@@ -414,7 +416,7 @@ const ImagePreviewDialog: React.FC<{
                             type="button"
                             className="h-8 w-8 flex items-center justify-center rounded-lg text-muted-foreground/80 hover:text-foreground focus:outline-none focus:ring-2 focus:ring-primary/60"
                             onClick={() => onOpenChange(false)}
-                            aria-label="Close image preview"
+                            aria-label={t('chat.preview.closeImage')}
                         >
                             <RiCloseLine className="h-4 w-4" />
                         </button>
@@ -550,6 +552,7 @@ const MermaidPreviewDialog: React.FC<{
     onOpenChange: (open: boolean) => void;
     isMobile: boolean;
 }> = ({ popup, onOpenChange, isMobile }) => {
+    const { t } = useTranslation();
     const [source, setSource] = React.useState<string>(popup.mermaid?.source || '');
     const [status, setStatus] = React.useState<'idle' | 'loading' | 'ready' | 'error'>(popup.mermaid?.source ? 'ready' : 'idle');
     const [errorMessage, setErrorMessage] = React.useState<string>('');
@@ -618,7 +621,7 @@ const MermaidPreviewDialog: React.FC<{
         const target = popup.mermaid;
         if (!target?.url) {
             setStatus('error');
-            setErrorMessage('Missing Mermaid source URL.');
+            setErrorMessage(t('chat.error.mermaid.missingUrl'));
             return;
         }
 
@@ -642,22 +645,22 @@ const MermaidPreviewDialog: React.FC<{
             } else if (target.url.toLowerCase().startsWith('file://')) {
                 const normalizedPath = normalizeFilePath(target.url);
                 if (!normalizedPath) {
-                    throw new Error('Invalid local file path for Mermaid preview.');
+                    throw new Error(t('chat.error.mermaid.invalidPath'));
                 }
                 const response = await fetch(`/api/fs/raw?path=${encodeURIComponent(normalizedPath)}`);
                 if (!response.ok) {
-                    throw new Error(`Failed to read diagram file (${response.status})`);
+                    throw new Error(t('chat.error.mermaid.readFailed', { status: response.status }));
                 }
                 resolvedSource = await response.text();
             } else {
                 const resolvedUrl = new URL(target.url, window.location.origin);
                 if (resolvedUrl.protocol !== 'http:' && resolvedUrl.protocol !== 'https:') {
-                    throw new Error('Unsupported Mermaid URL protocol.');
+                    throw new Error(t('chat.error.mermaid.unsupportedProtocol'));
                 }
 
                 const response = await fetch(resolvedUrl.toString());
                 if (!response.ok) {
-                    throw new Error(`Failed to load diagram (${response.status})`);
+                    throw new Error(t('chat.error.mermaid.loadFailed', { status: response.status }));
                 }
                 resolvedSource = await response.text();
             }
@@ -673,9 +676,9 @@ const MermaidPreviewDialog: React.FC<{
                 return;
             }
             setStatus('error');
-            setErrorMessage(error instanceof Error ? error.message : 'Unable to load Mermaid diagram.');
+            setErrorMessage(error instanceof Error ? error.message : t('chat.error.mermaid.unableToLoad'));
         }
-    }, [decodeDataUrl, normalizeFilePath, popup.mermaid]);
+    }, [decodeDataUrl, normalizeFilePath, popup.mermaid, t]);
 
     React.useEffect(() => {
         if (!popup.open || !popup.mermaid) {
@@ -818,7 +821,7 @@ const MermaidPreviewDialog: React.FC<{
                             type="button"
                             className="h-8 w-8 flex items-center justify-center rounded-lg text-muted-foreground/80 hover:text-foreground focus:outline-none focus:ring-2 focus:ring-primary/60"
                             onClick={() => onOpenChange(false)}
-                            aria-label="Close diagram preview"
+                            aria-label={t('chat.preview.closeDiagram')}
                         >
                             <RiCloseLine className="h-4 w-4" />
                         </button>
@@ -831,14 +834,14 @@ const MermaidPreviewDialog: React.FC<{
                             {status === 'loading' && (
                                 <div className="h-full min-h-28 flex items-center justify-center gap-2 text-muted-foreground typography-meta">
                                     <RiLoader4Line className="h-4 w-4 animate-spin" />
-                                    <span>Loading diagram...</span>
+                                    <span>{t('chat.status.mermaidLoading')}</span>
                                 </div>
                             )}
 
                             {status === 'error' && (
                                 <div className="rounded-xl border border-border/30 bg-muted/20 p-3 space-y-3">
                                     <p className="typography-markdown" style={{ color: 'var(--status-error)' }}>
-                                        {errorMessage || 'Unable to render Mermaid diagram.'}
+                                        {errorMessage || t('chat.error.mermaid.renderFailed')}
                                     </p>
                                     <button
                                         type="button"
@@ -851,7 +854,7 @@ const MermaidPreviewDialog: React.FC<{
                                             color: 'var(--surface-foreground)',
                                         }}
                                     >
-                                        Retry
+                                        {t('common.retry')}
                                     </button>
                                 </div>
                             )}

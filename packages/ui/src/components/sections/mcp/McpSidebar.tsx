@@ -113,11 +113,11 @@ export const McpSidebar: React.FC<McpSidebarProps> = ({ onItemSelect }) => {
   const handleDelete = async () => {
     if (!deleteTarget) return;
     setIsDeleting(true);
-    const success = await deleteMcp(deleteTarget.name);
+const success = await deleteMcp(deleteTarget.name);
     if (success) {
-      toast.success(`MCP server "${deleteTarget.name}" deleted`);
+      toast.success(t('settings.mcp.deleteSuccess', { name: deleteTarget.name }));
     } else {
-      toast.error('Failed to delete MCP server');
+      toast.error(t('settings.mcp.deleteFailed'));
     }
     setDeleteTarget(null);
     setIsDeleting(false);

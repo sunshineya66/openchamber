@@ -11,6 +11,7 @@
  */
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useBrowserVoice } from '@/hooks/useBrowserVoice';
 import { useConfigStore } from '@/stores/useConfigStore';
 import { browserVoiceService } from '@/lib/voice/browserVoiceService';
@@ -33,11 +34,11 @@ import { toast } from '@/components/ui/toast';
 
 // Status text for accessibility and labels
 const statusLabels: Record<string, string> = {
-    idle: 'Start Voice',
-    listening: 'Listening',
-    processing: 'Processing',
-    speaking: 'AI Speaking',
-    error: 'Voice Error',
+    idle: 'features.voice.startVoice',
+    listening: 'features.voice.listening',
+    processing: 'features.voice.processing',
+    speaking: 'features.voice.speaking',
+    error: 'features.voice.error',
 };
 
 // iOS Safari detection utility
@@ -70,6 +71,7 @@ const normalizeVoiceErrorMessage = (error: string): string => {
  * Browser Voice Button with language selection
  */
 export function BrowserVoiceButton() {
+    const { t } = useTranslation();
     const voiceModeEnabled = useConfigStore((s) => s.voiceModeEnabled);
     
     const {
@@ -133,12 +135,12 @@ export function BrowserVoiceButton() {
         }
     }, [isError, error]);
 
-    // Status text for accessibility
+// Status text for accessibility
     const statusText = isError
-        ? error || 'Voice Error'
+        ? error || t('features.voice.error')
         : conversationMode && status === 'idle'
-          ? 'Start Voice (Continuous mode on)'
-          : statusLabels[status] || 'Start Voice';
+          ? t('features.voice.startContinuousOn')
+          : t(statusLabels[status] || 'features.voice.startVoice');
 
     // Tooltip content based on state
     const getTooltipContent = () => {
@@ -360,15 +362,15 @@ export function BrowserVoiceButton() {
                 </Tooltip>
             </TooltipProvider>
 
-            {/* Conversation mode toggle button */}
+{/* Conversation mode toggle button */}
             {(status === 'idle' || status === 'error') && (
                 <Button
                     size="icon"
                     variant="ghost"
                     onPointerDownCapture={(event) => event.stopPropagation()}
                     onClick={handleToggleConversationMode}
-                    aria-label={conversationMode ? 'Continuous mode on' : 'Continuous mode off'}
-                    title={conversationMode ? 'Continuous mode on' : 'Continuous mode off'}
+                    aria-label={conversationMode ? t('features.voice.continuousOn') : t('features.voice.continuousOff')}
+                    title={conversationMode ? t('features.voice.continuousOn') : t('features.voice.continuousOff')}
                     className={
                         `${buttonSizeClass} p-0 ${clearHoverBackgroundClass} ${conversationMode ? 'text-[var(--status-info)] hover:text-[var(--status-info)]' : 'text-muted-foreground hover:text-foreground'}`
                     }

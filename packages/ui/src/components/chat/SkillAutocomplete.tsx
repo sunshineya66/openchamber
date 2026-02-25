@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { cn, fuzzyMatch } from '@/lib/utils';
 import { useSkillsStore } from '@/stores/useSkillsStore';
 import { ScrollableOverlay } from '@/components/ui/ScrollableOverlay';
@@ -31,6 +32,7 @@ export const SkillAutocomplete = React.forwardRef<SkillAutocompleteHandle, Skill
   const [filteredSkills, setFilteredSkills] = React.useState<SkillInfo[]>([]);
   const itemRefs = React.useRef<(HTMLDivElement | null)[]>([]);
   const { skills, loadSkills } = useSkillsStore();
+  const { t } = useTranslation();
 
   React.useEffect(() => {
     // Always trigger loadSkills when autocomplete opens to ensure project context is fresh
@@ -158,12 +160,12 @@ export const SkillAutocomplete = React.forwardRef<SkillAutocompleteHandle, Skill
           </div>
         ) : (
           <div className="px-3 py-2 typography-ui-label text-muted-foreground">
-            No skills found
+            {t('chat.autocomplete.noSkillsFound')}
           </div>
         )}
       </ScrollableOverlay>
       <div className="px-3 pt-1 pb-1.5 border-t typography-meta text-muted-foreground">
-        ↑↓ navigate • Enter select • Esc close
+        {t('chat.autocomplete.keyboardHint')}
       </div>
     </div>
   );

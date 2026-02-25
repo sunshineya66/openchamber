@@ -52,6 +52,7 @@ import { useSessionStore } from '@/stores/useSessionStore';
 import { useUIStore } from '@/stores/useUIStore';
 import { useModelLists } from '@/hooks/useModelLists';
 import { useIsTextTruncated } from '@/hooks/useIsTextTruncated';
+import { useTranslation } from 'react-i18next';
 import type { MobileControlsPanel } from './mobileControlsUtils';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -310,6 +311,8 @@ export const ModelControls: React.FC<ModelControlsProps> = ({
         getCurrentAgent,
         getVisibleAgents,
     } = useConfigStore();
+
+    const { t } = useTranslation();
 
     // Use visible agents (excludes hidden internal agents)
     const agents = getVisibleAgents();
@@ -1489,7 +1492,7 @@ export const ModelControls: React.FC<ModelControlsProps> = ({
             <MobileOverlayPanel
                 open={activeMobilePanel === 'model'}
                 onClose={closeMobilePanel}
-                title="Select model"
+                title={t('chat.model.select')}
             >
                 <div className="flex flex-col gap-2">
                     <div>
@@ -1498,7 +1501,7 @@ export const ModelControls: React.FC<ModelControlsProps> = ({
                             <Input
                                 value={mobileModelQuery}
                                 onChange={(event) => setMobileModelQuery(event.target.value)}
-                                placeholder="Search providers or models"
+                                placeholder={t('chat.model.search')}
                                 className="pl-7 h-9 rounded-xl border-border/40 bg-[var(--surface-elevated)] typography-meta"
                             />
                             {mobileModelQuery && (
@@ -1506,7 +1509,7 @@ export const ModelControls: React.FC<ModelControlsProps> = ({
                                     type="button"
                                     onClick={() => setMobileModelQuery('')}
                                     className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                                    aria-label="Clear search"
+                                    aria-label={t('chat.model.clearSearch')}
                                 >
                                     <RiCloseCircleLine className="h-4 w-4" />
                                 </button>
@@ -1717,8 +1720,8 @@ export const ModelControls: React.FC<ModelControlsProps> = ({
                                                                 ? "text-primary"
                                                                 : "text-muted-foreground"
                                                         )}
-                                                        aria-label={isFavoriteModel(provider.id as string, model.id as string) ? "Unfavorite" : "Favorite"}
-                                                        title={isFavoriteModel(provider.id as string, model.id as string) ? "Remove from favorites" : "Add to favorites"}
+                                                        aria-label={isFavoriteModel(provider.id as string, model.id as string) ? t('chat.model.unfavorite') : t('chat.model.addToFavorites')}
+                                                        title={isFavoriteModel(provider.id as string, model.id as string) ? t('chat.model.unfavorite') : t('chat.model.addToFavorites')}
                                                     >
                                                         {isFavoriteModel(provider.id as string, model.id as string) ? (
                                                             <RiStarFill className="h-4 w-4" />
@@ -1763,7 +1766,7 @@ export const ModelControls: React.FC<ModelControlsProps> = ({
             <MobileOverlayPanel
                 open={activeMobilePanel === 'variant'}
                 onClose={closeMobilePanel}
-                title="Thinking"
+                title={t('chat.model.thinking')}
             >
                 <div className="flex flex-col gap-1.5">
                     <button
@@ -1811,7 +1814,7 @@ export const ModelControls: React.FC<ModelControlsProps> = ({
             <MobileOverlayPanel
                 open={activeMobilePanel === 'agent'}
                 onClose={closeMobilePanel}
-                title="Select agent"
+                title={t('chat.agent.select')}
                 contentMaxHeightClassName="max-h-[min(52dvh,360px)]"
                 footer={(
                     <div className="flex items-center justify-between">
@@ -2080,8 +2083,8 @@ export const ModelControls: React.FC<ModelControlsProps> = ({
                             "model-favorite-button flex h-4 w-4 items-center justify-center hover:text-primary/80",
                             isFavorite ? "text-primary" : "text-muted-foreground"
                         )}
-                        aria-label={isFavorite ? "Unfavorite" : "Favorite"}
-                        title={isFavorite ? "Remove from favorites" : "Add to favorites"}
+                        aria-label={isFavorite ? t('chat.model.unfavorite') : t('chat.model.addToFavorites')}
+                        title={isFavorite ? t('chat.model.unfavorite') : t('chat.model.addToFavorites')}
                     >
                         {isFavorite ? (
                             <RiStarFill className="h-3.5 w-3.5" />
@@ -2234,7 +2237,7 @@ export const ModelControls: React.FC<ModelControlsProps> = ({
                                     <RiSearchLine className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
                                     <Input
                                         type="text"
-                                        placeholder="Search models"
+                                        placeholder={t('chat.model.searchModels')}
                                         value={desktopModelQuery}
                                         onChange={(e) => setDesktopModelQuery(e.target.value)}
                                         onKeyDown={handleModelKeyDown}
@@ -2385,7 +2388,7 @@ export const ModelControls: React.FC<ModelControlsProps> = ({
         if (!currentAgent) {
             return (
                 <TooltipContent align="start" sideOffset={8} className="max-w-[320px]">
-                    <div className="min-w-[200px] typography-meta text-muted-foreground">No agent selected.</div>
+                    <div className="min-w-[200px] typography-meta text-muted-foreground">{t('chat.agent.none')}</div>
                 </TooltipContent>
             );
         }
@@ -2637,7 +2640,7 @@ export const ModelControls: React.FC<ModelControlsProps> = ({
                                         <RiSearchLine className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
                                         <Input
                                             type="text"
-                                            placeholder="Search agents"
+                                            placeholder={t('chat.agent.search')}
                                             value={agentSearchQuery}
                                             onChange={(e) => setAgentSearchQuery(e.target.value)}
                                             onKeyDown={(e) => {

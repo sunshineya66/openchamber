@@ -1,5 +1,6 @@
 import React from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { getLanguageFromExtension } from '@/lib/toolHelpers';
 import { parseDiffToUnified } from './message/toolRenderers';
@@ -10,12 +11,14 @@ interface DiffPreviewProps {
     filePath?: string;
 }
 
-export const DiffPreview: React.FC<DiffPreviewProps> = ({ diff, syntaxTheme, filePath }) => (
+export const DiffPreview: React.FC<DiffPreviewProps> = ({ diff, syntaxTheme, filePath }) => {
+    const { t } = useTranslation();
+    return (
     <div className="typography-code px-1 pb-1 pt-0 space-y-0">
         {parseDiffToUnified(diff).map((hunk, hunkIdx) => (
             <div key={hunkIdx} className="-mx-1 px-1 border-b border-border/20 last:border-b-0">
                 <div className="bg-muted/20 px-2 py-1 typography-meta font-medium text-muted-foreground border-b border-border/10 break-words -mx-1">
-                    {`${hunk.file || filePath?.split('/').pop() || 'file'} (line ${hunk.oldStart})`}
+                    {`${hunk.file || filePath?.split('/').pop() || t('chat.tool.file')} (line ${hunk.oldStart})`}
                 </div>
 
                 <div>
@@ -71,7 +74,8 @@ export const DiffPreview: React.FC<DiffPreviewProps> = ({ diff, syntaxTheme, fil
             </div>
         ))}
     </div>
-);
+    );
+};
 
 interface WritePreviewProps {
     content: string;
@@ -80,11 +84,12 @@ interface WritePreviewProps {
 }
 
 export const WritePreview: React.FC<WritePreviewProps> = ({ content, syntaxTheme, filePath }) => {
+    const { t } = useTranslation();
     const lines = content.split('\n');
     const language = getLanguageFromExtension(filePath ?? '') || 'text';
-    const displayPath = filePath?.split('/').pop() || 'New file';
+    const displayPath = filePath?.split('/').pop() || t('chat.tool.newFile');
     const lineCount = Math.max(lines.length, 1);
-    const headerLineLabel = lineCount === 1 ? 'line 1' : `lines 1-${lineCount}`;
+    const headerLineLabel = lineCount === 1 ? t('chat.tool.lineOne') : t('chat.tool.lineRange', { count: lineCount });
 
     return (
         <div className="w-full min-w-0">

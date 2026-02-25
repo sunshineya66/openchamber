@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import type { Part } from '@opencode-ai/sdk/v2';
 
 import UserTextPart from './parts/UserTextPart';
@@ -141,6 +142,7 @@ const UserSubtaskPart: React.FC<{ part: SubtaskPartLike }> = ({ part }) => {
 };
 
 const UserShellActionPart: React.FC<{ part: ShellActionPartLike }> = ({ part }) => {
+    const { t } = useTranslation();
     const [expanded, setExpanded] = React.useState(false);
     const [copiedOutput, setCopiedOutput] = React.useState(false);
     const copiedResetTimeoutRef = React.useRef<number | null>(null);
@@ -217,8 +219,8 @@ const UserShellActionPart: React.FC<{ part: ShellActionPartLike }> = ({ part }) 
                             onClick={() => {
                                 void copyOutputToClipboard();
                             }}
-                            aria-label={copiedOutput ? 'Copied' : 'Copy output'}
-                            title={copiedOutput ? 'Copied' : 'Copy output'}
+aria-label={copiedOutput ? t('chat.message.copy.copied') : t('chat.message.copy.output')}
+                            title={copiedOutput ? t('chat.message.copy.copied') : t('chat.message.copy.output')}
                         >
                             {copiedOutput ? <RiCheckLine className="h-3.5 w-3.5" /> : <RiFileCopyLine className="h-3.5 w-3.5" />}
                         </button>
@@ -297,6 +299,7 @@ const UserMessageBody: React.FC<{
     onRevert?: () => void;
     onFork?: () => void;
 }> = ({ messageId, parts, isMobile, hasTouchInput, hasTextContent, onCopyMessage, copiedMessage, onShowPopup, agentMention, onRevert, onFork }) => {
+    const { t } = useTranslation();
     const [copyHintVisible, setCopyHintVisible] = React.useState(false);
     const copyHintTimeoutRef = React.useRef<number | null>(null);
 
@@ -433,7 +436,7 @@ const UserMessageBody: React.FC<{
                                     variant="ghost"
                                     size="icon"
                                     className="h-6 w-6 text-muted-foreground bg-transparent hover:text-foreground hover:!bg-transparent active:!bg-transparent focus-visible:!bg-transparent focus-visible:ring-2 focus-visible:ring-primary/50"
-                                    aria-label="Revert to this message"
+                                    aria-label={t('chat.message.revert')}
                                     onPointerDown={(event) => event.stopPropagation()}
                                     onClick={(event) => {
                                         event.stopPropagation();
@@ -475,7 +478,7 @@ const UserMessageBody: React.FC<{
                                     size="icon"
                                     data-visible={copyHintVisible || isMessageCopied ? 'true' : undefined}
                                     className="h-6 w-6 text-muted-foreground bg-transparent hover:text-foreground hover:!bg-transparent active:!bg-transparent focus-visible:!bg-transparent focus-visible:ring-2 focus-visible:ring-primary/50"
-                                    aria-label="Copy message text"
+aria-label={t('chat.message.copy.text')}
                                     onPointerDown={(event) => event.stopPropagation()}
                                     onClick={handleCopyButtonClick}
                                     onFocus={() => setCopyHintVisible(true)}
@@ -492,7 +495,7 @@ const UserMessageBody: React.FC<{
                                     )}
                                 </Button>
                             </TooltipTrigger>
-                            <TooltipContent sideOffset={6}>Copy message</TooltipContent>
+                            <TooltipContent sideOffset={6}>{t('chat.message.copy.message')}</TooltipContent>
                         </Tooltip>
                     )}
                     </div>
@@ -527,6 +530,7 @@ const AssistantMessageBody: React.FC<Omit<MessageBodyProps, 'isUser'>> = ({
     errorMessage,
 }) => {
 
+    const { t } = useTranslation();
     void _streamPhase;
     void _allowAnimation;
     const [copyHintVisible, setCopyHintVisible] = React.useState(false);
@@ -565,13 +569,13 @@ const AssistantMessageBody: React.FC<Omit<MessageBodyProps, 'isUser'>> = ({
     const showMessageTTSButtons = useConfigStore((state) => state.showMessageTTSButtons);
     const voiceProvider = useConfigStore((state) => state.voiceProvider);
 
-    const readAloudTooltip = React.useMemo(() => {
+const readAloudTooltip = React.useMemo(() => {
         if (isTTSPlaying) {
-            return 'Stop speaking';
+            return t('chat.message.tts.stop');
         }
         const providerLabel = voiceProvider === 'browser' ? 'Browser' : voiceProvider === 'openai' ? 'OpenAI' : 'Say';
-        return `Read aloud (${providerLabel} voice)`;
-    }, [isTTSPlaying, voiceProvider]);
+        return `${t('chat.message.tts.play')} (${providerLabel} voice)`;
+    }, [isTTSPlaying, voiceProvider, t]);
 
 
     const hasTools = toolParts.length > 0;
@@ -1137,8 +1141,8 @@ const AssistantMessageBody: React.FC<Omit<MessageBodyProps, 'isUser'>> = ({
                                   'h-8 w-8 text-muted-foreground bg-transparent hover:text-foreground hover:!bg-transparent active:!bg-transparent focus-visible:!bg-transparent focus-visible:ring-2 focus-visible:ring-primary/50',
                                   !hasCopyableText && 'opacity-50'
                               )}
-                              disabled={!hasCopyableText}
-                              aria-label="Copy message text"
+disabled={!hasCopyableText}
+                              aria-label={t('chat.message.copy.textMobile')}
                               aria-hidden={!hasCopyableText}
                               onPointerDown={(event) => event.stopPropagation()}
                               onClick={handleCopyButtonClick}
@@ -1159,8 +1163,8 @@ const AssistantMessageBody: React.FC<Omit<MessageBodyProps, 'isUser'>> = ({
                                   <RiFileCopyLine className="h-3.5 w-3.5" />
                               )}
                           </Button>
-                      </TooltipTrigger>
-                      <TooltipContent sideOffset={6}>Copy answer</TooltipContent>
+</TooltipTrigger>
+                      <TooltipContent sideOffset={6}>{t('chat.message.copy.answer')}</TooltipContent>
                   </Tooltip>
               )}
               <Tooltip delayDuration={1000}>
@@ -1205,7 +1209,7 @@ const AssistantMessageBody: React.FC<Omit<MessageBodyProps, 'isUser'>> = ({
                                  'h-8 w-8 bg-transparent hover:!bg-transparent active:!bg-transparent focus-visible:!bg-transparent focus-visible:ring-2 focus-visible:ring-primary/50',
                                  isTTSPlaying ? 'text-green-500' : 'text-muted-foreground hover:text-foreground'
                              )}
-                             aria-label={isTTSPlaying ? 'Stop speaking' : 'Read aloud'}
+                             aria-label={isTTSPlaying ? t('chat.message.tts.stop') : t('chat.message.tts.play')}
                              onPointerDown={(event) => event.stopPropagation()}
                              onClick={handleTTSClick}
                          >

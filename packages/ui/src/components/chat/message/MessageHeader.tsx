@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { RiAiAgentLine, RiBrainAi3Line, RiUser3Line } from '@remixicon/react';
 import { cn } from '@/lib/utils';
 import { getAgentColor } from '@/lib/agentColors';
@@ -15,6 +16,7 @@ interface MessageHeaderProps {
 }
 
 const MessageHeader: React.FC<MessageHeaderProps> = ({ isUser, providerID, agentName, modelName, variant, isDarkTheme }) => {
+    const { t } = useTranslation();
     const { src: logoSrc, onError: handleLogoError, hasLogo } = useProviderLogo(providerID);
 
     return (
@@ -55,7 +57,7 @@ const MessageHeader: React.FC<MessageHeaderProps> = ({ isUser, providerID, agent
                                     isUser ? 'text-primary' : 'text-foreground'
                                 )}
                             >
-                                {isUser ? 'You' : (modelName || 'Assistant')}
+                                {isUser ? t('chat.message.you') : (modelName || t('chat.message.assistant'))}
                             </h3>
                             {!isUser && agentName && (
                                 <div

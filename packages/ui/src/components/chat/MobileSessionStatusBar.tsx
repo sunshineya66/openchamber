@@ -24,6 +24,7 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { useDrawerSwipe } from '@/hooks/useDrawerSwipe';
+import { useTranslation } from 'react-i18next';
 
 interface MobileSessionStatusBarProps {
   onSessionSwitch?: (sessionId: string) => void;
@@ -302,6 +303,7 @@ function SessionItem({
   onDoubleClick?: () => void;
   needsAttention: (sessionId: string) => boolean;
 }) {
+  const { t } = useTranslation();
   const agentName = getSessionAgentName(session);
   const agentColor = getAgentColor(agentName);
   const extraCount = (session._runningChildrenCount || 0) + (session._statusType !== 'idle' ? 1 : 0) - 1 - (session._childIndicators?.length || 0);
@@ -349,7 +351,7 @@ function SessionItem({
                 <div
                   key={child.id}
                   className="flex-shrink-0"
-                  title={`Sub-session: ${getSessionTitle(child)}`}
+                  title={t('chat.session.subSession', { title: getSessionTitle(child) })}
                 >
                   <RiLoader4Line
                     className="h-2.5 w-2.5 animate-spin"
@@ -573,6 +575,7 @@ function ProjectBar({
   onRemoveProject,
   homeDirectory
 }: ProjectBarProps) {
+  const { t } = useTranslation();
   const scrollRef = React.useRef<HTMLDivElement>(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
   const [projectToDelete, setProjectToDelete] = React.useState<ProjectEntry | null>(null);
@@ -598,17 +601,17 @@ function ProjectBar({
     }
     setDeleteDialogOpen(false);
     setProjectToDelete(null);
-  };
+};
 
   if (projects.length === 0) {
     return (
       <div className="flex items-center gap-2 px-2 py-1 border-b border-[var(--interactive-border)] bg-transparent">
-        <span className="text-[11px] text-[var(--surface-mutedForeground)]">No projects</span>
+        <span className="text-[11px] text-[var(--surface-mutedForeground)]">{t('chat.session.noProjects')}</span>
         <button
           type="button"
           onClick={onAddProject}
           className="flex items-center justify-center !py-1.5 px-2 rounded-md border border-[var(--primary-base)]/60 bg-[var(--primary-base)]/5 text-[var(--primary-base)]/80 hover:text-[var(--primary-base)] hover:bg-[var(--primary-base)]/10 !min-h-0"
-          aria-label="Add project"
+          aria-label={t('chat.session.addProject')}
         >
           <RiAddLine className="h-3 w-3" />
         </button>
@@ -684,7 +687,7 @@ function ProjectBar({
         type="button"
         onClick={onAddProject}
         className="flex items-center justify-center !py-1.5 px-2 rounded-md border border-[var(--primary-base)]/60 bg-[var(--primary-base)]/5 text-[var(--primary-base)]/80 hover:text-[var(--primary-base)] hover:bg-[var(--primary-base)]/10 shrink-0 !min-h-0"
-        aria-label="Add project"
+        aria-label={t('chat.session.addProject')}
       >
         <RiAddLine className="h-3.5 w-3.5" />
       </button>

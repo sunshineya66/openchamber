@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { RiGitBranchLine } from '@remixicon/react';
 
 import { OpenChamberLogo } from '@/components/ui/OpenChamberLogo';
@@ -8,25 +9,6 @@ import { useRuntimeAPIs } from '@/hooks/useRuntimeAPIs';
 import { useEffectiveDirectory } from '@/hooks/useEffectiveDirectory';
 import { useGitStatus, useGitStore } from '@/stores/useGitStore';
 
-const phrases = [
-    "Fix the failing tests",
-    "Refactor this to be more readable",
-    "Add form validation",
-    "Optimize this function",
-    "Write tests for this",
-    "Explain how this works",
-    "Add a new feature",
-    "Help me debug this",
-    "Review my code",
-    "Simplify this logic",
-    "Add error handling",
-    "Create a new component",
-    "Update the documentation",
-    "Find the bug here",
-    "Improve performance",
-    "Add type definitions",
-];
-
 interface ChatEmptyStateProps {
     showDraftContext?: boolean;
 }
@@ -34,6 +16,8 @@ interface ChatEmptyStateProps {
 const ChatEmptyState: React.FC<ChatEmptyStateProps> = ({
     showDraftContext = false,
 }) => {
+    const { t } = useTranslation();
+    const phrases = t('chat.emptyState.phrases', { returnObjects: true }) as string[];
     const { currentTheme } = useThemeSystem();
     const { git } = useRuntimeAPIs();
     const effectiveDirectory = useEffectiveDirectory();

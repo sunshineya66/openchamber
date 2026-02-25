@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import {
   Dialog,
@@ -38,6 +39,7 @@ export const InstallConflictsDialog: React.FC<InstallConflictsDialogProps> = ({
   conflicts,
   onConfirm,
 }) => {
+  const { t } = useTranslation();
   const [decisions, setDecisions] = React.useState<Record<string, ConflictDecision>>({});
 
   React.useEffect(() => {
@@ -62,19 +64,19 @@ export const InstallConflictsDialog: React.FC<InstallConflictsDialogProps> = ({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl">
-        <DialogHeader>
-          <DialogTitle>Skills already exist</DialogTitle>
+<DialogHeader>
+          <DialogTitle>{t('features.skills.skillsAlreadyExist')}</DialogTitle>
           <DialogDescription>
-            Some selected skills are already installed in this scope. Choose whether to skip or overwrite them.
+            {t('features.skills.alreadyInstalledDescription')}
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-3">
           <div className="flex items-center justify-between gap-2">
-            <span className="typography-meta text-muted-foreground">{conflicts.length} conflict(s)</span>
+            <span className="typography-meta text-muted-foreground">{t('features.skills.conflictCount', { count: conflicts.length })}</span>
             <div className="flex items-center gap-2">
-              <ButtonSmall variant="outline" size="xs" className="!font-normal" onClick={() => setAll('skip')}>Skip all</ButtonSmall>
-              <ButtonSmall variant="outline" size="xs" className="!font-normal" onClick={() => setAll('overwrite')}>Overwrite all</ButtonSmall>
+              <ButtonSmall variant="outline" size="xs" className="!font-normal" onClick={() => setAll('skip')}>{t('features.skills.skipAll')}</ButtonSmall>
+              <ButtonSmall variant="outline" size="xs" className="!font-normal" onClick={() => setAll('overwrite')}>{t('features.skills.overwriteAll')}</ButtonSmall>
             </div>
           </div>
 
@@ -87,7 +89,7 @@ export const InstallConflictsDialog: React.FC<InstallConflictsDialogProps> = ({
                 <div className="min-w-0">
                   <div className="typography-ui-label truncate">{conflict.skillName}</div>
                   <div className="typography-micro text-muted-foreground">
-                    Installed in {conflict.scope} / {conflict.source || 'opencode'}
+                    {t('features.skills.installedIn', { scope: conflict.scope, source: conflict.source || 'opencode' })}
                   </div>
                 </div>
 
@@ -96,14 +98,14 @@ export const InstallConflictsDialog: React.FC<InstallConflictsDialogProps> = ({
                   onValueChange={(v) => setDecisions((prev) => ({ ...prev, [conflict.skillName]: v as ConflictDecision }))}
                 >
                   <SelectTrigger className="w-fit">
-                    <span className="capitalize">{decisions[conflict.skillName] || 'skip'}</span>
+                    <span className="capitalize">{decisions[conflict.skillName] || t('features.skills.skip')}</span>
                   </SelectTrigger>
                   <SelectContent align="end">
                     <SelectItem value="skip" className="pr-2 [&>span:first-child]:hidden">
-                      Skip
+                      {t('features.skills.skip')}
                     </SelectItem>
                     <SelectItem value="overwrite" className="pr-2 [&>span:first-child]:hidden">
-                      Overwrite
+                      {t('features.skills.overwrite')}
                     </SelectItem>
                   </SelectContent>
                 </Select>
@@ -114,13 +116,13 @@ export const InstallConflictsDialog: React.FC<InstallConflictsDialogProps> = ({
 
         <DialogFooter>
           <ButtonLarge variant="ghost" onClick={() => onOpenChange(false)}>
-            Cancel
+            {t('common.cancel')}
           </ButtonLarge>
           <ButtonLarge
             onClick={() => onConfirm(decisions)}
             disabled={!canConfirm}
           >
-            Continue
+            {t('features.skills.continue')}
           </ButtonLarge>
         </DialogFooter>
       </DialogContent>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { cn, fuzzyMatch } from '@/lib/utils';
 import { useConfigStore } from '@/stores/useConfigStore';
 import { useAgentsStore, isAgentBuiltIn, type AgentWithExtras } from '@/stores/useAgentsStore';
@@ -47,6 +48,7 @@ export const AgentMentionAutocomplete = React.forwardRef<AgentMentionAutocomplet
   const ignoreTabClickRef = React.useRef(false);
   const { getVisibleAgents } = useConfigStore();
   const { agents: agentsWithMetadata, loadAgents } = useAgentsStore();
+  const { t } = useTranslation();
 
   React.useEffect(() => {
     if (agentsWithMetadata.length === 0) {
@@ -188,9 +190,9 @@ export const AgentMentionAutocomplete = React.forwardRef<AgentMentionAutocomplet
         <div className="px-2 pt-2 pb-1 border-b border-border/60">
           <div className="flex items-center gap-1 rounded-lg bg-[var(--surface-elevated)] p-1">
             {([
-              { id: 'commands' as const, label: 'Commands' },
-              { id: 'agents' as const, label: 'Agents' },
-              { id: 'files' as const, label: 'Files' },
+              { id: 'commands' as const, label: t('chat.autocomplete.tabs.commands') },
+              { id: 'agents' as const, label: t('chat.autocomplete.tabs.agents') },
+              { id: 'files' as const, label: t('chat.autocomplete.tabs.files') },
             ]).map((tab) => (
               <button
                 key={tab.id}
@@ -231,12 +233,12 @@ export const AgentMentionAutocomplete = React.forwardRef<AgentMentionAutocomplet
           </div>
         ) : (
           <div className="px-3 py-2 typography-ui-label text-muted-foreground">
-            No agents found
+            {t('chat.autocomplete.noAgentsFound')}
           </div>
         )}
       </ScrollableOverlay>
       <div className="px-3 pt-1 pb-1.5 border-t typography-meta text-muted-foreground">
-        ↑↓ navigate • Enter select • Esc close
+        {t('chat.autocomplete.keyboardHint')}
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Message, Part } from '@opencode-ai/sdk/v2';
 import { useShallow } from 'zustand/react/shallow';
+import { useTranslation } from 'react-i18next';
 
 import ChatMessage from './ChatMessage';
 import { PermissionCard } from './PermissionCard';
@@ -421,6 +422,8 @@ const MessageList: React.FC<MessageListProps> = ({
     onRenderEarlier,
     scrollToBottom,
 }) => {
+    const { t } = useTranslation();
+    const retryingAutoMessage = t('chat.status.retryingAuto');
     React.useEffect(() => {
         if (permissions.length === 0 && questions.length === 0) {
             return;
@@ -502,10 +505,14 @@ const MessageList: React.FC<MessageListProps> = ({
             return baseDisplayMessages;
         }
 
+        const retryMessage =
+            activeRetryStatus.message === 'Quota limit reached. Retrying automatically.'
+                ? retryingAutoMessage
+                : activeRetryStatus.message;
         const retryError = {
             name: 'SessionRetry',
-            message: activeRetryStatus.message,
-            data: { message: activeRetryStatus.message },
+            message: retryMessage,
+            data: { message: retryMessage },
         };
 
         let lastUserIndex = -1;
@@ -568,7 +575,7 @@ const MessageList: React.FC<MessageListProps> = ({
         const next = baseDisplayMessages.slice();
         next.splice(lastUserIndex + 1, 0, synthetic);
         return next;
-    }, [activeRetryStatus, baseDisplayMessages]);
+    }, [activeRetryStatus, baseDisplayMessages, retryingAutoMessage]);
 
     const { turns, ungroupedMessages } = React.useMemo(() => {
         const groupedTurns = detectTurns(displayMessages);
@@ -599,7 +606,7 @@ const MessageList: React.FC<MessageListProps> = ({
                             onClick={onRenderEarlier}
                             className="text-xs uppercase tracking-wide text-muted-foreground/80 hover:text-foreground"
                         >
-                            Render earlier messages
+                            {t('chat.messageList.renderEarlier')}
                         </button>
                     </div>
                 )}
@@ -608,7 +615,7 @@ const MessageList: React.FC<MessageListProps> = ({
                     <div className="flex justify-center py-3">
                         {isLoadingOlder ? (
                             <span className="text-xs uppercase tracking-wide text-muted-foreground/80">
-                                Loading…
+                                {t('chat.messageList.loading')}
                             </span>
                         ) : (
                             <button
@@ -616,7 +623,7 @@ const MessageList: React.FC<MessageListProps> = ({
                                 onClick={onLoadOlder}
                                 className="text-xs uppercase tracking-wide text-muted-foreground/80 hover:text-foreground"
                             >
-                                Load older messages
+                                {t('chat.messageList.loadOlder')}
                             </button>
                         )}
                     </div>

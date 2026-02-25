@@ -19,6 +19,7 @@ import { useFileSearchStore } from '@/stores/useFileSearchStore';
 import { useDebouncedValue } from '@/hooks/useDebouncedValue';
 import { useDirectoryShowHidden } from '@/lib/directoryShowHidden';
 import { useFilesViewShowGitignored } from '@/lib/filesViewShowGitignored';
+import { useTranslation } from 'react-i18next';
 interface FileInfo {
   name: string;
   path: string;
@@ -46,6 +47,7 @@ export const ServerFilePicker: React.FC<ServerFilePickerProps> = ({
   presentation = 'dropdown',
 }) => {
   const { isMobile } = useDeviceInfo();
+  const { t } = useTranslation();
   // Only use mobile panels on actual mobile devices, VSCode uses desktop dropdowns
   const isCompact = isMobile;
   const { currentDirectory } = useDirectoryStore();
@@ -113,8 +115,8 @@ export const ServerFilePicker: React.FC<ServerFilePickerProps> = ({
       inFlightDirsRef.current = new Set();
       setChildrenByDir({ [dirPath]: items });
       setExpandedDirs(new Set());
-    } catch {
-      setError('Failed to load directory contents');
+} catch {
+      setError(t('chat.error.directoryLoadFailed'));
       loadedDirsRef.current = new Set([dirPath]);
       inFlightDirsRef.current = new Set();
       setChildrenByDir({ [dirPath]: [] });
@@ -504,7 +506,7 @@ export const ServerFilePicker: React.FC<ServerFilePickerProps> = ({
           <Input
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search files..."
+            placeholder={t('chat.file.search')}
             className="pl-7 h-6 typography-ui-label"
             onClick={(e) => e.stopPropagation()}
           />
@@ -524,7 +526,7 @@ export const ServerFilePicker: React.FC<ServerFilePickerProps> = ({
       <ScrollArea className={scrollAreaClass}>
         {loading && (
           <div className="flex items-center justify-center py-8">
-            <div className="typography-ui-label text-muted-foreground">Loading files...</div>
+            <div className="typography-ui-label text-muted-foreground">{t('chat.file.loading')}</div>
           </div>
         )}
 
@@ -597,7 +599,7 @@ export const ServerFilePicker: React.FC<ServerFilePickerProps> = ({
         <MobileOverlayPanel
           open={open}
           onClose={() => setOpen(false)}
-          title="Select Project Files"
+          title={t('chat.file.selectProject')}
           footer={summarySection}
         >
           <div className="flex flex-col gap-0">{pickerBody}</div>
@@ -613,7 +615,7 @@ export const ServerFilePicker: React.FC<ServerFilePickerProps> = ({
         <MobileOverlayPanel
           open={mobileOpen}
           onClose={() => setMobileOpen(false)}
-          title="Select Project Files"
+          title={t('chat.file.selectProject')}
           footer={summarySection}
         >
           <div className="flex flex-col gap-0">{pickerBody}</div>

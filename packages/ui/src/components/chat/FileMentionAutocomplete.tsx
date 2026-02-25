@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { RiCodeLine, RiFileImageLine, RiFileLine, RiFilePdfLine, RiRefreshLine } from '@remixicon/react';
 import { cn, truncatePathMiddle } from '@/lib/utils';
 import { useDirectoryStore } from '@/stores/useDirectoryStore';
@@ -64,6 +65,7 @@ export const FileMentionAutocomplete = React.forwardRef<FileMentionHandle, FileM
   const measureRefs = React.useRef<(HTMLSpanElement | null)[]>([]);
   const containerRef = React.useRef<HTMLDivElement | null>(null);
   const ignoreTabClickRef = React.useRef(false);
+  const { t } = useTranslation();
   const normalizedSearchQuery = (searchQuery ?? '').trim();
   const visibleAgents = normalizedSearchQuery.length > 0 ? agents : agents.slice(0, 2);
 
@@ -373,11 +375,11 @@ export const FileMentionAutocomplete = React.forwardRef<FileMentionHandle, FileM
       >
         {showTabs ? (
           <div className="px-2 pt-2 pb-1 border-b border-border/60">
-            <div className="flex items-center gap-1 rounded-lg bg-[var(--surface-elevated)] p-1">
+          <div className="flex items-center gap-1 rounded-lg bg-[var(--surface-elevated)] p-1">
               {([
-                { id: 'commands' as const, label: 'Commands' },
-                { id: 'agents' as const, label: 'Agents' },
-                { id: 'files' as const, label: 'Files' },
+                { id: 'commands' as const, label: t('chat.autocomplete.tabs.commands') },
+                { id: 'agents' as const, label: t('chat.autocomplete.tabs.agents') },
+                { id: 'files' as const, label: t('chat.autocomplete.tabs.files') },
               ]).map((tab) => (
                 <button
                   key={tab.id}
@@ -499,19 +501,19 @@ export const FileMentionAutocomplete = React.forwardRef<FileMentionHandle, FileM
             })}
             {visibleAgents.length === 2 && normalizedSearchQuery.length === 0 && agents.length > 2 && (
               <div className="px-3 py-1 typography-meta text-muted-foreground">
-                Type to search more agents
+                {t('chat.autocomplete.typeToSearchMoreAgents')}
               </div>
             )}
             {files.length === 0 && visibleAgents.length === 0 && (
               <div className="px-3 py-2 typography-ui-label text-muted-foreground">
-                No matches found
+                {t('chat.autocomplete.noMatchesFound')}
               </div>
             )}
           </div>
         )}
         </ScrollableOverlay>
         <div className="px-3 pt-1 pb-1.5 border-t typography-meta text-muted-foreground">
-        ↑↓ navigate • Enter select • Esc close
+        {t('chat.autocomplete.keyboardHint')}
       </div>
     </div>
   );
