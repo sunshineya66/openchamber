@@ -192,7 +192,7 @@ export const SkillsCatalogPage: React.FC<SkillsCatalogPageProps> = ({ mode, onMo
                 </SelectContent>
               </Select>
 
-              <ButtonSmall
+<ButtonSmall
                 variant="outline"
                 size="xs"
                 className="!font-normal h-6 w-6 px-0"
@@ -204,7 +204,7 @@ export const SkillsCatalogPage: React.FC<SkillsCatalogPageProps> = ({ mode, onMo
                   }
                 }}
                 disabled={isLoadingCatalog || isLoadingSource}
-                title="Refresh"
+                title={t('settings.usage.refresh')}
               >
                 <RiRefreshLine className={cn("h-3.5 w-3.5", (isLoadingCatalog || isLoadingSource) && "animate-spin")} />
               </ButtonSmall>
@@ -227,7 +227,7 @@ export const SkillsCatalogPage: React.FC<SkillsCatalogPageProps> = ({ mode, onMo
                 className="!font-normal gap-1"
                 onClick={() => setAddCatalogOpen(true)}
               >
-                <RiAddLine className="h-3.5 w-3.5" /> Add Catalog
+                <RiAddLine className="h-3.5 w-3.5" /> {t('features.skills.addCatalog')}
               </ButtonSmall>
             </div>
 
@@ -364,7 +364,7 @@ export const SkillsCatalogPage: React.FC<SkillsCatalogPageProps> = ({ mode, onMo
         <AddCatalogDialog open={addCatalogOpen} onOpenChange={setAddCatalogOpen} />
         <InstallSkillDialog open={installDialogOpen} onOpenChange={setInstallDialogOpen} item={installItem} />
 
-        <Dialog
+<Dialog
           open={isRemoveCatalogDialogOpen}
           onOpenChange={(open) => {
             if (!isRemovingCatalog) {
@@ -374,8 +374,8 @@ export const SkillsCatalogPage: React.FC<SkillsCatalogPageProps> = ({ mode, onMo
         >
           <DialogContent className="max-w-md">
             <DialogHeader>
-              <DialogTitle>Remove Catalog</DialogTitle>
-              <DialogDescription>Are you sure you want to remove this catalog?</DialogDescription>
+              <DialogTitle>{t('features.skills.removeCatalogTitle')}</DialogTitle>
+              <DialogDescription>{t('features.skills.removeCatalogConfirm')}</DialogDescription>
             </DialogHeader>
             <DialogFooter>
               <ButtonLarge
@@ -383,10 +383,10 @@ export const SkillsCatalogPage: React.FC<SkillsCatalogPageProps> = ({ mode, onMo
                 onClick={() => setIsRemoveCatalogDialogOpen(false)}
                 disabled={isRemovingCatalog}
               >
-                Cancel
+                {t('common.cancel')}
               </ButtonLarge>
               <ButtonLarge className="bg-[var(--status-error)] hover:bg-[var(--status-error)]/90 text-white" onClick={() => void removeSelectedCatalog()} disabled={isRemovingCatalog}>
-                Remove Catalog
+                {t('features.skills.removeCatalogAction')}
               </ButtonLarge>
             </DialogFooter>
           </DialogContent>

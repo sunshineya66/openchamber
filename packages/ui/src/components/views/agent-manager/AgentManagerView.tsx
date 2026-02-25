@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { toast } from '@/components/ui';
 import { AgentManagerSidebar } from './AgentManagerSidebar';
 import { AgentManagerEmptyState } from './AgentManagerEmptyState';
@@ -17,6 +18,7 @@ interface AgentManagerViewProps {
 }
 
 export const AgentManagerView: React.FC<AgentManagerViewProps> = ({ className }) => {
+  const { t } = useTranslation();
   const isVSCodeRuntime = Boolean(
     (typeof window !== 'undefined'
       ? (window as unknown as { __OPENCHAMBER_RUNTIME_APIS__?: { runtime?: { isVSCode?: boolean } } })
@@ -135,12 +137,12 @@ export const AgentManagerView: React.FC<AgentManagerViewProps> = ({ className })
   }, [selectGroup]);
 
   const handleCreateGroup = React.useCallback(async (params: CreateMultiRunParams) => {
-    toast.info(`Creating agent group "${params.name}" with ${params.models.length} model(s)...`);
+    toast.info(t('agentManager.view.creating', { name: params.name, count: params.models.length }));
 
     const result = await createMultiRun(params);
 
     if (result) {
-      toast.success(`Agent group "${params.name}" created with ${result.sessionIds.length} session(s)`);
+      toast.success(t('agentManager.view.created', { name: params.name, count: result.sessionIds.length }));
       const groupSlug = result.groupSlug;
 
       const waitForGroup = async (attempts = 6) => {
@@ -166,9 +168,9 @@ export const AgentManagerView: React.FC<AgentManagerViewProps> = ({ className })
       selectGroup(groupSlug);
     } else {
       const error = useMultiRunStore.getState().error;
-      toast.error(error || 'Failed to create agent group');
+      toast.error(error || t('agentManager.view.createFailed'));
     }
-  }, [createMultiRun, loadGroups, selectGroup]);
+  }, [createMultiRun, loadGroups, selectGroup, t]);
 
   const selectedGroup = getSelectedGroup();
 

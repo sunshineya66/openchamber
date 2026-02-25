@@ -14,6 +14,8 @@ export const languageOptions: { value: SupportedLanguage; label: string }[] = [
   { value: 'zh-CN', label: '简体中文' },
 ];
 
+const reportedMissingKeys = new Set<string>();
+
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
@@ -39,5 +41,21 @@ i18n
       useSuspense: true,
     },
   });
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const originalT = (i18n as any).t.bind(i18n);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(i18n as any).t = function (key: string, options?: any) {
+  const result = originalT(key, options);
+  if (result === key || (typeof result === 'string' && result.includes(key))) {
+    const lng = i18n.language || 'en';
+    const id = `${lng}:${key}`;
+    if (!reportedMissingKeys.has(id)) {
+      reportedMissingKeys.add(id);
+      console.warn(`[i18n] Missing: ${key} (${lng})`);
+    }
+  }
+  return result;
+};
 
 export default i18n;

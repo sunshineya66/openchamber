@@ -1,5 +1,6 @@
 import React from 'react';
 import { RiAddLine, RiBrainAi3Line, RiCloseLine, RiSearchLine, RiStarFill, RiTimeLine } from '@remixicon/react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -108,11 +109,14 @@ export const ModelMultiSelect: React.FC<ModelMultiSelectProps> = ({
   onRemove,
   onUpdate,
   minModels,
-  addButtonLabel = 'Add model',
+  addButtonLabel,
   showChips = true,
   maxModels,
 }) => {
+  const { t } = useTranslation();
   const { providers, modelsMetadata } = useConfigStore();
+  const defaultAddButtonLabel = t('multirun.modelSelect.addModel');
+  const buttonLabel = addButtonLabel ?? defaultAddButtonLabel;
   const { favoriteModelsList, recentModelsList } = useModelLists();
   const [isOpen, setIsOpen] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState('');
@@ -311,8 +315,8 @@ export const ModelMultiSelect: React.FC<ModelMultiSelectProps> = ({
             className={CHIP_HEIGHT_CLASS}
             onClick={() => setIsOpen(!isOpen)}
           >
-            <RiAddLine className="h-3.5 w-3.5 mr-1" />
-            {addButtonLabel}
+<RiAddLine className="h-3.5 w-3.5 mr-1" />
+            {buttonLabel}
           </Button>
 
           {isOpen && (() => {
@@ -384,10 +388,10 @@ export const ModelMultiSelect: React.FC<ModelMultiSelectProps> = ({
                 <div className="p-2 border-b border-border/40">
                   <div className="relative">
                     <RiSearchLine className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
-                    <Input
+<Input
                       ref={searchInputRef}
                       type="text"
-                      placeholder="Search models"
+                      placeholder={t('multirun.modelSelect.searchModels')}
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       onKeyDown={handleKeyDown}
@@ -402,9 +406,9 @@ export const ModelMultiSelect: React.FC<ModelMultiSelectProps> = ({
                   style={{ maxHeight: availableHeight ? `${availableHeight}px` : '300px' }}
                 >
                   <div className="p-1">
-                    {!hasResults && (
+{!hasResults && (
                       <div className="px-2 py-4 text-center typography-meta text-muted-foreground">
-                        No models found
+                        {t('multirun.modelSelect.noModelsFound')}
                       </div>
                     )}
 
@@ -416,7 +420,7 @@ export const ModelMultiSelect: React.FC<ModelMultiSelectProps> = ({
                           className="typography-micro font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-2 -mx-1 px-3 py-1.5 sticky top-0 z-10 border-b border-border/30"
                         >
                           <RiStarFill className="h-4 w-4 text-primary" />
-                          Favorites
+                          {t('multirun.modelSelect.favorites')}
                         </div>
                         {filteredFavorites.map(({ model, providerID, modelID }) => {
                           const idx = currentFlatIndex++;
@@ -429,12 +433,12 @@ export const ModelMultiSelect: React.FC<ModelMultiSelectProps> = ({
                     {filteredRecents.length > 0 && (
                       <>
                         {filteredFavorites.length > 0 && <div className="h-px bg-border/40 my-1" />}
-                        <div
+<div
                           style={{ backgroundColor: 'var(--surface-elevated)' }}
                           className="typography-micro font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-2 -mx-1 px-3 py-1.5 sticky top-0 z-10 border-b border-border/30"
                         >
                           <RiTimeLine className="h-4 w-4" />
-                          Recent
+                          {t('multirun.modelSelect.recent')}
                         </div>
                         {filteredRecents.map(({ model, providerID, modelID }) => {
                           const idx = currentFlatIndex++;
@@ -468,9 +472,9 @@ export const ModelMultiSelect: React.FC<ModelMultiSelectProps> = ({
                   </div>
                 </ScrollableOverlay>
 
-                {/* Keyboard hints footer */}
+{/* Keyboard hints footer */}
                 <div className="px-3 pt-1 pb-1.5 border-t border-border/40 typography-micro text-muted-foreground">
-                  ↑↓ navigate • Enter select • Esc close
+                  {t('multirun.modelSelect.keyboardHint')}
                 </div>
               </div>
             );
@@ -513,18 +517,18 @@ export const ModelMultiSelect: React.FC<ModelMultiSelectProps> = ({
                         onUpdate(index, { ...model, variant: nextVariant });
                       }}
                     >
-                      <SelectTrigger size="chip" className="px-2 gap-1.5 rounded-md bg-interactive-selection/20 border-border/30 hover:bg-interactive-hover/30 typography-meta font-medium text-foreground">
+<SelectTrigger size="chip" className="px-2 gap-1.5 rounded-md bg-interactive-selection/20 border-border/30 hover:bg-interactive-hover/30 typography-meta font-medium text-foreground">
                         <RiBrainAi3Line
                           className={cn(
                             'h-3.5 w-3.5 flex-shrink-0',
                             variantValue === DEFAULT_VARIANT_VALUE ? 'text-muted-foreground' : 'text-[color:var(--status-info)]'
                           )}
                         />
-                        <SelectValue placeholder="Thinking" />
+                        <SelectValue placeholder={t('multirun.modelSelect.thinking')} />
                       </SelectTrigger>
                       <SelectContent fitContent>
                         <SelectItem value={DEFAULT_VARIANT_VALUE} className="pr-2 [&>span:first-child]:hidden">
-                          Default
+                          {t('multirun.modelSelect.default')}
                         </SelectItem>
                         {variantKeys.map((variant) => (
                           <SelectItem key={variant} value={variant} className="pr-2 [&>span:first-child]:hidden">
@@ -541,10 +545,10 @@ export const ModelMultiSelect: React.FC<ModelMultiSelectProps> = ({
         )}
       </div>
 
-      {/* Validation hint */}
+{/* Validation hint */}
       {minModels !== undefined && selectedModels.length < minModels && (
         <p className="typography-micro text-muted-foreground">
-          Select from {minModels} {maxModels !== undefined ? `to ${maxModels} models` : ''}.
+          {t('multirun.launcher.modelsRequired', { min: minModels, max: maxModels })}
         </p>
       )}
     </div>

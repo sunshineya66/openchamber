@@ -162,7 +162,7 @@ if (result.error?.kind === 'authRequired') {
           <DialogHeader>
             <DialogTitle>{t('features.skills.installSkillTitle')}</DialogTitle>
             <DialogDescription>
-              Install <span className="font-semibold text-foreground">{item?.skillName}</span> into one of four target locations.
+              {t('features.skills.installSkillDescription', { item: { skillName: item?.skillName } })}
             </DialogDescription>
           </DialogHeader>
 

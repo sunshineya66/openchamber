@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { CodeMirrorEditor } from '@/components/ui/CodeMirrorEditor';
 import { PreviewToggleButton } from './PreviewToggleButton';
 import { SimpleMarkdownRenderer } from '@/components/chat/MarkdownRenderer';
@@ -80,6 +81,7 @@ type SelectedLineRange = {
 };
 
 export const PlanView: React.FC = () => {
+  const { t } = useTranslation();
   const currentSessionId = useSessionStore((state) => state.currentSessionId);
   const sessions = useSessionStore((state) => state.sessions);
   const homeDirectory = useDirectoryStore((state) => state.homeDirectory);
@@ -375,7 +377,7 @@ export const PlanView: React.FC = () => {
     <div className="relative flex h-full min-h-0 min-w-0 w-full flex-col overflow-hidden bg-background">
       <div className="flex min-w-0 items-center gap-2 border-b border-border/40 px-3 py-1.5 flex-shrink-0">
         <div className="min-w-0 flex-1">
-          <div className="typography-ui-label font-medium truncate">Plan</div>
+          <div className="typography-ui-label font-medium truncate">{t('views.plan.plan')}</div>
           {resolvedPath ? (
             <div className="typography-meta text-muted-foreground truncate" title={displayPath ?? resolvedPath}>
               {displayPath ?? resolvedPath}
@@ -406,8 +408,8 @@ export const PlanView: React.FC = () => {
                 }
               }}
               className="h-5 w-5 p-0"
-              title="Copy plan contents"
-              aria-label="Copy plan contents"
+              title={t('views.plan.copyPlanContents')}
+              aria-label={t('views.plan.copyPlanContents')}
             >
               {copiedContent ? (
                 <RiCheckLine className="h-4 w-4 text-[color:var(--status-success)]" />
@@ -433,8 +435,8 @@ export const PlanView: React.FC = () => {
                 }
               }}
               className="h-5 w-5 p-0"
-              title={`Copy plan path (${displayPath ?? resolvedPath})`}
-              aria-label={`Copy plan path (${displayPath ?? resolvedPath})`}
+              title={t('views.plan.copyPlanPath')}
+              aria-label={t('views.plan.copyPlanPath')}
             >
               {copiedPath ? (
                 <RiCheckLine className="h-4 w-4 text-[color:var(--status-success)]" />
@@ -449,7 +451,7 @@ export const PlanView: React.FC = () => {
       <div className="flex-1 min-h-0 min-w-0 relative">
         <ScrollableOverlay outerClassName="h-full min-w-0" className="h-full min-w-0">
           {loading ? (
-            <div className="p-3 typography-ui text-muted-foreground">Loading…</div>
+            <div className="p-3 typography-ui text-muted-foreground">{t('views.plan.loading')}</div>
           ) : (
             <div className="relative h-full">
               <div className="h-full oc-plan-editor">
@@ -458,9 +460,9 @@ export const PlanView: React.FC = () => {
                     <ErrorBoundary
                       fallback={
                         <div className="rounded-md border border-destructive/20 bg-destructive/10 px-3 py-2">
-                          <div className="mb-1 font-medium text-destructive">Preview unavailable</div>
+                          <div className="mb-1 font-medium text-destructive">{t('views.plan.previewUnavailable')}</div>
                           <div className="text-sm text-muted-foreground">
-                            Switch to edit mode to fix the issue.
+                            {t('views.plan.switchToEditMode')}
                           </div>
                         </div>
                       }

@@ -70,6 +70,7 @@ const normalizeSubtaskModel = (model: SubtaskPartLike['model']): string | null =
 };
 
 const UserSubtaskPart: React.FC<{ part: SubtaskPartLike }> = ({ part }) => {
+    const { t } = useTranslation();
     const [expanded, setExpanded] = React.useState(false);
     const setCurrentSession = useSessionStore((state) => state.setCurrentSession);
 
@@ -83,7 +84,7 @@ const UserSubtaskPart: React.FC<{ part: SubtaskPartLike }> = ({ part }) => {
     return (
         <div className="mt-2">
             <div className="flex items-center gap-2 flex-wrap">
-                <span className="typography-meta font-semibold text-foreground">Delegated task</span>
+                <span className="typography-meta font-semibold text-foreground">{t('chat.message.delegatedTask')}</span>
                 {command ? (
                     <span className="inline-flex h-5 items-center rounded px-1.5 text-[11px] leading-none bg-foreground/5 text-muted-foreground">
                         /{command}
@@ -114,7 +115,7 @@ const UserSubtaskPart: React.FC<{ part: SubtaskPartLike }> = ({ part }) => {
                         className="typography-meta text-muted-foreground hover:text-foreground transition-colors underline underline-offset-2"
                         onClick={() => setExpanded((value) => !value)}
                     >
-                        {expanded ? 'Hide prompt' : 'Show prompt'}
+                        {expanded ? t('chat.message.hidePrompt') : t('chat.message.showPrompt')}
                     </button>
                     {expanded ? (
                         <pre className="typography-meta mt-1.5 overflow-x-auto whitespace-pre-wrap break-words text-foreground/85">
@@ -133,7 +134,7 @@ const UserSubtaskPart: React.FC<{ part: SubtaskPartLike }> = ({ part }) => {
                             void setCurrentSession(taskSessionID);
                         }}
                     >
-                        Open subtask session
+                        {t('chat.message.openSubtaskSession')}
                     </button>
                 </div>
             ) : null}
@@ -184,7 +185,7 @@ const UserShellActionPart: React.FC<{ part: ShellActionPartLike }> = ({ part }) 
     return (
         <div className="mt-2">
             <div className="flex items-center gap-2 flex-wrap">
-                <span className="typography-meta font-semibold text-foreground">Shell command</span>
+                <span className="typography-meta font-semibold text-foreground">{t('chat.message.shellCommand')}</span>
                 {status ? (
                     <span className={cn(
                         'inline-flex h-5 items-center rounded px-1.5 text-[11px] leading-none',
@@ -211,7 +212,7 @@ const UserShellActionPart: React.FC<{ part: ShellActionPartLike }> = ({ part }) 
                             className="typography-meta text-muted-foreground hover:text-foreground transition-colors underline underline-offset-2"
                             onClick={() => setExpanded((value) => !value)}
                         >
-                            {expanded ? 'Hide output' : 'Show output'}
+                            {expanded ? t('chat.message.hideOutput') : t('chat.message.showOutput')}
                         </button>
                         <button
                             type="button"
@@ -573,7 +574,7 @@ const readAloudTooltip = React.useMemo(() => {
         if (isTTSPlaying) {
             return t('chat.message.tts.stop');
         }
-        const providerLabel = voiceProvider === 'browser' ? 'Browser' : voiceProvider === 'openai' ? 'OpenAI' : 'Say';
+        const providerLabel = voiceProvider === 'browser' ? t('chat.message.tts.browser') : voiceProvider === 'openai' ? t('chat.message.tts.openai') : t('chat.message.tts.say');
         return `${t('chat.message.tts.play')} (${providerLabel} voice)`;
     }, [isTTSPlaying, voiceProvider, t]);
 
@@ -1180,7 +1181,7 @@ disabled={!hasCopyableText}
                           <RiChatNewLine className="h-4 w-4" />
                       </Button>
                   </TooltipTrigger>
-                  <TooltipContent sideOffset={6}>Start new session from this answer</TooltipContent>
+                  <TooltipContent sideOffset={6}>{t('chat.message.forkNewSession')}</TooltipContent>
               </Tooltip>
               <Tooltip delayDuration={1000}>
                   <TooltipTrigger asChild>
@@ -1195,7 +1196,7 @@ disabled={!hasCopyableText}
                           <ArrowsMerge className="h-4 w-4" />
                       </Button>
                   </TooltipTrigger>
-                  <TooltipContent sideOffset={6}>Start new multi-run from this answer</TooltipContent>
+                  <TooltipContent sideOffset={6}>{t('chat.message.forkMultiRun')}</TooltipContent>
               </Tooltip>
 
               {showMessageTTSButtons && hasCopyableText && (

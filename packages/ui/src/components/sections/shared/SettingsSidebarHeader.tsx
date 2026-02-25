@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { RiAddLine } from '@remixicon/react';
 import { useDeviceInfo } from '@/lib/device';
@@ -29,9 +30,10 @@ interface SettingsSidebarHeaderProps {
 export const SettingsSidebarHeader: React.FC<SettingsSidebarHeaderProps> = ({
   count,
   onAdd,
-  label = 'Total',
-  addButtonLabel = 'Add new item',
+  label,
+  addButtonLabel,
 }) => {
+  const { t } = useTranslation();
   const { isMobile } = useDeviceInfo();
 
   return (

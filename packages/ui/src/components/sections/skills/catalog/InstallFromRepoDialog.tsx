@@ -283,15 +283,15 @@ if (result.ok) {
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent className="max-w-3xl max-h-[85vh] flex flex-col">
           <DialogHeader className="flex-shrink-0">
-            <DialogTitle>Install from Git repository</DialogTitle>
+            <DialogTitle>{t('features.skills.installFromRepo')}</DialogTitle>
             <DialogDescription>
-              Scan a repository for folders containing <code className="font-mono">SKILL.md</code>, then install selected skills.
+              {t('features.skills.scanRepoDescription')}
             </DialogDescription>
           </DialogHeader>
 
-          <div className="space-y-4 flex-shrink-0">
+            <div className="space-y-4 flex-shrink-0">
             <div className="space-y-2">
-              <label className="typography-ui-label font-medium text-foreground">Repository</label>
+              <label className="typography-ui-label font-medium text-foreground">{t('features.skills.repository')}</label>
               <div className="flex items-center gap-2">
                 <Input
                   value={source}
@@ -307,11 +307,11 @@ if (result.ok) {
                   className="gap-2"
                 >
                   <RiGitRepositoryLine className="h-4 w-4" />
-                  {isScanning ? 'Scanning…' : 'Scan'}
+                  {isScanning ? t('features.skills.scanning') : t('features.skills.scan')}
                 </Button>
               </div>
               <p className="typography-meta text-muted-foreground">
-                For GitHub shorthand, you can add a subpath like <code className="font-mono">owner/repo/skills</code>.
+                {t('features.skills.subpathHint')}
               </p>
             </div>
 

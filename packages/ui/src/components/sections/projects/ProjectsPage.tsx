@@ -61,15 +61,15 @@ export const ProjectsPage: React.FC = () => {
     updateProjectMeta(selectedProject.id, { label: name.trim(), icon, color });
   }, [color, icon, name, selectedProject, updateProjectMeta]);
 
-  if (!selectedProject) {
-    return (
-      <ScrollableOverlay keyboardAvoid outerClassName="h-full" className="w-full">
-        <div className="mx-auto w-full max-w-4xl p-3 sm:p-6 sm:pt-8">
-          <p className="typography-meta text-muted-foreground">No projects available.</p>
-        </div>
-      </ScrollableOverlay>
-    );
-  }
+    if (!selectedProject) {
+      return (
+        <ScrollableOverlay keyboardAvoid outerClassName="h-full" className="w-full">
+          <div className="mx-auto w-full max-w-4xl p-3 sm:p-6 sm:pt-8">
+            <p className="typography-meta text-muted-foreground">{t('settings.projects.noProjects')}</p>
+          </div>
+        </ScrollableOverlay>
+      );
+    }
 
   const currentColorVar = color ? (COLOR_MAP[color] ?? null) : null;
 
@@ -81,7 +81,7 @@ export const ProjectsPage: React.FC = () => {
         <div className="mb-4 flex items-center justify-between gap-4">
           <div className="min-w-0">
             <h2 className="typography-ui-header font-semibold text-foreground truncate">
-              {selectedProject.label ?? 'Project Settings'}
+              {selectedProject.label ?? t('settings.projects.projectSettings')}
             </h2>
             <p className="typography-meta text-muted-foreground truncate" title={selectedProject.path}>
               {selectedProject.path}

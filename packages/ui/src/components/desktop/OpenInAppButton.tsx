@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -106,6 +107,7 @@ type OpenInAppButtonProps = {
 };
 
 export const OpenInAppButton = ({ directory, className }: OpenInAppButtonProps) => {
+  const { t } = useTranslation();
   const [selectedAppId, setSelectedAppId] = React.useState(getStoredAppId);
   const [availableApps, setAvailableApps] = React.useState<OpenInAppOption[]>(getAlwaysAvailableApps);
   const [hasLoadedApps, setHasLoadedApps] = React.useState(false);
@@ -308,7 +310,7 @@ export const OpenInAppButton = ({ directory, className }: OpenInAppButtonProps) 
     if (!result.ok) {
       return;
     }
-    toast.success('Path copied to clipboard');
+    toast.success(t('views.files.pathCopied'));
   };
 
   return (
@@ -333,8 +335,8 @@ export const OpenInAppButton = ({ directory, className }: OpenInAppButtonProps) 
           iconDataUrl={selectedApp.iconDataUrl}
           fallbackIconDataUrl={selectedApp.fallbackIconDataUrl}
         />
-        <span className={cn('header-open-label', isScanning ? 'animate-pulse text-muted-foreground' : undefined)}>
-          Open
+<span className={cn('header-open-label', isScanning ? 'animate-pulse text-muted-foreground' : undefined)}>
+          {t('desktop.openInApp.open')}
         </span>
       </button>
       <DropdownMenu>
@@ -346,7 +348,7 @@ export const OpenInAppButton = ({ directory, className }: OpenInAppButtonProps) 
               'border-l border-[var(--interactive-border)] text-muted-foreground',
               'hover:bg-interactive-hover hover:text-foreground transition-colors'
             )}
-            aria-label="Choose app to open"
+            aria-label={t('desktop.openInApp.chooseApp')}
           >
             <RiArrowDownSLine className="h-4 w-4" />
           </button>
@@ -354,7 +356,7 @@ export const OpenInAppButton = ({ directory, className }: OpenInAppButtonProps) 
         <DropdownMenuContent align="end" className="w-64 max-h-[70vh] overflow-y-auto">
           <DropdownMenuItem className="flex items-center gap-2" onClick={() => void handleCopyPath()}>
             <RiFileCopyLine className="h-4 w-4" />
-            <span className="typography-ui-label text-foreground">Copy Path</span>
+            <span className="typography-ui-label text-foreground">{t('desktop.openInApp.copyPath')}</span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           {availableApps.map((app) => (
@@ -374,13 +376,13 @@ export const OpenInAppButton = ({ directory, className }: OpenInAppButtonProps) 
               ) : null}
             </DropdownMenuItem>
           ))}
-          {isCacheStale ? (
+{isCacheStale ? (
             <DropdownMenuItem
               className="flex items-center gap-2"
               onClick={() => void loadInstalledApps(true)}
             >
               <RiRefreshLine className="h-4 w-4" />
-              <span className="typography-ui-label text-foreground">Refresh Apps</span>
+              <span className="typography-ui-label text-foreground">{t('desktop.openInApp.refreshApps')}</span>
             </DropdownMenuItem>
           ) : null}
         </DropdownMenuContent>

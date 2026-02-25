@@ -98,7 +98,7 @@ export const AboutSettings: React.FC = () => {
             className="flex items-center gap-1 typography-meta text-muted-foreground hover:text-foreground transition-colors"
           >
             <RiGithubFill className="h-3.5 w-3.5" />
-            <span>GitHub</span>
+            <span>{t('ui.about.github')}</span>
           </a>
 
           <a
@@ -108,7 +108,7 @@ export const AboutSettings: React.FC = () => {
             className="flex items-center gap-1 typography-meta text-muted-foreground hover:text-foreground transition-colors"
           >
             <RiDiscordFill className="h-3.5 w-3.5" />
-            <span>Discord</span>
+            <span>{t('ui.about.discord')}</span>
           </a>
 
           <a
@@ -118,7 +118,7 @@ export const AboutSettings: React.FC = () => {
             className="flex items-center gap-1 typography-meta text-muted-foreground hover:text-foreground transition-colors"
           >
             <RiTwitterXFill className="h-3.5 w-3.5" />
-            <span>@btriapitsyn</span>
+            <span>{t('ui.about.twitter')}</span>
           </a>
         </div>
 
@@ -209,7 +209,7 @@ export const AboutSettings: React.FC = () => {
             className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground typography-meta transition-colors"
           >
             <RiGithubFill className="h-4 w-4" />
-            <span>GitHub</span>
+            <span>{t('ui.about.github')}</span>
           </a>
 
           <a
@@ -219,7 +219,7 @@ export const AboutSettings: React.FC = () => {
             className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground typography-meta transition-colors"
           >
             <RiTwitterXFill className="h-4 w-4" />
-            <span>@btriapitsyn</span>
+            <span>{t('ui.about.twitter')}</span>
           </a>
         </div>
       </div>

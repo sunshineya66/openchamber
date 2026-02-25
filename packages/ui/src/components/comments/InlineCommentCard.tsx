@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { RiMoreLine, RiDeleteBinLine, RiEditLine, RiArrowDownSLine, RiArrowUpSLine } from '@remixicon/react';
+import { useTranslation } from 'react-i18next';
 import type { InlineCommentDraft } from '@/stores/useInlineCommentDraftStore';
 import { useOptionalThemeSystem } from '@/contexts/useThemeSystem';
 import {
@@ -27,6 +28,7 @@ export function InlineCommentCard({
   className,
   maxWidth,
 }: InlineCommentCardProps) {
+  const { t } = useTranslation();
   const themeContext = useOptionalThemeSystem();
   const currentTheme = themeContext?.currentTheme;
   const [isOpen, setIsOpen] = useState(false);
@@ -54,8 +56,8 @@ export function InlineCommentCard({
             <span className="truncate max-w-[200px]" title={draft.fileLabel}>
               {draft.fileLabel}
             </span>
-            <span>•</span>
-            <span>Lines {draft.startLine}-{draft.endLine}</span>
+<span>•</span>
+            <span>{t('comment.lines', { start: draft.startLine, end: draft.endLine })}</span>
             {draft.side && <span>({draft.side})</span>}
           </div>
           
@@ -71,15 +73,15 @@ export function InlineCommentCard({
                   size="sm" 
                   className="h-6 px-0 mt-1 text-xs text-muted-foreground hover:text-foreground w-full justify-start"
                 >
-                  {isOpen ? (
+{isOpen ? (
                     <>
                       <RiArrowUpSLine className="size-3 mr-1" />
-                      Show less
+                      {t('comment.showLess')}
                     </>
                   ) : (
                     <>
                       <RiArrowDownSLine className="size-3 mr-1" />
-                      Show more
+                      {t('comment.showMore')}
                     </>
                   )}
                 </Button>
@@ -103,13 +105,13 @@ export function InlineCommentCard({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={onEdit}>
+<DropdownMenuItem onClick={onEdit}>
               <RiEditLine className="size-4 mr-2" />
-              Edit comment
+              {t('comment.editComment')}
             </DropdownMenuItem>
             <DropdownMenuItem onClick={onDelete} className="text-destructive">
               <RiDeleteBinLine className="size-4 mr-2" />
-              Delete comment
+              {t('comment.deleteComment')}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

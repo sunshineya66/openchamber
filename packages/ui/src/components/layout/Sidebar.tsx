@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { RiDownloadLine, RiInformationLine, RiQuestionLine, RiSettings3Line } from '@remixicon/react';
 import { toast } from '@/components/ui';
 import { cn } from '@/lib/utils';
@@ -20,6 +21,7 @@ interface SidebarProps {
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ isOpen, isMobile, children }) => {
+    const { t } = useTranslation();
     const { sidebarWidth, setSidebarWidth, setSettingsDialogOpen, setAboutDialogOpen, toggleHelpDialog } = useUIStore();
     const [isResizing, setIsResizing] = React.useState(false);
     const startXRef = React.useRef(0);
@@ -78,8 +80,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, isMobile, children }) 
         if (available || downloaded) {
             setUpdateDialogOpen(true);
         } else {
-            toast.success('No updates available', {
-                description: 'You are running the latest version.',
+            toast.success(t('layout.sidebar.noUpdatesAvailable'), {
+                description: t('layout.sidebar.runningLatestVersion'),
             });
         }
         pendingMenuUpdateCheckRef.current = false;
@@ -165,7 +167,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, isMobile, children }) 
                     onPointerDown={handlePointerDown}
                     role="separator"
                     aria-orientation="vertical"
-                    aria-label="Resize left panel"
+                    aria-label={t('layout.sidebar.resizePanel')}
                 />
             )}
             <div
@@ -191,7 +193,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, isMobile, children }) 
                             )}
                         >
                             <RiSettings3Line className="h-4 w-4" />
-                            <span>Settings</span>
+                            <span>{t('layout.sidebar.settings')}</span>
                         </button>
                         <div className="flex items-center gap-1">
                             {(available || downloaded) ? (
@@ -206,7 +208,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, isMobile, children }) 
                                         )}
                                     >
                                         <RiDownloadLine className="h-3.5 w-3.5" />
-                                        <span>Update</span>
+                                        <span>{t('layout.sidebar.update')}</span>
                                     </button>
 
                             ) : !isDesktopApp && (
@@ -224,7 +226,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, isMobile, children }) 
                                             <RiInformationLine className="h-4 w-4" />
                                         </button>
                                     </TooltipTrigger>
-                                    <TooltipContent side="top">About OpenChamber</TooltipContent>
+                                    <TooltipContent side="top">{t('layout.sidebar.aboutOpenChamber')}</TooltipContent>
                                 </Tooltip>
                             )}
                             <Tooltip>
@@ -237,12 +239,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, isMobile, children }) 
                                             'hover:text-sidebar-foreground hover:bg-interactive-hover',
                                             'transition-all duration-200'
                                         )}
-                                        aria-label="Keyboard shortcuts"
+                                        aria-label={t('layout.sidebar.keyboardShortcuts')}
                                     >
                                         <RiQuestionLine className="h-4 w-4" />
                                     </button>
                                 </TooltipTrigger>
-                                <TooltipContent side="top">Keyboard shortcuts</TooltipContent>
+                                <TooltipContent side="top">{t('layout.sidebar.keyboardShortcuts')}</TooltipContent>
                             </Tooltip>
                         </div>
                     </div>

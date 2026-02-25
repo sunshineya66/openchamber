@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Select,
   SelectContent,
@@ -162,6 +163,7 @@ export const BranchSelector: React.FC<BranchSelectorProps> = ({
   disabled,
   id,
 }) => {
+  const { t } = useTranslation();
   const { branches, isLoading, isGitRepository } = useBranchOptions(directory);
   const selectedLabel = React.useMemo(() => {
     return branches.find((option) => option.value === value)?.label ?? null;
@@ -192,12 +194,12 @@ export const BranchSelector: React.FC<BranchSelectorProps> = ({
           {selectedLabel ? (
             <SelectValue>{selectedLabel}</SelectValue>
           ) : (
-            <SelectValue placeholder={isLoading ? 'Loading branches…' : 'Select a branch'} />
+            <SelectValue placeholder={isLoading ? t('multirun.branchSelector.loadingBranches') : t('multirun.branchSelector.selectBranch')} />
           )}
         </SelectTrigger>
         <SelectContent fitContent>
           <SelectGroup>
-            <SelectLabel>Default</SelectLabel>
+            <SelectLabel>{t('multirun.branchSelector.default')}</SelectLabel>
             {branches
               .filter((option) => option.group === 'special')
               .map((option) => (
@@ -211,7 +213,7 @@ export const BranchSelector: React.FC<BranchSelectorProps> = ({
             <>
               <SelectSeparator />
               <SelectGroup>
-                <SelectLabel>Local branches</SelectLabel>
+                <SelectLabel>{t('multirun.branchSelector.localBranches')}</SelectLabel>
                 {branches
                   .filter((option) => option.group === 'local')
                   .map((option) => (
@@ -227,7 +229,7 @@ export const BranchSelector: React.FC<BranchSelectorProps> = ({
             <>
               <SelectSeparator />
               <SelectGroup>
-                <SelectLabel>Remote branches</SelectLabel>
+                <SelectLabel>{t('multirun.branchSelector.remoteBranches')}</SelectLabel>
                 {branches
                   .filter((option) => option.group === 'remote')
                   .map((option) => (
@@ -241,8 +243,8 @@ export const BranchSelector: React.FC<BranchSelectorProps> = ({
         </SelectContent>
       </Select>
       
-      {isGitRepository === false && (
-        <p className="typography-micro text-muted-foreground/70">Not in a git repository.</p>
+{isGitRepository === false && (
+        <p className="typography-micro text-muted-foreground/70">{t('multirun.branchSelector.notGitRepository')}</p>
       )}
     </div>
   );

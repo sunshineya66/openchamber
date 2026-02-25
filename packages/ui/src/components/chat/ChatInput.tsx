@@ -1589,7 +1589,7 @@ toast.error(error instanceof Error ? error.message : t('chat.input.file.attachEr
         }
 
         if (attachedCount > 0) {
-            toast.success(`Attached ${attachedCount} file${attachedCount > 1 ? 's' : ''}`);
+            toast.success(t('chat.input.file.attachedFiles', { count: attachedCount }));
         }
     };
 
@@ -1795,7 +1795,7 @@ toast.success(t('chat.input.file.attachedFiles', { count: attachedCount }));
             }
         } catch (error) {
             console.error('VS Code file pick failed', error);
-            toast.error(error instanceof Error ? error.message : 'Failed to pick files in VS Code');
+            toast.error(error instanceof Error ? error.message : t('chat.input.file.vscodePickError'));
         }
     }, [attachFiles]);
 
@@ -2076,7 +2076,7 @@ toast.success(t('chat.input.file.attachedFiles', { count: attachedCount }));
                                 borderColor: currentTheme?.colors?.interactive?.border,
                             }}
                         >
-                            <span className="text-xs font-medium text-muted-foreground">Review comments:</span>
+                            <span className="text-xs font-medium text-muted-foreground">{t('chat.input.file.reviewComments')}</span>
                             <span className="text-xs font-semibold" style={{ color: currentTheme?.colors?.status?.info }}>
                                 {draftCount}
                             </span>
@@ -2304,7 +2304,7 @@ toast.success(t('chat.input.file.attachedFiles', { count: attachedCount }));
                                         </TooltipTrigger>
                                         <TooltipContent side="top" sideOffset={8}>
                                             <div className="flex flex-col gap-0.5 text-center">
-                                                <span>Focus mode</span>
+                                                <span>{t('chat.input.toolbar.focusMode')}</span>
                                                 <span className="font-mono opacity-60">
                                                     {isMacOS() ? '⌘⇧E' : 'Ctrl+Shift+E'}
                                                 </span>

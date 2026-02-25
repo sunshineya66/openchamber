@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import {
   RiArrowLeftSLine,
@@ -361,6 +362,7 @@ const FileRow: React.FC<FileRowProps> = ({
   onRevealPath,
   onOpenDialog,
 }) => {
+  const { t } = useTranslation();
   const isDir = node.type === 'directory';
   const { canRename, canCreateFile, canCreateFolder, canDelete, canReveal } = permissions;
 
@@ -444,25 +446,25 @@ const FileRow: React.FC<FileRowProps> = ({
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" side={isMobile ? "bottom" : "bottom"} onCloseAutoFocus={() => setContextMenuPath(null)}>
               {canRename && (
-                <DropdownMenuItem onClick={(e) => { e.stopPropagation(); onOpenDialog('rename', node); }}>
-                  <RiEditLine className="mr-2 h-4 w-4" /> Rename
+<DropdownMenuItem onClick={(e) => { e.stopPropagation(); onOpenDialog('rename', node); }}>
+                  <RiEditLine className="mr-2 h-4 w-4" /> {t('views.files.rename')}
                 </DropdownMenuItem>
               )}
               <DropdownMenuItem onClick={(e) => {
                 e.stopPropagation();
                 void copyTextToClipboard(node.path).then((result) => {
                   if (result.ok) {
-                    toast.success('Path copied');
+                    toast.success(t('views.files.pathCopied'));
                     return;
                   }
-                  toast.error('Copy failed');
+                  toast.error(t('views.files.copyFailed'));
                 });
               }}>
-                <RiFileCopyLine className="mr-2 h-4 w-4" /> Copy Path
+                <RiFileCopyLine className="mr-2 h-4 w-4" /> {t('views.files.copyPath')}
               </DropdownMenuItem>
               {canReveal && (
                 <DropdownMenuItem onClick={(e) => { e.stopPropagation(); onRevealPath(node.path); }}>
-                  <RiFolderReceivedLine className="mr-2 h-4 w-4" /> Reveal in Finder
+                  <RiFolderReceivedLine className="mr-2 h-4 w-4" /> {t('views.files.revealInFinder')}
                 </DropdownMenuItem>
               )}
               {isDir && (canCreateFile || canCreateFolder) && (
@@ -470,12 +472,12 @@ const FileRow: React.FC<FileRowProps> = ({
                   <DropdownMenuSeparator />
                   {canCreateFile && (
                     <DropdownMenuItem onClick={(e) => { e.stopPropagation(); onOpenDialog('createFile', node); }}>
-                      <RiFileAddLine className="mr-2 h-4 w-4" /> New File
+                      <RiFileAddLine className="mr-2 h-4 w-4" /> {t('views.files.newFile')}
                     </DropdownMenuItem>
                   )}
                   {canCreateFolder && (
                     <DropdownMenuItem onClick={(e) => { e.stopPropagation(); onOpenDialog('createFolder', node); }}>
-                      <RiFolderAddLine className="mr-2 h-4 w-4" /> New Folder
+                      <RiFolderAddLine className="mr-2 h-4 w-4" /> {t('views.files.newFolder')}
                     </DropdownMenuItem>
                   )}
                 </>
@@ -487,7 +489,7 @@ const FileRow: React.FC<FileRowProps> = ({
                     onClick={(e) => { e.stopPropagation(); onOpenDialog('delete', node); }}
                     className="text-destructive focus:text-destructive"
                   >
-                    <RiDeleteBinLine className="mr-2 h-4 w-4" /> Delete
+                    <RiDeleteBinLine className="mr-2 h-4 w-4" /> {t('views.files.delete')}
                   </DropdownMenuItem>
                 </>
               )}
@@ -504,6 +506,7 @@ interface FilesViewProps {
 }
 
 export const FilesView: React.FC<FilesViewProps> = ({ mode = 'full' }) => {
+  const { t } = useTranslation();
   const { files, runtime } = useRuntimeAPIs();
   const { currentTheme } = useThemeSystem();
   React.useMemo(() => generateSyntaxTheme(currentTheme), [currentTheme]);
@@ -624,7 +627,7 @@ export const FilesView: React.FC<FilesViewProps> = ({ mode = 'full' }) => {
   const handleRevealPath = React.useCallback((targetPath: string) => {
     if (!files.revealPath) return;
     void files.revealPath(targetPath).catch(() => {
-      toast.error('Failed to reveal path');
+      toast.error(t('views.files.failedToReveal'));
     });
   }, [files]);
 
@@ -900,31 +903,31 @@ export const FilesView: React.FC<FilesViewProps> = ({ mode = 'full' }) => {
     setIsDialogSubmitting(true);
     try {
       if (activeDialog === 'createFile') {
-        if (!dialogInputValue.trim()) throw new Error('Filename is required');
+        if (!dialogInputValue.trim()) throw new Error(t('views.files.filenameRequired'));
         const parentPath = dialogData.path;
         // Handle root path or empty path
         const prefix = parentPath ? `${parentPath}/` : '';
         const newPath = normalizePath(`${prefix}${dialogInputValue.trim()}`);
 
-        if (!files.writeFile) throw new Error('Write not supported');
+        if (!files.writeFile) throw new Error(t('views.files.writeNotSupported'));
         const result = await files.writeFile(newPath, '');
         if (result.success) {
-          toast.success('File created');
+          toast.success(t('views.files.fileCreated'));
           await refreshRoot();
         }
       } else if (activeDialog === 'createFolder') {
-        if (!dialogInputValue.trim()) throw new Error('Folder name is required');
+        if (!dialogInputValue.trim()) throw new Error(t('views.files.folderNameRequired'));
         const parentPath = dialogData.path;
         const prefix = parentPath ? `${parentPath}/` : '';
         const newPath = normalizePath(`${prefix}${dialogInputValue.trim()}`);
 
         const result = await files.createDirectory(newPath);
         if (result.success) {
-          toast.success('Folder created');
+          toast.success(t('views.files.folderCreated'));
           await refreshRoot();
         }
       } else if (activeDialog === 'rename') {
-        if (!dialogInputValue.trim()) throw new Error('Name is required');
+        if (!dialogInputValue.trim()) throw new Error(t('views.files.nameRequired'));
         const oldPath = dialogData.path;
         const parentDir = oldPath.split('/').slice(0, -1).join('/');
         const prefix = parentDir ? `${parentDir}/` : '';
@@ -933,7 +936,7 @@ export const FilesView: React.FC<FilesViewProps> = ({ mode = 'full' }) => {
         if (files.rename) {
              const result = await files.rename(oldPath, newPath);
              if (result.success) {
-                 toast.success('Renamed successfully');
+                 toast.success(t('views.files.renamedSuccessfully'));
                  await refreshRoot();
                  if (root) {
                    removeOpenPathsByPrefix(root, oldPath);
@@ -958,7 +961,7 @@ export const FilesView: React.FC<FilesViewProps> = ({ mode = 'full' }) => {
         if (files.delete) {
              const result = await files.delete(dialogData.path);
              if (result.success) {
-                 toast.success('Deleted successfully');
+                 toast.success(t('views.files.deletedSuccessfully'));
                  await refreshRoot();
                  if (root) {
                    removeOpenPathsByPrefix(root, dialogData.path);
@@ -982,7 +985,7 @@ export const FilesView: React.FC<FilesViewProps> = ({ mode = 'full' }) => {
       }
       setActiveDialog(null);
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Operation failed');
+      toast.error(error instanceof Error ? error.message : t('views.files.operationFailed'));
     } finally {
       setIsDialogSubmitting(false);
     }
@@ -1117,7 +1120,7 @@ export const FilesView: React.FC<FilesViewProps> = ({ mode = 'full' }) => {
     const response = await fetch(`/api/fs/read?path=${encodeURIComponent(path)}`);
     if (!response.ok) {
       const error = await response.json().catch(() => ({ error: response.statusText }));
-      throw new Error((error as { error?: string }).error || 'Failed to read file');
+      throw new Error((error as { error?: string }).error || t('views.files.failedToReadFile'));
     }
     return response.text();
   }, [files]);
@@ -1132,7 +1135,7 @@ export const FilesView: React.FC<FilesViewProps> = ({ mode = 'full' }) => {
 
   const saveDraft = React.useCallback(async () => {
     if (!selectedFile || !files.writeFile) {
-      toast.error('Saving not supported');
+      toast.error(t('views.files.savingNotSupported'));
       return;
     }
 
@@ -1145,11 +1148,11 @@ export const FilesView: React.FC<FilesViewProps> = ({ mode = 'full' }) => {
     try {
       const result = await files.writeFile(selectedFile.path, draftContent);
       if (!result?.success) {
-        throw new Error('Failed to write file');
+        throw new Error(t('views.files.failedToWriteFile'));
       }
       setFileContent(draftContent);
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Save failed');
+      toast.error(error instanceof Error ? error.message : t('views.files.saveFailed'));
     } finally {
       setIsSaving(false);
     }
@@ -1269,7 +1272,7 @@ export const FilesView: React.FC<FilesViewProps> = ({ mode = 'full' }) => {
       }
       setFileContent('');
       setDraftContent('');
-      setFileError(error instanceof Error ? error.message : 'Failed to read file');
+      setFileError(error instanceof Error ? error.message : t('views.files.failedToReadFile'));
     } finally {
       setFileLoading(false);
     }
@@ -1726,7 +1729,7 @@ export const FilesView: React.FC<FilesViewProps> = ({ mode = 'full' }) => {
       } catch (error) {
         if (!cancelled) {
           setDesktopImageSrc('');
-          setFileError(error instanceof Error ? error.message : 'Failed to read file');
+          setFileError(error instanceof Error ? error.message : t('views.files.failedToReadFile'));
         }
       } finally {
         if (!cancelled) {
@@ -1746,11 +1749,11 @@ export const FilesView: React.FC<FilesViewProps> = ({ mode = 'full' }) => {
     <Dialog open={!!activeDialog} onOpenChange={(open) => !open && setActiveDialog(null)}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>
-            {activeDialog === 'createFile' && 'Create File'}
-            {activeDialog === 'createFolder' && 'Create Folder'}
-            {activeDialog === 'rename' && 'Rename'}
-            {activeDialog === 'delete' && 'Delete'}
+<DialogTitle>
+            {activeDialog === 'createFile' && t('views.files.createFile')}
+            {activeDialog === 'createFolder' && t('views.files.createFolder')}
+            {activeDialog === 'rename' && t('views.files.rename')}
+            {activeDialog === 'delete' && t('views.files.delete')}
           </DialogTitle>
           <DialogDescription>
             {activeDialog === 'createFile' && `Create a new file in ${dialogData?.path ?? 'root'}`}
@@ -1765,7 +1768,7 @@ export const FilesView: React.FC<FilesViewProps> = ({ mode = 'full' }) => {
             <Input
               value={dialogInputValue}
               onChange={(e) => setDialogInputValue(e.target.value)}
-              placeholder={activeDialog === 'rename' ? 'New name' : 'Name'}
+              placeholder={activeDialog === 'rename' ? t('views.files.newName') : t('views.files.name')}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
                   void handleDialogSubmit();
@@ -1785,8 +1788,8 @@ export const FilesView: React.FC<FilesViewProps> = ({ mode = 'full' }) => {
             onClick={() => void handleDialogSubmit()}
             disabled={isDialogSubmitting || (activeDialog !== 'delete' && !dialogInputValue.trim())}
           >
-            {isDialogSubmitting ? <RiLoader4Line className="animate-spin" /> : (
-                activeDialog === 'delete' ? 'Delete' : 'Confirm'
+{isDialogSubmitting ? <RiLoader4Line className="animate-spin" /> : (
+                activeDialog === 'delete' ? t('views.files.delete') : t('views.files.confirm')
             )}
           </Button>
         </DialogFooter>
@@ -2066,7 +2069,7 @@ export const FilesView: React.FC<FilesViewProps> = ({ mode = 'full' }) => {
                       setCopiedContent(false);
                     }, 1200);
                   } else {
-                    toast.error('Copy failed');
+                    toast.error(t('views.files.copyFailed'));
                   }
                 }}
                 className="h-5 w-5 p-0"
@@ -2096,7 +2099,7 @@ export const FilesView: React.FC<FilesViewProps> = ({ mode = 'full' }) => {
                       setCopiedPath(false);
                     }, 1200);
                   } else {
-                    toast.error('Copy failed');
+                    toast.error(t('views.files.copyFailed'));
                   }
                 }}
                 className="h-5 w-5 p-0"
@@ -2454,7 +2457,7 @@ export const FilesView: React.FC<FilesViewProps> = ({ mode = 'full' }) => {
                     setCopiedContent(false);
                   }, 1200);
                 } else {
-                  toast.error('Copy failed');
+                  toast.error(t('views.files.copyFailed'));
                 }
               }}
               className="h-6 w-6 p-0"
@@ -2484,7 +2487,7 @@ export const FilesView: React.FC<FilesViewProps> = ({ mode = 'full' }) => {
                     setCopiedPath(false);
                   }, 1200);
                 } else {
-                  toast.error('Copy failed');
+                  toast.error(t('views.files.copyFailed'));
                 }
               }}
               className="h-6 w-6 p-0"

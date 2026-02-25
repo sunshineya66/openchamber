@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { RiAddLine, RiArrowDownLine, RiArrowGoBackLine, RiArrowLeftLine, RiArrowRightLine, RiArrowUpLine, RiCloseLine, RiCommandLine } from '@remixicon/react';
 
 import { useSessionStore } from '@/stores/useSessionStore';
@@ -82,6 +83,7 @@ const getSequenceForKey = (key: MobileKey, modifier: Modifier | null): string | 
 };
 
 export const TerminalView: React.FC = () => {
+    const { t } = useTranslation();
     const { terminal, runtime } = useRuntimeAPIs();
     const { currentTheme } = useThemeSystem();
     const { monoFont } = useFontPreferences();
@@ -301,7 +303,7 @@ export const TerminalView: React.FC = () => {
                                 );
                                 setTabSessionId(directory, tabId, null);
                                 setConnecting(directory, tabId, false);
-                                setConnectionError('Terminal session ended');
+                                setConnectionError(t('views.terminal.sessionEnded'));
                                 setIsFatalError(false);
                                 disconnectStream();
                                 break;
@@ -313,9 +315,9 @@ export const TerminalView: React.FC = () => {
                             return;
                         }
 
-                        const errorMsg = fatal
+const errorMsg = fatal
                             ? `Connection failed: ${error.message}`
-                            : error.message || 'Terminal stream connection error';
+                            : error.message || t('views.terminal.connectionError');
 
                         setConnectionError(errorMsg);
                         setIsFatalError(!!fatal);
@@ -346,10 +348,10 @@ export const TerminalView: React.FC = () => {
         }
 
         if (!effectiveDirectory) {
-            setConnectionError(
+setConnectionError(
                 hasActiveContext
-                    ? 'No working directory available for terminal.'
-                    : 'Select a session to open the terminal.'
+                    ? t('views.terminal.noWorkingDirectory')
+                    : t('views.terminal.selectSession')
             );
             disconnectStream();
             return;
@@ -413,10 +415,10 @@ export const TerminalView: React.FC = () => {
                     terminalId = session.sessionId;
                 } catch (error) {
                     if (!cancelled) {
-                        setConnectionError(
+setConnectionError(
                             error instanceof Error
                                 ? error.message
-                                : 'Failed to start terminal session'
+                                : t('views.terminal.failedToStart')
                         );
                         setIsFatalError(true);
                         setConnecting(directory, tabId, false);
@@ -505,7 +507,7 @@ export const TerminalView: React.FC = () => {
         try {
             await closeTab(effectiveDirectory, tabId);
         } catch (error) {
-            setConnectionError(error instanceof Error ? error.message : 'Failed to restart terminal');
+            setConnectionError(error instanceof Error ? error.message : t('views.terminal.failedToRestart'));
             setIsFatalError(true);
         } finally {
             setIsRestarting(false);
@@ -581,7 +583,7 @@ export const TerminalView: React.FC = () => {
             if (!terminalId) return;
 
             void terminal.sendInput(terminalId, payload).catch((error) => {
-                setConnectionError(error instanceof Error ? error.message : 'Failed to send input');
+                setConnectionError(error instanceof Error ? error.message : t('views.terminal.failedToSendInput'));
             });
 
             if (modifierConsumed) {
@@ -762,10 +764,10 @@ export const TerminalView: React.FC = () => {
         fitOnce();
     }, [isTerminalVisible, terminalSessionKey, terminalSessionId]);
 
-    if (!hasActiveContext) {
+if (!hasActiveContext) {
         return (
             <div className="flex h-full items-center justify-center p-4 text-center text-sm text-muted-foreground">
-                Select a session to open the terminal
+                {t('views.terminal.selectSession')}
             </div>
         );
     }
@@ -773,12 +775,12 @@ export const TerminalView: React.FC = () => {
     if (!effectiveDirectory) {
         return (
             <div className="flex h-full flex-col items-center justify-center gap-2 p-4 text-center text-sm text-muted-foreground">
-                <p>No working directory available for this session.</p>
+<p>{t('views.terminal.noWorkingDirectory')}</p>
                 <button
                     onClick={handleRestart}
                     className="rounded-lg bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90"
                 >
-                    Retry
+                    {t('views.terminal.retry')}
                 </button>
             </div>
         );
@@ -1020,7 +1022,7 @@ export const TerminalView: React.FC = () => {
                 {connectionError && (
                     <div className="absolute inset-x-0 bottom-0 bg-[var(--status-error-background)] px-3 py-2 text-xs text-[var(--status-error-foreground)] flex items-center justify-between gap-2">
                         <span>{connectionError}</span>
-                        {isFatalError && isMobile && (
+{isFatalError && isMobile && (
                             <Button
                                 size="sm"
                                 variant="secondary"
@@ -1030,7 +1032,7 @@ export const TerminalView: React.FC = () => {
                                 title="Force kill and create fresh session"
                                 type="button"
                             >
-                                Hard Restart
+                                {t('views.terminal.hardRestart')}
                             </Button>
                         )}
                     </div>

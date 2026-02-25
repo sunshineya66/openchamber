@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Dialog,
   DialogContent,
@@ -106,6 +107,7 @@ export function GitHubPullRequestPickerDialog({
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
+  const { t } = useTranslation();
   const { github } = useRuntimeAPIs();
   const githubAuthStatus = useGitHubAuthStore((state) => state.status);
   const githubAuthChecked = useGitHubAuthStore((state) => state.hasChecked);
@@ -644,17 +646,17 @@ Nice-to-have:
         <DialogHeader className="flex-shrink-0">
           <DialogTitle className="flex items-center gap-2">
             <RiGitPullRequestLine className="h-5 w-5" />
-            New Session From GitHub PR
+            {t('features.git.prPicker.title')}
           </DialogTitle>
           <DialogDescription>
-            Seeds a new session with hidden PR context (title/body/comments/files/checks).
+            {t('features.git.prPicker.description')}
           </DialogDescription>
         </DialogHeader>
 
         <div className="relative mt-2">
           <RiSearchLine className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search by title or #123, or paste PR URL"
+            placeholder={t('features.git.prPicker.searchPlaceholder')}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             className="pl-9 w-full"
@@ -663,7 +665,7 @@ Nice-to-have:
 
         <div className="flex-1 overflow-y-auto mt-2">
           {!projectDirectory ? (
-            <div className="text-center text-muted-foreground py-8">No active project selected.</div>
+            <div className="text-center text-muted-foreground py-8">{t('features.git.prPicker.noActiveProject')}</div>
           ) : null}
 
           {!github ? (
@@ -713,7 +715,7 @@ Nice-to-have:
           ) : null}
 
           {filtered.length === 0 && !isLoading && connected && github && projectDirectory ? (
-            <div className="text-center text-muted-foreground py-8">{query ? 'No PRs found' : 'No open PRs found'}</div>
+            <div className="text-center text-muted-foreground py-8">{query ? t('features.git.prPicker.noPRsFound') : t('features.git.prPicker.noOpenPRs')}</div>
           ) : null}
 
           {filtered.map((pr) => {
@@ -756,7 +758,7 @@ Nice-to-have:
                         disabledByWorktree && 'pointer-events-none'
                       )}
                       onClick={(e) => e.stopPropagation()}
-                      aria-label="Open in GitHub"
+                      aria-label={t('features.git.prPicker.openInGitHub')}
                     >
                       <RiExternalLinkLine className="h-4 w-4" />
                     </a>
@@ -780,10 +782,10 @@ Nice-to-have:
                 {isLoadingMore ? (
                   <span className="inline-flex items-center gap-2">
                     <RiLoader4Line className="h-4 w-4 animate-spin" />
-                    Loading...
+                    {t('common.loading')}
                   </span>
                 ) : (
-                  'Load more'
+                  t('features.git.prPicker.loadMore')
                 )}
               </button>
             </div>
@@ -791,7 +793,7 @@ Nice-to-have:
         </div>
 
         <div className="mt-4 p-3 bg-muted/30 rounded-lg">
-          <p className="typography-meta text-muted-foreground font-medium mb-2">Actions</p>
+          <p className="typography-meta text-muted-foreground font-medium mb-2">{t('features.git.prPicker.actions')}</p>
           <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-4 sm:gap-y-2">
             <div className="flex flex-col gap-2 sm:flex-row sm:gap-4">
               <div
@@ -823,7 +825,7 @@ Nice-to-have:
                     <RiCheckboxBlankLine className="h-4 w-4" />
                   )}
                 </button>
-                <span className="typography-meta text-muted-foreground">Create in PR worktree</span>
+                <span className="typography-meta text-muted-foreground">{t('features.git.prPicker.createInWorktree')}</span>
               </div>
 
               <div
@@ -855,7 +857,7 @@ Nice-to-have:
                     <RiCheckboxBlankLine className="h-4 w-4" />
                   )}
                 </button>
-                <span className="typography-meta text-muted-foreground">Include full diff</span>
+                <span className="typography-meta text-muted-foreground">{t('features.git.prPicker.includeFullDiff')}</span>
               </div>
             </div>
 
@@ -865,12 +867,12 @@ Nice-to-have:
                 <Button variant="outline" size="sm" asChild>
                   <a href={repoUrl} target="_blank" rel="noopener noreferrer">
                     <RiExternalLinkLine className="size-4" />
-                    Open Repo
+                    {t('features.git.openRepo')}
                   </a>
                 </Button>
               ) : null}
               <Button variant="outline" size="sm" onClick={refresh} disabled={isLoading || Boolean(startingNumber)}>
-                Refresh
+                {t('features.git.prPicker.refresh')}
               </Button>
             </div>
           </div>

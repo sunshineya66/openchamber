@@ -73,7 +73,7 @@ export const ConflictDialog: React.FC<ConflictDialogProps> = ({
   } | null => {
     if (!conflictDetails) return null;
 
-    const operationLabel = operation === 'merge' ? 'merge' : 'rebase';
+    const operationLabel = operation === 'merge' ? t('features.git.merge') : t('features.git.rebase');
     const headRef = conflictDetails.headInfo || (operation === 'merge' ? 'MERGE_HEAD' : 'REBASE_HEAD');
     const continueCmd = operation === 'merge' ? 'git commit --no-edit' : 'git rebase --continue';
 
@@ -126,12 +126,12 @@ Important:
   const handleResolveInCurrentSession = () => {
     const context = buildConflictContext();
     if (!context) {
-      toast.error('No conflict details available');
+      toast.error(t('features.git.noConflictDetailsAvailable'));
       return;
     }
 
     if (!currentSessionId) {
-      toast.error('No active session', { description: 'Open a chat session first or use "New Session".' });
+      toast.error(t('features.git.noActiveSession'), { description: t('features.git.openSessionFirst') });
       return;
     }
 
@@ -150,7 +150,7 @@ Important:
   const handleResolveInNewSession = () => {
     const context = buildConflictContext();
     if (!context) {
-      toast.error('No conflict details available');
+      toast.error(t('features.git.noConflictDetailsAvailable'));
       return;
     }
 

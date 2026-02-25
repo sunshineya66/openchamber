@@ -7,20 +7,21 @@ import {
 } from '@remixicon/react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import type { GitStatus } from '@/lib/api/types';
+import { useTranslation } from 'react-i18next';
 
 type ChangeDescriptor = {
   code: string;
   color: string;
-  description: string;
+  translationKey: string;
 };
 
 const CHANGE_DESCRIPTORS: Record<string, ChangeDescriptor> = {
-  '?': { code: '?', color: 'var(--status-info)', description: 'Untracked file' },
-  A: { code: 'A', color: 'var(--status-success)', description: 'New file' },
-  D: { code: 'D', color: 'var(--status-error)', description: 'Deleted file' },
-  R: { code: 'R', color: 'var(--status-info)', description: 'Renamed file' },
-  C: { code: 'C', color: 'var(--status-info)', description: 'Copied file' },
-  M: { code: 'M', color: 'var(--status-warning)', description: 'Modified file' },
+  '?': { code: '?', color: 'var(--status-info)', translationKey: 'ui.features.git.untrackedFile' },
+  A: { code: 'A', color: 'var(--status-success)', translationKey: 'ui.features.git.newFile' },
+  D: { code: 'D', color: 'var(--status-error)', translationKey: 'ui.features.git.deletedFile' },
+  R: { code: 'R', color: 'var(--status-info)', translationKey: 'ui.features.git.renamedFile' },
+  C: { code: 'C', color: 'var(--status-info)', translationKey: 'ui.features.git.copiedFile' },
+  M: { code: 'M', color: 'var(--status-warning)', translationKey: 'ui.features.git.modifiedFile' },
 };
 
 const DEFAULT_DESCRIPTOR = CHANGE_DESCRIPTORS.M;
@@ -59,8 +60,9 @@ export const ChangeRow = React.memo<ChangeRowProps>(function ChangeRow({
   isReverting,
   stats,
 }) {
+  const { t } = useTranslation();
   const descriptor = useMemo(() => describeChange(file), [file]);
-  const indicatorLabel = descriptor.description;
+  const indicatorLabel = t(descriptor.translationKey);
   const insertions = stats?.insertions ?? 0;
   const deletions = stats?.deletions ?? 0;
 
@@ -108,7 +110,7 @@ export const ChangeRow = React.memo<ChangeRowProps>(function ChangeRow({
           type="button"
           onClick={handleToggleClick}
           aria-pressed={checked}
-          aria-label={`Select ${file.path}`}
+          aria-label={t('ui.features.git.selectFile', { path: file.path })}
           className="flex size-5 shrink-0 items-center justify-center rounded text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
         >
           {checked ? (
@@ -164,7 +166,7 @@ export const ChangeRow = React.memo<ChangeRowProps>(function ChangeRow({
               onClick={handleRevertClick}
               disabled={isReverting}
               className="flex size-5 shrink-0 items-center justify-center rounded text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-50"
-              aria-label={`Revert changes for ${file.path}`}
+              aria-label={t('ui.features.git.revertChanges')}
             >
               {isReverting ? (
                 <RiLoader4Line className="size-3.5 animate-spin" />
@@ -173,7 +175,7 @@ export const ChangeRow = React.memo<ChangeRowProps>(function ChangeRow({
               )}
             </button>
           </TooltipTrigger>
-          <TooltipContent sideOffset={8}>Revert changes</TooltipContent>
+          <TooltipContent sideOffset={8}>{t('ui.features.git.revertChanges')}</TooltipContent>
         </Tooltip>
       </div>
     </li>

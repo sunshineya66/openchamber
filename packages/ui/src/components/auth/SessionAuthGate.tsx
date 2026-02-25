@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { RiLockLine, RiLockUnlockLine, RiLoader4Line } from '@remixicon/react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -55,15 +56,18 @@ const AuthShell: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   </div>
 );
 
-const LoadingScreen: React.FC<{ message?: string }> = ({ message = 'Preparing workspace…' }) => (
+const LoadingScreen: React.FC<{ message?: string }> = ({ message }) => {
+  const { t } = useTranslation();
+  return (
   <AuthShell>
     <div className="w-full max-w-sm rounded-3xl border border-border/40 bg-card/90 px-6 py-5 text-center shadow-none backdrop-blur">
-      <p className="typography-ui-label text-muted-foreground">{message}</p>
+      <p className="typography-ui-label text-muted-foreground">{message || t('auth.preparingWorkspace')}</p>
     </div>
   </AuthShell>
-);
+);};
 
 const ErrorScreen: React.FC<ErrorScreenProps> = ({ onRetry, errorType = 'network', retryAfter }) => {
+  const { t } = useTranslation();
   const isRateLimit = errorType === 'rate-limit';
   const minutes = retryAfter ? Math.ceil(retryAfter / 60) : 1;
 
@@ -72,16 +76,16 @@ const ErrorScreen: React.FC<ErrorScreenProps> = ({ onRetry, errorType = 'network
       <div className="flex flex-col items-center gap-6 text-center">
         <div className="space-y-2">
           <h1 className="typography-ui-header font-semibold text-destructive">
-            {isRateLimit ? 'Too many attempts' : 'Unable to reach server'}
+            {isRateLimit ? t('auth.tooManyAttempts') : t('auth.unableToReachServer')}
           </h1>
           <p className="typography-meta text-muted-foreground max-w-xs">
             {isRateLimit
-              ? `Please wait ${minutes} minute${minutes > 1 ? 's' : ''} before trying again.`
-              : "We couldn't verify the UI session. Check that the service is running and try again."}
+              ? t('auth.rateLimitWait', { count: minutes })
+              : t('auth.checkServiceRunning')}
           </p>
         </div>
         <Button type="button" onClick={onRetry} className="w-full max-w-xs">
-          Retry
+          {t('auth.retry')}
         </Button>
       </div>
     </AuthShell>
@@ -120,6 +124,7 @@ const clearTokenFromUrl = () => {
 };
 
 export const SessionAuthGate: React.FC<SessionAuthGateProps> = ({ children }) => {
+  const { t } = useTranslation();
   const vscodeRuntime = React.useMemo(() => isVSCodeRuntime(), []);
   const skipAuth = vscodeRuntime;
   const showHostSwitcher = React.useMemo(() => isDesktopShell() && !vscodeRuntime, [vscodeRuntime]);
@@ -204,23 +209,23 @@ export const SessionAuthGate: React.FC<SessionAuthGateProps> = ({ children }) =>
     setErrorMessage('');
 
     submitPassword(urlToken)
-      .then((response) => {
+.then((response) => {
         if (response.ok) {
           setPassword('');
           setState('authenticated');
           return;
         }
         if (response.status === 401) {
-          setErrorMessage('URL token invalid. Please enter password manually.');
+          setErrorMessage(t('auth.urlTokenInvalid'));
           setState('locked');
           return;
         }
-        setErrorMessage('Unexpected response from server.');
+        setErrorMessage(t('auth.unexpectedResponse'));
         setState('error');
       })
       .catch((error) => {
         console.warn('Failed to submit URL token:', error);
-        setErrorMessage('Network error. Check connection and retry.');
+        setErrorMessage(t('auth.networkError'));
         setState('error');
       })
       .finally(() => {
@@ -259,8 +264,8 @@ export const SessionAuthGate: React.FC<SessionAuthGateProps> = ({ children }) =>
         return;
       }
 
-      if (response.status === 401) {
-        setErrorMessage('Incorrect password. Try again.');
+if (response.status === 401) {
+        setErrorMessage(t('auth.incorrectPassword'));
         setState('locked');
         return;
       }
@@ -272,11 +277,11 @@ export const SessionAuthGate: React.FC<SessionAuthGateProps> = ({ children }) =>
         return;
       }
 
-      setErrorMessage('Unexpected response from server.');
+      setErrorMessage(t('auth.unexpectedResponse'));
       setState('error');
     } catch (error) {
       console.warn('Failed to submit UI password:', error);
-      setErrorMessage('Network error. Check connection and retry.');
+      setErrorMessage(t('auth.networkError'));
       setState('error');
     } finally {
       setIsSubmitting(false);
@@ -299,12 +304,12 @@ export const SessionAuthGate: React.FC<SessionAuthGateProps> = ({ children }) =>
     return (
       <AuthShell>
         <div className="flex flex-col items-center gap-6 w-full max-w-xs">
-          <div className="flex flex-col items-center gap-1 text-center">
+<div className="flex flex-col items-center gap-1 text-center">
             <h1 className="text-xl font-semibold text-foreground">
-              Unlock OpenChamber
+              {t('auth.unlockOpenchamber')}
             </h1>
             <p className="typography-meta text-muted-foreground">
-              This session is password-protected.
+              {t('auth.sessionProtected')}
             </p>
           </div>
 
@@ -317,7 +322,7 @@ export const SessionAuthGate: React.FC<SessionAuthGateProps> = ({ children }) =>
                   ref={passwordInputRef}
                   type="password"
                   autoComplete="current-password"
-                  placeholder="Enter password"
+                  placeholder={t('auth.enterPassword')}
                   value={password}
                   onChange={(event) => {
                     setPassword(event.target.value);
@@ -334,15 +339,15 @@ export const SessionAuthGate: React.FC<SessionAuthGateProps> = ({ children }) =>
               <Button
                 type="submit"
                 size="icon"
-                disabled={!password || isSubmitting}
-                aria-label={isSubmitting ? 'Unlocking' : 'Unlock'}
+disabled={!password || isSubmitting}
+                aria-label={isSubmitting ? t('auth.unlocking') : t('auth.unlock')}
               >
                 {isSubmitting ? (
                   <RiLoader4Line className="h-4 w-4 animate-spin" />
                 ) : (
                   <RiLockUnlockLine className="h-4 w-4" />
                 )}
-              </Button>
+</Button>
             </div>
             {errorMessage && (
               <p id="oc-ui-auth-error" className="typography-meta text-destructive">
@@ -355,7 +360,7 @@ export const SessionAuthGate: React.FC<SessionAuthGateProps> = ({ children }) =>
             <div className="w-full">
               <DesktopHostSwitcherInline />
               <p className="mt-1 text-center typography-micro text-muted-foreground">
-                Use Local if remote is unreachable.
+                {t('auth.useLocalUnreachable')}
               </p>
             </div>
           )}

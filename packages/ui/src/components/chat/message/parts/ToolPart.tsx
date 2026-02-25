@@ -1090,7 +1090,7 @@ const ToolExpandedContent: React.FC<ToolExpandedContentProps> = React.memo(({
                     {part.tool !== 'write' && state.status === 'completed' && 'output' in state && (
                         <div>
                             <div className="typography-meta font-medium text-muted-foreground/80 mb-1">
-                                Result:
+                                {t('chat.tool.result')}
                             </div>
                             {renderResultContent()}
                         </div>

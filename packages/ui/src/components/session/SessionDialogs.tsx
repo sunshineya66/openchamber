@@ -528,10 +528,13 @@ export const SessionDialogs: React.FC = () => {
     const deleteDialogDescription = deleteDialog
         ? deleteDialog.mode === 'worktree'
             ? deleteDialog.sessions.length === 0
-                ? 'This removes the selected worktree.'
-                : `This removes the selected worktree and ${deleteDialog.sessions.length === 1 ? '1 linked session' : `${deleteDialog.sessions.length} linked sessions`}.`
-            : `This action permanently removes ${deleteDialog.sessions.length === 1 ? '1 session' : `${deleteDialog.sessions.length} sessions`}${deleteDialog.dateLabel ? ` from ${deleteDialog.dateLabel}` : ''
-            }.`
+                ? t('chat.session.removesSelectedWorktree')
+                : deleteDialog.sessions.length === 1
+                    ? t('chat.session.removesWorktreeAndLinkedSession')
+                    : t('chat.session.removesWorktreeAndLinkedSessions', { count: deleteDialog.sessions.length })
+            : deleteDialog.sessions.length === 1
+                ? t('chat.session.removesSession', { dateLabel: deleteDialog.dateLabel ? ` from ${deleteDialog.dateLabel}` : '' })
+                : t('chat.session.removesSessions', { count: deleteDialog.sessions.length, dateLabel: deleteDialog.dateLabel ? ` from ${deleteDialog.dateLabel}` : '' })
         : '';
 
     const deleteDialogBody = deleteDialog ? (
@@ -543,7 +546,7 @@ export const SessionDialogs: React.FC = () => {
                     {isWorktreeDelete && (
                         <div className="flex items-center gap-2">
                             <span className="typography-meta font-medium text-foreground">
-                                {deleteDialog.sessions.length === 1 ? 'Linked session' : 'Linked sessions'}
+                                {deleteDialog.sessions.length === 1 ? t('chat.session.linkedSession') : t('chat.session.linkedSessions')}
                             </span>
                             <span className="typography-micro text-muted-foreground/70">
                                 {deleteDialog.sessions.length}
@@ -564,7 +567,7 @@ export const SessionDialogs: React.FC = () => {
                                     •
                                 </span>
                                 <span className="truncate">
-                                    {session.title || 'Untitled Session'}
+                                    {session.title || t('chat.session.untitledSession')}
                                 </span>
                             </li>
                         ))}
@@ -574,7 +577,7 @@ export const SessionDialogs: React.FC = () => {
                                     ? 'px-2.5 py-1 text-xs text-muted-foreground/70'
                                     : 'typography-micro text-muted-foreground/70'
                             )}>
-                                +{deleteDialog.sessions.length - 5} more
+                                {t('chat.session.more', { count: deleteDialog.sessions.length - 5 })}
                             </li>
                         )}
                     </ul>
@@ -591,17 +594,17 @@ export const SessionDialogs: React.FC = () => {
                         ) : null}
                     </div>
                     <p className="typography-micro text-muted-foreground/80 break-all">
-                        {targetWorktree ? formatPathForDisplay(targetWorktree.path, homeDirectory) : 'Worktree path unavailable.'}
+                        {targetWorktree ? formatPathForDisplay(targetWorktree.path, homeDirectory) : t('chat.session.worktreePathUnavailable')}
                     </p>
                     {hasDirtyWorktrees && (
-                        <p className="typography-micro text-status-warning">Uncommitted changes will be discarded.</p>
+                        <p className="typography-micro text-status-warning">{t('chat.session.uncommittedChangesWillBeDiscarded')}</p>
                     )}
 
                 </div>
             ) : (
                 <div className="rounded-xl border border-border/40 bg-sidebar/60 p-3">
                     <p className="typography-meta text-muted-foreground/80">
-                        Worktree directories stay intact. Subsessions linked to the selected sessions will also be removed.
+                        {t('chat.session.worktreeDirectoriesStayIntact')}
                     </p>
                 </div>
             )}
@@ -631,10 +634,10 @@ export const SessionDialogs: React.FC = () => {
                 ) : (
                     <RiCheckboxBlankLine className="size-4" />
                 )}
-                Delete remote branch
+                {t('chat.session.deleteRemoteBranch')}
             </button>
         ) : (
-            <span className="text-xs text-muted-foreground/70">Remote branch info unavailable</span>
+            <span className="text-xs text-muted-foreground/70">{t('chat.session.remoteBranchInfoUnavailable')}</span>
         )
     ) : null;
 
@@ -660,7 +663,7 @@ export const SessionDialogs: React.FC = () => {
             ) : (
                 <RiCheckboxBlankLine className="size-4" />
             )}
-            Delete local branch
+            {t('chat.session.deleteLocalBranch')}
         </button>
     ) : null;
 
@@ -688,18 +691,18 @@ export const SessionDialogs: React.FC = () => {
                 aria-pressed={!showDeletionDialog}
             >
                 {!showDeletionDialog ? <RiCheckboxLine className="size-4 text-primary" /> : <RiCheckboxBlankLine className="size-4" />}
-                Never ask
+                {t('chat.session.neverAsk')}
             </button>
             <div className="flex items-center gap-2">
                 <Button variant="ghost" onClick={closeDeleteDialog} disabled={isProcessingDelete}>
-                    Cancel
+                    {t('chat.session.cancel')}
                 </Button>
                 <Button variant="destructive" onClick={handleConfirmDelete} disabled={isProcessingDelete}>
                     {isProcessingDelete
-                        ? 'Deleting…'
+                        ? t('chat.session.deleting')
                         : deleteDialog?.sessions.length === 1
-                            ? 'Delete session'
-                            : 'Delete sessions'}
+                            ? t('chat.session.deleteSession')
+                            : t('chat.session.deleteSessions')}
                 </Button>
             </div>
         </div>
@@ -708,8 +711,8 @@ export const SessionDialogs: React.FC = () => {
     const deleteDialogTitle = isWorktreeDelete
         ? t('features.git.deleteWorktree')
         : deleteDialog?.sessions.length === 1
-            ? 'Delete session'
-            : 'Delete sessions';
+            ? t('chat.session.deleteSession')
+            : t('chat.session.deleteSessions');
 
     return (
         <>

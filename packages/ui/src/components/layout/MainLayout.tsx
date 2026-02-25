@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { motion, useMotionValue, animate } from 'motion/react';
 import { RiSettings3Line } from '@remixicon/react';
 import { Header } from './Header';
@@ -69,6 +70,7 @@ const MobileDrawerGestureSurface: React.FC<{
 };
 
 export const MainLayout: React.FC = () => {
+    const { t } = useTranslation();
     const RIGHT_SIDEBAR_AUTO_CLOSE_WIDTH = 1140;
     const RIGHT_SIDEBAR_AUTO_OPEN_WIDTH = 1220;
     const BOTTOM_TERMINAL_AUTO_CLOSE_HEIGHT = 640;
@@ -696,7 +698,7 @@ export const MainLayout: React.FC = () => {
                                     className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-muted-foreground hover:bg-interactive-hover hover:text-foreground transition-colors"
                                 >
                                     <RiSettings3Line className="h-5 w-5" />
-                                    <span className="typography-ui-label">Settings</span>
+                                    <span className="typography-ui-label">{t('layout.main.settings')}</span>
                                 </button>
                             </div>
                         </div>

@@ -468,7 +468,7 @@ export const ServerFilePicker: React.FC<ServerFilePickerProps> = ({
             className="px-2 py-1.5 typography-ui-label text-muted-foreground"
             style={{ paddingLeft: `${(level + 1) * 12}px` }}
           >
-            Loading…
+            {t('chat.file.loadingDirectory')}
           </div>
         )}
       </div>
@@ -476,8 +476,8 @@ export const ServerFilePicker: React.FC<ServerFilePickerProps> = ({
   };
 
   const summaryLabel = selectedFiles.size > 0
-    ? `${selectedFiles.size} file${selectedFiles.size !== 1 ? 's' : ''} selected`
-    : 'No files selected';
+    ? t('chat.file.filesSelected', { count: selectedFiles.size })
+    : t('chat.file.noFilesSelected');
 
   const summarySection = (
     <div className="flex items-center justify-between px-3 py-2 shrink-0">
@@ -488,7 +488,7 @@ export const ServerFilePicker: React.FC<ServerFilePickerProps> = ({
         disabled={selectedFiles.size === 0 || attaching}
         className="h-6 typography-meta"
       >
-        {attaching ? 'Attaching...' : 'Attach Files'}
+        {attaching ? t('chat.file.attaching') : t('chat.file.attachFiles')}
       </Button>
     </div>
   );
@@ -498,7 +498,7 @@ export const ServerFilePicker: React.FC<ServerFilePickerProps> = ({
   const pickerBody = (
     <>
       <div className="px-3 py-2 border-b shrink-0">
-        <div className="font-medium typography-ui-label text-foreground">Select Project Files</div>
+        <div className="font-medium typography-ui-label text-foreground">{t('chat.file.selectProject')}</div>
       </div>
       <div className="px-3 py-2 border-b shrink-0">
         <div className="relative">
@@ -541,7 +541,7 @@ export const ServerFilePicker: React.FC<ServerFilePickerProps> = ({
             {isSearchActive ? (
               searching ? (
                 <div className="px-3 py-4 typography-ui-label text-muted-foreground text-center">
-                  Searching files…
+                  {t('chat.file.searchingFiles')}
                 </div>
               ) : (
                 searchResults.map((file) => renderFileItem(file, 0))
@@ -552,13 +552,13 @@ export const ServerFilePicker: React.FC<ServerFilePickerProps> = ({
 
             {!isSearchActive && rootItems.length === 0 && (
               <div className="px-3 py-4 typography-ui-label text-muted-foreground text-center">
-                No files in this directory
+                {t('chat.file.noFilesInDirectory')}
               </div>
             )}
 
             {isSearchActive && !searching && searchResults.length === 0 && (
               <div className="px-3 py-4 typography-ui-label text-muted-foreground text-center">
-                No files found
+                {t('chat.file.noFilesFound')}
               </div>
             )}
           </div>

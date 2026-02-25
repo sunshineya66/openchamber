@@ -1379,8 +1379,18 @@ const validateDirectoryPath = async (candidate) => {
   }
 };
 
+const tryDecodeBase64 = (str) => {
+  if (!str) return null;
+  try {
+    return Buffer.from(str, 'base64').toString('utf-8');
+  } catch {
+    return str;
+  }
+};
+
 const resolveProjectDirectory = async (req) => {
-  const headerDirectory = typeof req.get === 'function' ? req.get('x-opencode-directory') : null;
+  const rawHeaderDirectory = typeof req.get === 'function' ? req.get('x-opencode-directory') : null;
+  const headerDirectory = tryDecodeBase64(rawHeaderDirectory);
   const queryDirectory = Array.isArray(req.query?.directory)
     ? req.query.directory[0]
     : req.query?.directory;

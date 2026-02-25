@@ -467,8 +467,8 @@ export const DefaultsSettings: React.FC = () => {
                   </TooltipTrigger>
                   <TooltipContent sideOffset={8} className="max-w-xs">
                     {settingsAutoCreateWorktree
-                      ? `New session (Worktree): ${getModifierLabel()}+N\nStandard: Shift+${getModifierLabel()}+N`
-                      : `New session (Standard): ${getModifierLabel()}+N\nWorktree: Shift+${getModifierLabel()}+N`}
+                      ? t('settings.defaults.worktreeHintWorktree', { modifier: getModifierLabel() })
+                      : t('settings.defaults.worktreeHintStandard', { modifier: getModifierLabel() })}
                   </TooltipContent>
                 </Tooltip>
               </div>

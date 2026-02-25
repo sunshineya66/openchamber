@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import type { Message, Part } from '@opencode-ai/sdk/v2';
 import { RiCheckLine, RiFileCopyLine } from '@remixicon/react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -272,6 +273,7 @@ const resolveProviderAndModel = (
 };
 
 export const ContextPanelContent: React.FC = () => {
+  const { t } = useTranslation();
   const { currentTheme } = useThemeSystem();
   const syntaxTheme = React.useMemo(() => generateSyntaxTheme(currentTheme), [currentTheme]);
   const [expandedRawMessages, setExpandedRawMessages] = React.useState<Record<string, boolean>>({});
@@ -370,8 +372,8 @@ export const ContextPanelContent: React.FC = () => {
       ? sessionMessages[sessionMessages.length - 1]?.info?.time?.created
       : null;
 
-    return {
-      sessionTitle: currentSession?.title || 'Untitled Session',
+return {
+      sessionTitle: currentSession?.title || t('contextPanel.untitledSession'),
       messagesCount: sessionMessages.length,
       userMessagesCount: userMessages.length,
       assistantMessagesCount: assistantMessages.length,
@@ -392,19 +394,19 @@ export const ContextPanelContent: React.FC = () => {
     };
   }, [currentSessionId, providers, sessionMessages, sessions]);
 
-  if (!currentSessionId) {
+if (!currentSessionId) {
     return (
       <div className="flex h-full items-center justify-center p-6 text-center typography-ui-label text-muted-foreground">
-        Open a session to inspect context.
+        {t('contextPanel.openSessionToInspect')}
       </div>
     );
   }
 
   const segments: Array<{ key: string; label: string; value: number; color: string }> = [
-    { key: 'user', label: 'User', value: viewModel.breakdown.user, color: 'var(--status-success)' },
-    { key: 'assistant', label: 'Assistant', value: viewModel.breakdown.assistant, color: 'var(--primary-base)' },
-    { key: 'tool', label: 'Tool Calls', value: viewModel.breakdown.tool, color: 'var(--status-warning)' },
-    { key: 'other', label: 'Other', value: viewModel.breakdown.other, color: 'var(--surface-muted-foreground)' },
+    { key: 'user', label: t('contextPanel.user'), value: viewModel.breakdown.user, color: 'var(--status-success)' },
+    { key: 'assistant', label: t('contextPanel.assistant'), value: viewModel.breakdown.assistant, color: 'var(--primary-base)' },
+    { key: 'tool', label: t('layout.contextPanel.toolCalls') ?? 'Tool Calls', value: viewModel.breakdown.tool, color: 'var(--status-warning)' },
+    { key: 'other', label: t('common.other') ?? 'Other', value: viewModel.breakdown.other, color: 'var(--surface-muted-foreground)' },
   ];
 
   return (
@@ -425,10 +427,10 @@ export const ContextPanelContent: React.FC = () => {
           </div>
         </div>
 
-        {/* ── Context usage ── */}
+{/* ── Context usage ── */}
         <div className="mb-5 rounded-lg bg-[var(--surface-elevated)]/70 px-4 py-3.5">
           <div className="flex items-baseline justify-between">
-            <span className="typography-micro text-muted-foreground">Context</span>
+            <span className="typography-micro text-muted-foreground">{t('contextPanel.context')}</span>
             <span className="typography-micro tabular-nums text-muted-foreground/70">
               {formatNumber(viewModel.tokenBreakdown.total)}
               {viewModel.contextLimit ? ` / ${formatNumber(viewModel.contextLimit)}` : ''}
@@ -446,17 +448,17 @@ export const ContextPanelContent: React.FC = () => {
             )}
           </div>
           <div className="mt-1.5 typography-micro font-medium tabular-nums text-foreground/80">
-            {viewModel.usagePercent.toFixed(1)}% used
+            {viewModel.usagePercent.toFixed(1)}% {t('contextPanel.used')}
           </div>
         </div>
 
         {/* ── Stat grid ── */}
         <div className="mb-5 grid grid-cols-2 gap-2">
           {([
-            { label: 'Messages', value: formatNumber(viewModel.messagesCount) },
-            { label: 'User', value: formatNumber(viewModel.userMessagesCount) },
-            { label: 'Assistant', value: formatNumber(viewModel.assistantMessagesCount) },
-            { label: 'Cost', value: formatMoney(viewModel.totalAssistantCost) },
+            { label: t('contextPanel.messages'), value: formatNumber(viewModel.messagesCount) },
+            { label: t('contextPanel.user'), value: formatNumber(viewModel.userMessagesCount) },
+            { label: t('contextPanel.assistant'), value: formatNumber(viewModel.assistantMessagesCount) },
+            { label: t('contextPanel.cost'), value: formatMoney(viewModel.totalAssistantCost) },
           ] as const).map((item) => (
             <div key={item.label} className="rounded-lg bg-[var(--surface-elevated)]/70 px-3 py-2.5">
               <div className="typography-micro text-muted-foreground/70">{item.label}</div>
@@ -467,14 +469,14 @@ export const ContextPanelContent: React.FC = () => {
 
         {/* ── Last turn tokens ── */}
         <div className="mb-5 rounded-lg bg-[var(--surface-elevated)]/70 px-4 py-3.5">
-          <div className="typography-micro text-muted-foreground">Last Assistant Message</div>
+          <div className="typography-micro text-muted-foreground">{t('contextPanel.lastAssistantMessage')}</div>
           <div className="mt-2.5 grid grid-cols-3 gap-x-4 gap-y-2.5">
             {([
-              { label: 'Input', value: viewModel.tokenBreakdown.input },
-              { label: 'Output', value: viewModel.tokenBreakdown.output },
-              { label: 'Reasoning', value: viewModel.tokenBreakdown.reasoning },
-              { label: 'Cache Read', value: viewModel.tokenBreakdown.cacheRead },
-              { label: 'Cache Write', value: viewModel.tokenBreakdown.cacheWrite },
+              { label: t('contextPanel.input'), value: viewModel.tokenBreakdown.input },
+              { label: t('contextPanel.output'), value: viewModel.tokenBreakdown.output },
+              { label: t('contextPanel.reasoning'), value: viewModel.tokenBreakdown.reasoning },
+              { label: t('contextPanel.cacheRead'), value: viewModel.tokenBreakdown.cacheRead },
+              { label: t('contextPanel.cacheWrite'), value: viewModel.tokenBreakdown.cacheWrite },
             ] as const).map((item) => (
               <div key={item.label}>
                 <div className="typography-micro text-muted-foreground/70">{item.label}</div>
@@ -515,9 +517,9 @@ export const ContextPanelContent: React.FC = () => {
           </div>
         </div>
 
-        {/* ── Raw messages ── */}
+{/* ── Raw messages ── */}
         <div>
-          <div className="typography-micro text-muted-foreground">Raw Messages</div>
+          <div className="typography-micro text-muted-foreground">{t('contextPanel.rawMessages')}</div>
           <div className="mt-2.5 space-y-1">
             {[...sessionMessages].reverse().map((message) => {
               const role = deriveMessageRole(message.info).role;
@@ -558,15 +560,15 @@ export const ContextPanelContent: React.FC = () => {
                     <div className="border-t border-[var(--surface-subtle)] p-0">
                       <div className="group relative max-h-[26rem] w-full overflow-auto bg-[var(--surface-background)]">
                         <div className="absolute top-1 right-2 z-10 opacity-0 transition-opacity group-hover:opacity-100">
-                          <button
+<button
                             type="button"
                             className="rounded p-1 text-muted-foreground transition-colors hover:bg-interactive-hover/60 hover:text-foreground"
                             onClick={(event) => {
                               event.stopPropagation();
                               void handleCopyRawMessage(message.info.id, jsonValue);
                             }}
-                            aria-label={isCopied ? 'Copied' : 'Copy JSON'}
-                            title={isCopied ? 'Copied' : 'Copy'}
+                            aria-label={isCopied ? t('contextPanel.copied') : t('contextPanel.copyJson')}
+                            title={isCopied ? t('contextPanel.copied') : t('common.copy')}
                           >
                             {isCopied ? <RiCheckLine className="size-3.5" /> : <RiFileCopyLine className="size-3.5" />}
                           </button>

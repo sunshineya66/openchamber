@@ -5,6 +5,7 @@ import { OverlayScrollbar } from '@/components/ui/OverlayScrollbar';
 import { ChangeRow } from './ChangeRow';
 import type { GitStatus } from '@/lib/api/types';
 import { cn } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 interface ChangesSectionProps {
   changeEntries: GitStatus['files'];
@@ -33,6 +34,7 @@ export const ChangesSection: React.FC<ChangesSectionProps> = ({
   variant = 'framed',
   maxListHeightClassName,
 }) => {
+  const { t } = useTranslation();
   const scrollRef = React.useRef<HTMLDivElement | null>(null);
   const selectedCount = selectedPaths.size;
   const totalCount = changeEntries.length;
@@ -53,7 +55,7 @@ export const ChangesSection: React.FC<ChangesSectionProps> = ({
   return (
     <section className={containerClassName}>
       <header className={headerClassName}>
-        <h3 className="typography-ui-header font-semibold text-foreground">Changes</h3>
+        <h3 className="typography-ui-header font-semibold text-foreground">{t('ui.features.git.changes')}</h3>
         <div className="flex items-center gap-2">
           <span className="typography-meta text-muted-foreground">
             {selectedCount}/{totalCount}
@@ -66,7 +68,7 @@ export const ChangesSection: React.FC<ChangesSectionProps> = ({
                 className="h-6 px-2 text-xs"
                 onClick={onSelectAll}
               >
-                All
+                {t('ui.features.git.all')}
               </Button>
               <Button
                 variant="ghost"
@@ -75,7 +77,7 @@ export const ChangesSection: React.FC<ChangesSectionProps> = ({
                 onClick={onClearSelection}
                 disabled={selectedCount === 0}
               >
-                None
+                {t('ui.features.git.none')}
               </Button>
             </>
           )}

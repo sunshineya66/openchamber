@@ -138,7 +138,7 @@ export const useCommandsStore = create<CommandsStore>()(
                     const response = await fetch(`/api/config/commands/${encodeURIComponent(cmd.name)}${queryParams}`, {
                       headers: {
                         'Cache-Control': 'no-cache',
-                        ...(directory ? { 'x-opencode-directory': directory } : {}),
+                        ...(directory ? { 'x-opencode-directory': btoa(directory) } : {}),
                       }
                     });
                     

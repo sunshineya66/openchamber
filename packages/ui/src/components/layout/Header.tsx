@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Tooltip,
   TooltipContent,
@@ -149,6 +150,7 @@ export const Header: React.FC<HeaderProps> = ({
   leftDrawerOpen,
   rightDrawerOpen,
 }) => {
+  const { t } = useTranslation();
   const setSessionSwitcherOpen = useUIStore((state) => state.setSessionSwitcherOpen);
   const toggleSidebar = useUIStore((state) => state.toggleSidebar);
   const toggleBottomTerminal = useUIStore((state) => state.toggleBottomTerminal);
@@ -501,21 +503,21 @@ export const Header: React.FC<HeaderProps> = ({
         if (result.success && result.path) {
           const added = addProject(result.path, { id: result.projectId });
           if (!added) {
-            toast.error('Failed to add project', {
-              description: 'Please select a valid directory.',
+            toast.error(t('layout.header.toast.failedToAddProject'), {
+              description: t('layout.header.toast.selectValidDirectory'),
             });
           }
         } else if (result.error && result.error !== 'Directory selection cancelled') {
-          toast.error('Failed to select directory', {
+          toast.error(t('layout.header.toast.failedToSelectDirectory'), {
             description: result.error,
           });
         }
       })
       .catch((error) => {
         console.error('Failed to select directory:', error);
-        toast.error('Failed to select directory');
+        toast.error(t('layout.header.toast.failedToSelectDirectory'));
       });
-  }, [addProject, tauriIpcAvailable]);
+  }, [addProject, tauriIpcAvailable, t]);
 
   const updateProjectMeta = useProjectsStore((state) => state.updateProjectMeta);
 
@@ -1010,31 +1012,31 @@ export const Header: React.FC<HeaderProps> = ({
 
   const tabs: TabConfig[] = React.useMemo(() => {
     const base: TabConfig[] = [
-      { id: 'chat', label: 'Chat', icon: RiChat4Line },
+      { id: 'chat', label: t('layout.header.tabs.chat'), icon: RiChat4Line },
     ];
 
     if (showPlanTab) {
-      base.push({ id: 'plan', label: 'Plan', icon: RiFileTextLine });
+      base.push({ id: 'plan', label: t('layout.header.tabs.plan'), icon: RiFileTextLine });
     }
 
     if (isMobile) {
       base.push(
         {
           id: 'diff',
-          label: 'Diff',
+          label: t('layout.header.tabs.diff'),
           icon: 'diff',
         },
-        { id: 'files', label: 'Files', icon: RiFolder6Line },
+        { id: 'files', label: t('layout.header.tabs.files'), icon: RiFolder6Line },
         {
           id: 'terminal',
-          label: 'Terminal',
+          label: t('layout.header.tabs.terminal'),
           icon: RiTerminalBoxLine,
         },
       );
     }
 
     return base;
-  }, [isMobile, showPlanTab]);
+  }, [isMobile, showPlanTab, t]);
 
   const shortcutLabel = React.useCallback((actionId: string) => {
     return formatShortcutForDisplay(getEffectiveShortcutCombo(actionId, shortcutOverrides));
@@ -1049,21 +1051,21 @@ export const Header: React.FC<HeaderProps> = ({
   const servicesTabs = React.useMemo(() => {
     const base: Array<{ value: 'instance' | 'usage' | 'mcp'; label: string; icon: RemixiconComponentType }> = [];
     if (isDesktopApp) {
-      base.push({ value: 'instance', label: 'Instance', icon: RiServerLine });
+      base.push({ value: 'instance', label: t('layout.header.services.instance'), icon: RiServerLine });
     }
     base.push(
-      { value: 'usage', label: 'Usage', icon: RiTimerLine },
-      { value: 'mcp', label: 'MCP', icon: McpIcon as unknown as RemixiconComponentType }
+      { value: 'usage', label: t('layout.header.services.usage'), icon: RiTimerLine },
+      { value: 'mcp', label: t('layout.header.services.mcp'), icon: McpIcon as unknown as RemixiconComponentType }
     );
     return base;
-  }, [isDesktopApp]);
+  }, [isDesktopApp, t]);
 
   const quotaDisplayTabs = React.useMemo(() => {
     return [
-      { value: 'usage' as const, label: 'Used' },
-      { value: 'remaining' as const, label: 'Remaining' },
+      { value: 'usage' as const, label: t('layout.header.quota.used') },
+      { value: 'remaining' as const, label: t('layout.header.quota.remaining') },
     ];
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -1493,14 +1495,14 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             type="button"
             onClick={handleOpenSessionSwitcher}
-            aria-label="Open sessions"
+            aria-label={t('layout.header.tooltip.openSessions')}
             className={`${headerIconButtonClass} mr-2 shrink-0`}
           >
             <RiLayoutLeftLine className="h-5 w-5" />
           </button>
         </TooltipTrigger>
         <TooltipContent>
-          <p>Open sessions ({shortcutLabel('toggle_sidebar')})</p>
+          <p>{t('layout.header.tooltip.openSessions')} ({shortcutLabel('toggle_sidebar')})</p>
         </TooltipContent>
       </Tooltip>
 
@@ -1513,12 +1515,12 @@ export const Header: React.FC<HeaderProps> = ({
                 type="button"
                 onClick={handleAddProject}
                 className={`${headerIconButtonClass} mr-1 shrink-0`}
-                aria-label="Add project"
+                aria-label={t('layout.header.tooltip.addProject')}
               >
                 <RiFolderAddLine className="h-5 w-5" />
               </button>
             </TooltipTrigger>
-            <TooltipContent>Add project</TooltipContent>
+            <TooltipContent>{t('layout.header.tooltip.addProject')}</TooltipContent>
           </Tooltip>
           <div className="app-region-no-drag relative min-w-0 w-fit max-w-full">
             {/* Left fade */}
@@ -1667,14 +1669,14 @@ export const Header: React.FC<HeaderProps> = ({
                           className="gap-2"
                         >
                           <RiPencilLine className="h-4 w-4" />
-                          Edit project
+                          {t('layout.header.tooltip.editProject')}
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           onClick={() => handleCloseProject(project.id)}
                           className="text-destructive focus:text-destructive gap-2"
                         >
                           <RiCloseLine className="h-4 w-4" />
-                          Close project
+                          {t('layout.header.tooltip.closeProject')}
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -1717,7 +1719,7 @@ export const Header: React.FC<HeaderProps> = ({
             <TooltipTrigger asChild>
               <button
                 type="button"
-                aria-label="Open plan"
+                aria-label={t('layout.header.tooltip.openPlan')}
                 onClick={handleOpenContextPlan}
                 className={cn(headerIconButtonClass, isContextPlanActive && 'bg-[var(--interactive-hover)] text-foreground')}
               >
@@ -1725,7 +1727,7 @@ export const Header: React.FC<HeaderProps> = ({
               </button>
             </TooltipTrigger>
             <TooltipContent>
-              <p>Plan ({shortcutLabel('toggle_context_plan')})</p>
+              <p>{t('layout.header.tabs.plan')} ({shortcutLabel('toggle_context_plan')})</p>
             </TooltipContent>
           </Tooltip>
         )}
@@ -1765,8 +1767,8 @@ export const Header: React.FC<HeaderProps> = ({
               <TooltipContent>
                 <p>
                   {isDesktopApp
-                    ? `Current instance: ${currentInstanceLabel}`
-                    : 'Services'} ({shortcutLabel('toggle_services_menu')}; next tab {shortcutLabel('cycle_services_tab')})
+                    ? `${t('layout.header.services.instance')}: ${currentInstanceLabel}`
+                    : t('layout.header.tooltip.services')} ({shortcutLabel('toggle_services_menu')}; next tab {shortcutLabel('cycle_services_tab')})
                 </p>
               </TooltipContent>
             </Tooltip>
@@ -1806,9 +1808,9 @@ export const Header: React.FC<HeaderProps> = ({
                   <div className="bg-[var(--surface-elevated)] border-b border-[var(--interactive-border)]">
                     <DropdownMenuLabel className="flex items-center justify-between gap-3 py-2.5">
                       <div className="flex min-w-0 items-center gap-2">
-                        <span className="typography-ui-header font-semibold text-foreground">Rate limits</span>
+                        <span className="typography-ui-header font-semibold text-foreground">{t('layout.header.tooltip.rateLimits')}</span>
                         <span className="truncate typography-ui-label text-muted-foreground">
-                          Last updated {formatTime(quotaLastUpdated)}
+                          {t('layout.header.tooltip.lastUpdated')} {formatTime(quotaLastUpdated)}
                         </span>
                       </div>
                       <div className="flex items-center gap-1.5">
@@ -1840,7 +1842,7 @@ export const Header: React.FC<HeaderProps> = ({
                       className="cursor-default hover:bg-transparent focus:bg-transparent data-[highlighted]:bg-transparent"
                       onSelect={(event) => event.preventDefault()}
                     >
-                      <span className="typography-ui-label text-muted-foreground">No rate limits available.</span>
+                      <span className="typography-ui-label text-muted-foreground">{t('layout.header.tooltip.noRateLimits')}</span>
                     </DropdownMenuItem>
                   )}
                   {rateLimitGroups.map((group, index) => {
@@ -1993,14 +1995,14 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               type="button"
               onClick={toggleBottomTerminal}
-              aria-label="Toggle terminal panel"
+              aria-label={t('layout.header.tooltip.terminalPanel')}
               className={headerIconButtonClass}
             >
               <RiTerminalBoxLine className="h-5 w-5" />
             </button>
           </TooltipTrigger>
           <TooltipContent>
-            <p>Terminal panel ({shortcutLabel('toggle_terminal')})</p>
+            <p>{t('layout.header.tooltip.terminalPanel')} ({shortcutLabel('toggle_terminal')})</p>
           </TooltipContent>
         </Tooltip>
 
@@ -2009,14 +2011,14 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               type="button"
               onClick={toggleRightSidebar}
-              aria-label="Toggle right sidebar"
+              aria-label={t('layout.header.tooltip.rightSidebar')}
               className={headerIconButtonClass}
             >
               <RiLayoutRightLine className="h-5 w-5" />
             </button>
           </TooltipTrigger>
           <TooltipContent>
-            <p>Right sidebar ({shortcutLabel('toggle_right_sidebar')})</p>
+            <p>{t('layout.header.tooltip.rightSidebar')} ({shortcutLabel('toggle_right_sidebar')})</p>
           </TooltipContent>
         </Tooltip>
 
@@ -2048,7 +2050,7 @@ export const Header: React.FC<HeaderProps> = ({
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-64">
                 <DropdownMenuLabel className="typography-ui-header font-semibold text-foreground">
-                  GitHub Accounts
+                  {t('layout.header.tooltip.githubAccounts')}
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 {githubAccounts.map((account) => {
@@ -2131,7 +2133,7 @@ export const Header: React.FC<HeaderProps> = ({
               headerIconButtonClass,
               leftDrawerOpen && 'bg-interactive-selection text-interactive-selection-foreground'
             )}
-            aria-label={leftDrawerOpen ? 'Close sessions' : 'Open sessions'}
+            aria-label={leftDrawerOpen ? t('common.close') + ' ' + t('layout.header.tooltip.sessions') : t('layout.header.tooltip.openSessions')}
           >
             <RiLayoutLeftLine className="h-5 w-5" />
           </button>
@@ -2140,7 +2142,7 @@ export const Header: React.FC<HeaderProps> = ({
             type="button"
             onClick={() => setSessionSwitcherOpen(false)}
             className="app-region-no-drag h-9 w-9 p-2 text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md active:bg-interactive-active"
-            aria-label="Back"
+            aria-label={t('common.close')}
           >
             <RiArrowLeftSLine className="h-5 w-5" />
           </button>
@@ -2149,14 +2151,14 @@ export const Header: React.FC<HeaderProps> = ({
             type="button"
             onClick={handleOpenSessionSwitcher}
             className="app-region-no-drag h-9 w-9 p-2 text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md active:bg-interactive-active"
-            aria-label="Open sessions"
+            aria-label={t('layout.header.tooltip.openSessions')}
           >
             <RiPlayListAddLine className="h-5 w-5" />
           </button>
         )}
 
         {isSessionSwitcherOpen && (
-          <span className="typography-ui-label font-semibold text-foreground">Sessions</span>
+          <span className="typography-ui-label font-semibold text-foreground">{t('layout.header.tooltip.sessions')}</span>
         )}
       </div>
 
@@ -2241,7 +2243,7 @@ export const Header: React.FC<HeaderProps> = ({
                   <DropdownMenuTrigger asChild>
                     <button
                       type="button"
-                      aria-label="View services"
+                      aria-label={t('layout.header.tooltip.services')}
                       className={headerIconButtonClass}
                     >
                       <RiStackLine className="h-5 w-5" />
@@ -2249,7 +2251,7 @@ export const Header: React.FC<HeaderProps> = ({
                   </DropdownMenuTrigger>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>Services</p>
+                  <p>{t('layout.header.tooltip.services')}</p>
                 </TooltipContent>
               </Tooltip>
               <DropdownMenuContent
@@ -2278,7 +2280,7 @@ export const Header: React.FC<HeaderProps> = ({
                         type="button"
                         onClick={() => setIsMobileRateLimitsOpen(false)}
                         className="inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-interactive-hover"
-                        aria-label="Close services"
+                        aria-label={t('common.close') + ' ' + t('layout.header.tooltip.services')}
                       >
                         <RiCloseLine className="h-5 w-5" />
                       </button>
@@ -2294,9 +2296,9 @@ export const Header: React.FC<HeaderProps> = ({
                       <div className="bg-[var(--surface-elevated)] border-b border-[var(--interactive-border)]">
                         <div className="flex items-center justify-between gap-3 px-3 py-2.5">
                           <div className="flex min-w-0 items-center gap-2">
-                            <span className="typography-ui-header font-semibold text-foreground">Rate limits</span>
+                            <span className="typography-ui-header font-semibold text-foreground">{t('layout.header.tooltip.rateLimits')}</span>
                             <span className="truncate typography-ui-label text-muted-foreground">
-                              Last updated {formatTime(quotaLastUpdated)}
+                              {t('layout.header.tooltip.lastUpdated')} {formatTime(quotaLastUpdated)}
                             </span>
                           </div>
                           <div className="flex items-center gap-1.5">
@@ -2328,7 +2330,7 @@ export const Header: React.FC<HeaderProps> = ({
                           className="cursor-default hover:bg-transparent focus:bg-transparent data-[highlighted]:bg-transparent"
                           onSelect={(event) => event.preventDefault()}
                         >
-                          <span className="typography-ui-label text-muted-foreground">No rate limits available.</span>
+                          <span className="typography-ui-label text-muted-foreground">{t('layout.header.tooltip.noRateLimits')}</span>
                         </DropdownMenuItem>
                       )}
                       {rateLimitGroups.map((group) => (

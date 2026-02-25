@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { RiCloseLine, RiFullscreenExitLine, RiFullscreenLine } from '@remixicon/react';
 
 import { Button } from '@/components/ui/button';
@@ -53,6 +54,7 @@ const getRelativePathLabel = (filePath: string | null, directory: string): strin
 };
 
 export const ContextPanel: React.FC = () => {
+  const { t } = useTranslation();
   const effectiveDirectory = useEffectiveDirectory() ?? '';
   const directoryKey = React.useMemo(() => normalizeDirectoryKey(effectiveDirectory), [effectiveDirectory]);
 
@@ -145,7 +147,7 @@ export const ContextPanel: React.FC = () => {
 
   const activeFilePath = useFilesViewTabsStore((state) => (directoryKey ? (state.byRoot[directoryKey]?.selectedPath ?? null) : null));
 
-  const panelTitle = panelState?.mode === 'diff' ? 'Diff' : panelState?.mode === 'file' ? 'File' : panelState?.mode === 'context' ? 'Context' : panelState?.mode === 'plan' ? 'Plan' : 'Panel';
+  const panelTitle = panelState?.mode === 'diff' ? t('layout.contextPanel.diff') : panelState?.mode === 'file' ? t('layout.contextPanel.file') : panelState?.mode === 'context' ? t('layout.contextPanel.context') : panelState?.mode === 'plan' ? t('layout.contextPanel.plan') : t('layout.contextPanel.panel');
   const effectivePath = panelState?.mode === 'file' ? (activeFilePath ?? panelState?.targetPath ?? null) : panelState?.mode === 'context' ? null : (panelState?.targetPath ?? null);
   const pathLabel = getRelativePathLabel(effectivePath, effectiveDirectory);
 
@@ -171,8 +173,8 @@ export const ContextPanel: React.FC = () => {
         size="sm"
         onClick={handleToggleExpanded}
         className="h-6 w-6 p-0"
-        title={isExpanded ? 'Collapse panel' : 'Expand panel'}
-        aria-label={isExpanded ? 'Collapse panel' : 'Expand panel'}
+        title={isExpanded ? t('layout.contextPanel.tooltip.collapsePanel') : t('layout.contextPanel.tooltip.expandPanel')}
+        aria-label={isExpanded ? t('layout.contextPanel.tooltip.collapsePanel') : t('layout.contextPanel.tooltip.expandPanel')}
       >
         {isExpanded ? <RiFullscreenExitLine className="h-3.5 w-3.5" /> : <RiFullscreenLine className="h-3.5 w-3.5" />}
       </Button>
@@ -182,8 +184,8 @@ export const ContextPanel: React.FC = () => {
         size="sm"
         onClick={handleClose}
         className="h-6 w-6 p-0"
-        title="Close panel"
-        aria-label="Close panel"
+        title={t('layout.contextPanel.tooltip.closePanel')}
+        aria-label={t('layout.contextPanel.tooltip.closePanel')}
       >
         <RiCloseLine className="h-3.5 w-3.5" />
       </Button>

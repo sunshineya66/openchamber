@@ -38,7 +38,7 @@ const QueuedMessageChip = memo(({ message, sessionId, onEdit }: QueuedMessageChi
                 title={t('chat.queue.edit')}
             >
                 <span className="truncate max-w-[200px]">
-                    {firstLine || '(empty)'}
+                    {firstLine || t('chat.queue.empty')}
                 </span>
                 {attachmentCount > 0 && (
                     <span className="text-muted-foreground flex-shrink-0">

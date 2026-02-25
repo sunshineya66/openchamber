@@ -125,10 +125,10 @@ export const AddCatalogDialog: React.FC<AddCatalogDialogProps> = ({ open, onOpen
     });
   }, [existingCatalogs, source, subpath]);
 
-  const handleScan = async () => {
+const handleScan = async () => {
     const trimmedSource = source.trim();
     if (!trimmedSource) {
-      toast.error('Repository source is required');
+      toast.error(t('features.skills.repoSourceRequired'));
       return;
     }
 
@@ -145,10 +145,10 @@ export const AddCatalogDialog: React.FC<AddCatalogDialogProps> = ({ open, onOpen
       gitIdentityId: gitIdentityId || undefined,
     });
 
-if (!result.ok) {
+    if (!result.ok) {
       if (result.error?.kind === 'authRequired') {
         if (isVSCodeRuntime()) {
-          toast.error('Private repositories are not supported in VS Code yet');
+          toast.error(t('features.skills.privateRepoNotSupported'));
           return;
         }
 
@@ -163,7 +163,7 @@ if (!result.ok) {
               : ids[0].id;
           setGitIdentityId(preferred);
         }
-        toast.error('Authentication required. Select a Git identity and scan again.');
+        toast.error(t('features.skills.authRequiredScan'));
         return;
       }
 
@@ -181,31 +181,31 @@ if (!result.ok) {
 
     setIdentityOptions([]);
     setScanOk(true);
-    toast.success(`Found ${count} ${t('features.skills.foundPlural')}`);
+    toast.success(`${count} ${t('features.skills.foundPlural')}`);
   };
 
-  const handleAdd = async () => {
+const handleAdd = async () => {
     const trimmedLabel = label.trim();
     const trimmedSource = source.trim();
     const trimmedSubpath = subpath.trim();
 
     if (!trimmedLabel) {
-      toast.error('Catalog name is required');
+      toast.error(t('features.skills.catalogNameRequired'));
       return;
     }
 
     if (!trimmedSource) {
-      toast.error('Repository source is required');
+      toast.error(t('features.skills.repoSourceRequired'));
       return;
     }
 
     if (!scanOk) {
-      toast.error('Scan the repository before adding this catalog');
+      toast.error(t('features.skills.scanBeforeAdd'));
       return;
     }
 
     if (isDuplicate) {
-      toast.error('This catalog already exists');
+      toast.error(t('features.skills.catalogExists'));
       return;
     }
 
@@ -222,32 +222,32 @@ if (!result.ok) {
     try {
       await updateDesktopSettings({ skillCatalogs: updated });
       setExistingCatalogs(updated);
-      toast.success('Catalog added');
+      toast.success(t('features.skills.catalogAdded'));
       await loadCatalog({ refresh: true });
       onOpenChange(false);
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Failed to save catalog');
+      toast.error(error instanceof Error ? error.message : t('features.skills.saveCatalogFailed'));
     }
   };
 
-  return (
+return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-xl" keyboardAvoid>
-<DialogHeader>
+        <DialogHeader>
           <DialogTitle>{t('features.skills.addCatalog')}</DialogTitle>
           <DialogDescription>
-            Add a Git repository as a new catalog source. OpenChamber will scan it for folders containing <code className="font-mono">SKILL.md</code>.
+            {t('features.skills.addCatalogDescription')}
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4">
           <div className="space-y-2">
-            <label className="typography-ui-label text-foreground">Catalog name</label>
-            <Input value={label} onChange={(e) => setLabel(e.target.value)} placeholder="e.g. Team Skills" />
+            <label className="typography-ui-label text-foreground">{t('features.skills.catalogName')}</label>
+            <Input value={label} onChange={(e) => setLabel(e.target.value)} placeholder={t('features.skills.catalogNamePlaceholder')} />
           </div>
 
           <div className="space-y-2">
-            <label className="typography-ui-label text-foreground">Repository</label>
+            <label className="typography-ui-label text-foreground">{t('features.skills.repository')}</label>
             <Input
               value={source}
               onChange={(e) => {
@@ -255,15 +255,15 @@ if (!result.ok) {
                 setScanOk(false);
                 setScanCount(null);
               }}
-              placeholder="owner/repo or git@github.com:owner/repo.git"
+              placeholder={t('features.skills.repoPlaceholder')}
             />
             <p className="typography-micro text-muted-foreground">
-              Public repos work everywhere. Private repos require SSH identity (Desktop/Web only).
+              {t('features.skills.repoTypeHint')}
             </p>
           </div>
 
           <div className="space-y-2">
-            <label className="typography-ui-label text-foreground">Optional subpath</label>
+            <label className="typography-ui-label text-foreground">{t('features.skills.optionalSubpath')}</label>
             <Input
               value={subpath}
               onChange={(e) => {
@@ -271,35 +271,35 @@ if (!result.ok) {
                 setScanOk(false);
                 setScanCount(null);
               }}
-              placeholder="e.g. skills"
+              placeholder={t('features.skills.subpathPlaceholder')}
             />
           </div>
 
           {identityOptions.length > 0 && !isVSCodeRuntime() ? (
             <div className="space-y-2">
               <div>
-                <span className="typography-ui-label text-[var(--status-warning)]">Authentication required</span>
-                <span className="typography-meta text-muted-foreground ml-2">Select a Git identity (SSH key)</span>
+                <span className="typography-ui-label text-[var(--status-warning)]">{t('features.skills.authRequired')}</span>
+                <span className="typography-meta text-muted-foreground ml-2">{t('features.skills.selectGitIdentity')}</span>
               </div>
               <Select value={gitIdentityId || ''} onValueChange={(v) => setGitIdentityId(v)}>
                 <SelectTrigger className="w-fit">
-                  <span>{identityOptions.find((i) => i.id === gitIdentityId)?.name || 'Choose identity'}</span>
+                  <span>{identityOptions.find((i) => i.id === gitIdentityId)?.name || t('features.skills.chooseIdentity')}</span>
                 </SelectTrigger>
                 <SelectContent align="start">
                   {identityOptions.map((id) => (
-                    <SelectItem key={id.id} value={id.id}>
+<SelectItem key={id.id} value={id.id}>
                       {id.name}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
               <p className="typography-micro text-muted-foreground">
-                Configure identities in Settings - Git Identities.
+                {t('features.skills.configureIdentitiesHint')}
               </p>
             </div>
           ) : null}
 
-{scanCount !== null ? (
+          {scanCount !== null ? (
             <div className="typography-meta text-muted-foreground">
               {t('features.skills.scanResult')}: {scanCount} {t('features.skills.foundPlural')}
             </div>
@@ -307,14 +307,14 @@ if (!result.ok) {
 
           {isDuplicate ? (
             <div className="typography-meta text-muted-foreground">
-              This catalog is already added.
+              {t('features.skills.catalogAlreadyAddedText')}
             </div>
           ) : null}
         </div>
 
         <DialogFooter>
           <ButtonLarge variant="ghost" onClick={() => onOpenChange(false)}>
-            Cancel
+            {t('common.cancel')}
           </ButtonLarge>
           <ButtonLarge
             variant="ghost"
@@ -323,13 +323,13 @@ if (!result.ok) {
             className="gap-2"
           >
             <RiGitRepositoryLine className="h-4 w-4" />
-            {isScanning ? 'Scanning...' : 'Scan'}
+            {isScanning ? t('features.skills.scanning') : t('features.skills.scan')}
           </ButtonLarge>
           <ButtonLarge
             onClick={() => void handleAdd()}
             disabled={!scanOk || isDuplicate || !label.trim() || !source.trim()}
           >
-            Add catalog
+            {t('features.skills.addCatalogAction')}
           </ButtonLarge>
         </DialogFooter>
       </DialogContent>

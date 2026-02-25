@@ -164,12 +164,12 @@ export const UnifiedControlsDrawer: React.FC<UnifiedControlsDrawerProps> = ({
             <div className="flex flex-col gap-3">
                 <div className="flex flex-col gap-2">
                     <div className="typography-meta font-semibold uppercase tracking-wide text-muted-foreground">
-                        Model
+                        {t('chat.drawer.model')}
                     </div>
                     <div className="rounded-xl border border-border/40 overflow-hidden">
                         {recentModels.length === 0 && !hasCurrentInRecents && (
                             <div className="px-3 py-2 typography-meta text-muted-foreground">
-                                No recent models
+                                {t('chat.model.noRecentModels')}
                             </div>
                         )}
                         {recentModels.map(({ providerID, modelID, model }) => {
@@ -218,7 +218,7 @@ export const UnifiedControlsDrawer: React.FC<UnifiedControlsDrawerProps> = ({
                 {hasEffort && (
                     <div className="flex flex-col gap-2">
                         <div className="typography-meta font-semibold uppercase tracking-wide text-muted-foreground">
-                            Effort
+                            {t('chat.drawer.effort')}
                         </div>
                         <div className="flex flex-wrap gap-2">
                             {quickEfforts.map((variant) => {

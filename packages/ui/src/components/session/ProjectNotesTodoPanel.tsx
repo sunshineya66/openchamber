@@ -22,6 +22,7 @@ import { useUIStore } from '@/stores/useUIStore';
 import { useSessionStore } from '@/stores/useSessionStore';
 import { createWorktreeOnly } from '@/lib/worktreeSessionCreator';
 import { cn } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 interface ProjectNotesTodoPanelProps {
   projectRef: ProjectRef | null;
@@ -43,6 +44,7 @@ export const ProjectNotesTodoPanel: React.FC<ProjectNotesTodoPanelProps> = ({
   onActionComplete,
   className,
 }) => {
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = React.useState(false);
   const [notes, setNotes] = React.useState('');
   const [todos, setTodos] = React.useState<OpenChamberProjectTodoItem[]>([]);
@@ -65,7 +67,7 @@ export const ProjectNotesTodoPanel: React.FC<ProjectNotesTodoPanelProps> = ({
         todos: nextTodos,
       });
       if (!saved) {
-        toast.error('Failed to save project notes');
+        toast.error(t('session.failedToSaveNotes'));
       }
       return saved;
     },
@@ -94,7 +96,7 @@ export const ProjectNotesTodoPanel: React.FC<ProjectNotesTodoPanelProps> = ({
         setNewTodoText('');
       } catch {
         if (!cancelled) {
-          toast.error('Failed to load project notes');
+          toast.error(t('session.failedToLoadNotes'));
           setNotes('');
           setTodos([]);
         }
@@ -179,7 +181,7 @@ export const ProjectNotesTodoPanel: React.FC<ProjectNotesTodoPanelProps> = ({
         directoryOverride: projectRef.path,
         initialPrompt: todoText,
       });
-      toast.success('Todo sent to new session');
+      toast.success(t('session.todoSentToNewSession'));
       onActionComplete?.();
     },
     [onActionComplete, openNewSessionDraft, projectRef, routeToChat]
@@ -193,7 +195,7 @@ export const ProjectNotesTodoPanel: React.FC<ProjectNotesTodoPanelProps> = ({
       }
       routeToChat();
       setPendingInputText(todoText, 'append');
-      toast.success('Todo sent to current session');
+      toast.success(t('session.todoSentToCurrentSession'));
       onActionComplete?.();
     },
     [currentSessionId, onActionComplete, routeToChat, setPendingInputText]
@@ -219,7 +221,7 @@ export const ProjectNotesTodoPanel: React.FC<ProjectNotesTodoPanelProps> = ({
           directoryOverride: newWorktreePath,
           initialPrompt: todoText,
         });
-        toast.success('Todo sent to new worktree session');
+        toast.success(t('session.todoSentToNewWorktreeSession'));
         onActionComplete?.();
       } finally {
         setSendingTodoId(null);
@@ -231,7 +233,7 @@ export const ProjectNotesTodoPanel: React.FC<ProjectNotesTodoPanelProps> = ({
   if (!projectRef) {
     return (
       <div className={cn('w-full min-w-0 p-3', className)}>
-        <p className="typography-meta text-muted-foreground">Select a project to add notes and todos.</p>
+        <p className="typography-meta text-muted-foreground">{t('session.selectProjectForNotes')}</p>
       </div>
     );
   }
@@ -240,14 +242,14 @@ export const ProjectNotesTodoPanel: React.FC<ProjectNotesTodoPanelProps> = ({
     <div className={cn('w-full min-w-0 space-y-3 p-3', className)}>
       <div className="space-y-1">
         <div className="flex items-center justify-between gap-2">
-          <h3 className="typography-ui-label font-semibold text-foreground">Quick notes</h3>
+          <h3 className="typography-ui-label font-semibold text-foreground">{t('session.quickNotes')}</h3>
           <span className="typography-meta text-muted-foreground">{notes.length}/{OPENCHAMBER_PROJECT_NOTES_MAX_LENGTH}</span>
         </div>
         <Textarea
           value={notes}
           onChange={(event) => setNotes(event.target.value.slice(0, OPENCHAMBER_PROJECT_NOTES_MAX_LENGTH))}
           onBlur={handleNotesBlur}
-          placeholder="Capture context, reminders, or links"
+          placeholder={t('session.captureContext')}
           className="min-h-24 resize-none"
           disabled={isLoading}
         />
@@ -255,7 +257,7 @@ export const ProjectNotesTodoPanel: React.FC<ProjectNotesTodoPanelProps> = ({
 
       <div className="space-y-2">
         <div className="flex items-center justify-between gap-2">
-          <h3 className="typography-ui-label font-semibold text-foreground">Todo</h3>
+          <h3 className="typography-ui-label font-semibold text-foreground">{t('session.todo')}</h3>
           <div className="flex items-center gap-2">
             <span className="typography-meta text-muted-foreground">{todos.length} item{todos.length === 1 ? '' : 's'}</span>
             <button
@@ -264,7 +266,7 @@ export const ProjectNotesTodoPanel: React.FC<ProjectNotesTodoPanelProps> = ({
               disabled={isLoading || completedTodoCount === 0}
               className="typography-meta rounded-md px-1.5 py-0.5 text-muted-foreground hover:bg-interactive-hover/50 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              Clear completed
+              {t('session.clearCompleted')}
             </button>
           </div>
         </div>
@@ -279,7 +281,7 @@ export const ProjectNotesTodoPanel: React.FC<ProjectNotesTodoPanelProps> = ({
                 handleAddTodo();
               }
             }}
-            placeholder="Add a todo"
+            placeholder={t('session.addTodo')}
             disabled={isLoading}
             className="h-8"
           />
@@ -296,7 +298,7 @@ export const ProjectNotesTodoPanel: React.FC<ProjectNotesTodoPanelProps> = ({
 
         <div className="max-h-56 overflow-y-auto rounded-lg border border-border/60 bg-background/40">
           {todos.length === 0 ? (
-            <p className="px-3 py-3 typography-meta text-muted-foreground">No todos yet. Add a small checklist for this project.</p>
+            <p className="px-3 py-3 typography-meta text-muted-foreground">{t('session.noTodosYet')}</p>
           ) : (
             <ul className="divide-y divide-border/50">
               {todos.map((todo) => (
@@ -336,16 +338,16 @@ export const ProjectNotesTodoPanel: React.FC<ProjectNotesTodoPanelProps> = ({
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-56">
                       <DropdownMenuItem onClick={() => handleSendToCurrentSession(todo.text)}>
-                        Send to current session
+                        {t('session.sendToCurrentSession')}
                       </DropdownMenuItem>
                       <DropdownMenuItem onClick={() => handleSendToNewSession(todo.text)}>
-                        Send to new session
+                        {t('session.sendToNewSession')}
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         onClick={() => void handleSendToNewWorktreeSession(todo.id, todo.text)}
                         disabled={!canCreateWorktree}
                       >
-                        Send to new worktree session
+                        {t('session.sendToNewWorktreeSession')}
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>

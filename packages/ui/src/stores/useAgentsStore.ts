@@ -201,7 +201,7 @@ export const useAgentsStore = create<AgentsStore>()(
                     const response = await fetch(`/api/config/agents/${encodeURIComponent(agent.name)}${queryParams}`, {
                       headers: {
                         'Cache-Control': 'no-cache',
-                        ...(configDirectory ? { 'x-opencode-directory': configDirectory } : {}),
+                        ...(configDirectory ? { 'x-opencode-directory': btoa(configDirectory) } : {}),
                       }
                     });
                     

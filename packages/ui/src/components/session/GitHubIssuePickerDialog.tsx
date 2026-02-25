@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Dialog,
   DialogContent,
@@ -70,6 +71,7 @@ export function GitHubIssuePickerDialog({
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
+  const { t } = useTranslation();
   const { github } = useRuntimeAPIs();
   const githubAuthStatus = useGitHubAuthStore((state) => state.status);
   const githubAuthChecked = useGitHubAuthStore((state) => state.hasChecked);
@@ -452,17 +454,17 @@ Do not implement changes until I confirm; end with: “Next actions: <1 sentence
         <DialogHeader className="flex-shrink-0">
           <DialogTitle className="flex items-center gap-2">
             <RiGithubLine className="h-5 w-5" />
-            New Session From GitHub Issue
+            {t('features.git.issuePicker.title')}
           </DialogTitle>
           <DialogDescription>
-            Seeds a new session with hidden issue context (title/body/labels/comments).
+            {t('features.git.issuePicker.description')}
           </DialogDescription>
         </DialogHeader>
 
         <div className="relative mt-2">
           <RiSearchLine className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search by title or #123, or paste issue URL"
+            placeholder={t('features.git.issuePicker.searchPlaceholder')}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             className="pl-9 w-full"
@@ -521,7 +523,7 @@ Do not implement changes until I confirm; end with: “Next actions: <1 sentence
           ) : null}
 
           {filtered.length === 0 && !isLoading && connected && github && projectDirectory ? (
-            <div className="text-center text-muted-foreground py-8">{query ? 'No issues found' : 'No open issues found'}</div>
+            <div className="text-center text-muted-foreground py-8">{query ? t('features.git.issuePicker.noIssuesFound') : t('features.git.issuePicker.noOpenIssues')}</div>
           ) : null}
 
           {filtered.map((issue) => (
@@ -550,7 +552,7 @@ Do not implement changes until I confirm; end with: “Next actions: <1 sentence
                     rel="noopener noreferrer"
                     className="hidden group-hover:flex h-5 w-5 items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
                     onClick={(e) => e.stopPropagation()}
-                    aria-label="Open in GitHub"
+                    aria-label={t('features.git.issuePicker.openInGitHub')}
                   >
                     <RiExternalLinkLine className="h-4 w-4" />
                   </a>
@@ -573,10 +575,10 @@ Do not implement changes until I confirm; end with: “Next actions: <1 sentence
                 {isLoadingMore ? (
                   <span className="inline-flex items-center gap-2">
                     <RiLoader4Line className="h-4 w-4 animate-spin" />
-                    Loading...
+                    {t('common.loading')}
                   </span>
                 ) : (
-                  'Load more'
+                  t('features.git.issuePicker.loadMore')
                 )}
               </button>
             </div>
@@ -584,7 +586,7 @@ Do not implement changes until I confirm; end with: “Next actions: <1 sentence
         </div>
 
         <div className="mt-4 p-3 bg-muted/30 rounded-lg">
-          <p className="typography-meta text-muted-foreground font-medium mb-2">Actions</p>
+          <p className="typography-meta text-muted-foreground font-medium mb-2">{t('features.git.issuePicker.actions')}</p>
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-2">
             <div
               className="flex items-center gap-2 cursor-pointer"
@@ -615,7 +617,7 @@ Do not implement changes until I confirm; end with: “Next actions: <1 sentence
                   <RiCheckboxBlankLine className="h-4 w-4" />
                 )}
               </button>
-              <span className="typography-meta text-muted-foreground">Create in worktree</span>
+              <span className="typography-meta text-muted-foreground">{t('features.git.issuePicker.createInWorktree')}</span>
               <span className="typography-meta text-muted-foreground/70 hidden sm:inline">(issue-&lt;number&gt;-&lt;slug&gt;)</span>
             </div>
             <div className="hidden sm:block sm:flex-1" />
@@ -624,7 +626,7 @@ Do not implement changes until I confirm; end with: “Next actions: <1 sentence
                 <Button variant="outline" size="sm" asChild>
                   <a href={repoUrl} target="_blank" rel="noopener noreferrer">
                     <RiExternalLinkLine className="size-4" />
-                    Open Repo
+                    {t('features.git.openRepo')}
                   </a>
                 </Button>
               ) : null}

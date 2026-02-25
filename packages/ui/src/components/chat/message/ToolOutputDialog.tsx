@@ -288,7 +288,7 @@ const ImagePreviewDialog: React.FC<{
     }, [gallery, popup.image?.index, popup.image?.url, popup.open]);
 
     const currentImage = gallery[currentIndex] ?? gallery[0] ?? popup.image;
-    const imageTitle = currentImage?.filename || popup.title || 'Image preview';
+    const imageTitle = currentImage?.filename || popup.title || t('chat.preview.imagePreview');
     const hasMultipleImages = gallery.length > 1;
 
     const showPrevious = React.useCallback(() => {
@@ -886,6 +886,7 @@ const MermaidPreviewDialog: React.FC<{
 };
 
 const ToolOutputDialog: React.FC<ToolOutputDialogProps> = ({ popup, onOpenChange, syntaxTheme, isMobile }) => {
+    const { t } = useTranslation();
     const [diffViewMode, setDiffViewMode] = React.useState<DiffViewMode>(isMobile ? 'unified' : 'side-by-side');
 
     if (popup.image) {
@@ -940,10 +941,10 @@ const ToolOutputDialog: React.FC<ToolOutputDialogProps> = ({ popup, onOpenChange
                                 <div className="border-b border-border/20 p-4 -mx-3">
                                     <div className="typography-markdown font-medium text-muted-foreground mb-2 px-3">
                                         {meta.tool === 'bash'
-                                            ? 'Command:'
+                                            ? t('chat.tool.input.command')
                                             : meta.tool === 'task'
-                                                ? 'Task Details:'
-                                                : 'Input:'}
+                                                ? t('chat.tool.input.taskDetails')
+                                                : t('chat.tool.input.input')}
                                     </div>
                                     {meta.tool === 'bash' && getInputValue('command') ? (
                                         <div className="tool-input-surface bg-transparent rounded-xl border border-border/20 mx-3">

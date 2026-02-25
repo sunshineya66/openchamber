@@ -207,7 +207,7 @@ export const CommandsPage: React.FC = () => {
                     <Input
                       value={draftName}
                       onChange={(e) => setDraftName(e.target.value)}
-                      placeholder="command-name"
+                      placeholder={t('settings.commands.commandNamePlaceholder')}
                       className="h-7 w-40 px-2"
                     />
                   </div>

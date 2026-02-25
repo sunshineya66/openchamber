@@ -58,7 +58,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
     }));
     // Add summary tab when multiple questions
     if (questions.length > 1) {
-      questionTabs.push({ value: SUMMARY_TAB, label: 'Summary' });
+      questionTabs.push({ value: SUMMARY_TAB, label: t('chat.question.summary') });
     }
     return questionTabs;
   }, [questions]);
@@ -196,10 +196,10 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
           <div className="px-2 py-1.5 border-b border-border/20">
             <div className="flex items-center gap-2">
               <RiQuestionLine className="h-3.5 w-3.5 text-primary" />
-              <span className="typography-meta font-medium text-muted-foreground">Input needed</span>
+              <span className="typography-meta font-medium text-muted-foreground">{t('chat.question.inputNeeded')}</span>
               {isFromSubagent ? (
                 <span className="typography-micro text-muted-foreground px-1.5 py-0.5 rounded bg-foreground/5">
-                  From subagent
+                  {t('chat.question.fromSubagent')}
                 </span>
               ) : null}
               {activeHeader ? (
@@ -272,7 +272,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
                 <div className="typography-meta font-medium text-foreground mb-1.5">{activeQuestion.question}</div>
 
                 {isMultiple ? (
-                  <div className="typography-micro text-muted-foreground mb-1.5">Select multiple</div>
+                  <div className="typography-micro text-muted-foreground mb-1.5">{t('chat.question.selectMultiple')}</div>
                 ) : null}
 
                 <div className="space-y-0.5">
@@ -344,7 +344,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
                         'typography-meta',
                         isCustomActive ? 'text-foreground font-medium' : 'text-muted-foreground'
                       )}>
-                        Other…
+                        {t('common.other')}…
                       </span>
                     </div>
                   </button>
@@ -397,7 +397,7 @@ placeholder={t('chat.question.yourAnswer')}
               )}
             >
               {requiredSatisfied ? <RiCheckLine className="h-3 w-3" /> : <RiArrowRightSLine className="h-3 w-3" />}
-              {requiredSatisfied ? 'Submit' : 'Next'}
+              {requiredSatisfied ? t('chat.question.submit') : t('chat.question.next')}
             </button>
 
             <button
@@ -411,7 +411,7 @@ placeholder={t('chat.question.yourAnswer')}
               )}
             >
               <RiCloseLine className="h-3 w-3" />
-              Dismiss
+              {t('chat.question.dismiss')}
             </button>
 
             {isResponding ? (

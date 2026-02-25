@@ -50,7 +50,7 @@ const isIOSSafari = (): boolean => {
     return isIOS && isSafari;
 };
 
-const normalizeVoiceErrorMessage = (error: string): string => {
+const normalizeVoiceErrorMessage = (error: string, t: (key: string) => string): string => {
     const isMediaDevicesError =
         error.includes('getUserMedia') ||
         error.includes('mediaDevices') ||
@@ -61,10 +61,10 @@ const normalizeVoiceErrorMessage = (error: string): string => {
     }
 
     if (typeof window !== 'undefined' && !window.isSecureContext) {
-        return 'Voice requires a secure connection (HTTPS) or localhost. Please use HTTPS or access via localhost.';
+        return t('features.voice.secureContextError');
     }
 
-    return 'Microphone access is unavailable in this runtime. On desktop, check System Settings -> Privacy & Security -> Microphone for OpenChamber.';
+    return t('features.voice.microphoneAccessError');
 };
 
 /**
@@ -123,7 +123,7 @@ export function BrowserVoiceButton() {
                 return;
             }
             lastToastedErrorRef.current = error;
-            const displayError = normalizeVoiceErrorMessage(error);
+            const displayError = normalizeVoiceErrorMessage(error, t);
             
             toast.error(displayError, {
                 duration: 5000,
@@ -133,7 +133,7 @@ export function BrowserVoiceButton() {
         if (!isError) {
             lastToastedErrorRef.current = null;
         }
-    }, [isError, error]);
+    }, [isError, error, t]);
 
 // Status text for accessibility
     const statusText = isError
@@ -145,15 +145,15 @@ export function BrowserVoiceButton() {
     // Tooltip content based on state
     const getTooltipContent = () => {
         if (isError && error) {
-            return normalizeVoiceErrorMessage(error);
+            return normalizeVoiceErrorMessage(error, t);
         }
         if (isActive) {
-            return 'Stop voice conversation';
+            return t('features.voice.stopVoice');
         }
         if (isMobile) {
-            return 'Start voice conversation';
+            return t('features.voice.startVoiceConversation');
         }
-        return `Start voice conversation (Shift+Click for continuous mode) • Cmd/Ctrl+Shift+V to toggle`;
+        return t('features.voice.startVoiceConversationWithShortcut');
     };
 
     // Handle voice activation (used by both click and touch)
@@ -273,12 +273,12 @@ export function BrowserVoiceButton() {
     if (!isSupported) {
         const supportDetails = browserVoiceService.getSupportDetails();
         const tooltipMessage = !supportDetails.secureContext
-            ? 'Voice requires HTTPS or localhost. Please use a secure connection.'
+            ? t('features.voice.secureContextError')
             : !supportDetails.recognition
-                ? 'Speech recognition not supported in this browser. Try Chrome, Edge, or Safari.'
+                ? t('features.voice.speechRecognitionNotSupported')
                 : !supportDetails.synthesis
-                    ? 'Speech synthesis not supported in this browser.'
-                    : 'Voice not supported in this browser';
+                    ? t('features.voice.speechSynthesisNotSupported')
+                    : t('features.voice.voiceNotSupported');
 
         return (
             <TooltipProvider>

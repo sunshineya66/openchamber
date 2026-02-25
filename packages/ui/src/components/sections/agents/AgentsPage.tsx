@@ -616,7 +616,7 @@ export const AgentsPage: React.FC = () => {
         <div className="mb-8">
           <div className="mb-1 px-1">
             <h3 className="typography-ui-header font-medium text-foreground">
-              Identity & Role
+              {t('settings.agents.identityRole')}
             </h3>
           </div>
 
@@ -625,7 +625,7 @@ export const AgentsPage: React.FC = () => {
             {isNewAgent && (
               <div className="flex flex-col gap-2 py-1.5 sm:flex-row sm:items-center sm:gap-8">
                 <div className="flex min-w-0 flex-col sm:w-56 shrink-0">
-                  <span className="typography-ui-label text-foreground">Agent Name</span>
+                  <span className="typography-ui-label text-foreground">{t('settings.agents.agentName')}</span>
                 </div>
                 <div className="flex min-w-0 flex-1 items-center gap-2 sm:w-fit sm:flex-initial">
                   <div className="flex items-center">
@@ -639,19 +639,19 @@ export const AgentsPage: React.FC = () => {
                   </div>
                   <Select value={draftScope} onValueChange={(v) => setDraftScope(v as AgentScope)}>
                     <SelectTrigger className="w-fit min-w-[100px]">
-                      <SelectValue placeholder="Scope" />
+                      <SelectValue placeholder={t('settings.agents.scope')} />
                     </SelectTrigger>
                     <SelectContent align="end">
                       <SelectItem value="user">
                         <div className="flex items-center gap-2">
                           <RiUser3Line className="h-3.5 w-3.5" />
-                          <span>Global</span>
+                          <span>{t('settings.agents.global')}</span>
                         </div>
                       </SelectItem>
                       <SelectItem value="project">
                         <div className="flex items-center gap-2">
                           <RiFolderLine className="h-3.5 w-3.5" />
-                          <span>Project</span>
+                          <span>{t('settings.agents.project')}</span>
                         </div>
                       </SelectItem>
                     </SelectContent>
@@ -661,12 +661,12 @@ export const AgentsPage: React.FC = () => {
             )}
 
             <div className="py-1.5">
-              <span className="typography-ui-label text-foreground">Description</span>
+              <span className="typography-ui-label text-foreground">{t('settings.agents.description')}</span>
               <div className="mt-1.5">
                 <Textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  placeholder="What does this agent do?"
+                  placeholder={t('settings.agents.descriptionPlaceholder')}
                   rows={2}
                   className="w-full resize-none min-h-[60px] bg-transparent"
                 />
@@ -676,13 +676,13 @@ export const AgentsPage: React.FC = () => {
             <div className="pb-1.5 pt-0.5">
               <div className="flex min-w-0 flex-col gap-1.5">
                 <div className="flex items-center gap-1.5">
-                  <span className="typography-ui-label text-foreground">Mode</span>
+                  <span className="typography-ui-label text-foreground">{t('settings.agents.mode')}</span>
                   <Tooltip delayDuration={1000}>
                     <TooltipTrigger asChild>
                       <RiInformationLine className="h-3.5 w-3.5 text-muted-foreground/60 cursor-help" />
                     </TooltipTrigger>
                     <TooltipContent sideOffset={8} className="max-w-xs">
-                      Primary vs Subagent visibility
+                      {t('settings.agents.modeHint')}
                     </TooltipContent>
                   </Tooltip>
                 </div>
@@ -698,7 +698,7 @@ export const AgentsPage: React.FC = () => {
                       : 'text-foreground'
                   )}
                 >
-                  Primary
+                  {t('settings.agents.modePrimary')}
                 </ButtonSmall>
                 <ButtonSmall
                   variant="outline"
@@ -711,7 +711,7 @@ export const AgentsPage: React.FC = () => {
                       : 'text-foreground'
                   )}
                 >
-                  Subagent
+                  {t('settings.agents.modeSubagent')}
                 </ButtonSmall>
                 <ButtonSmall
                   variant="outline"
@@ -724,7 +724,7 @@ export const AgentsPage: React.FC = () => {
                       : 'text-foreground'
                   )}
                 >
-                  All
+                  {t('settings.agents.modeAll')}
                 </ButtonSmall>
                 </div>
               </div>
@@ -737,7 +737,7 @@ export const AgentsPage: React.FC = () => {
         <div className="mb-8">
           <div className="mb-1 px-1">
             <h3 className="typography-ui-header font-medium text-foreground">
-              Model & Parameters
+              {t('settings.agents.modelParameters')}
             </h3>
           </div>
 
@@ -745,7 +745,7 @@ export const AgentsPage: React.FC = () => {
 
             <div className="flex flex-col gap-2 py-1.5 sm:flex-row sm:items-center sm:gap-8">
               <div className="flex min-w-0 flex-col sm:w-56 shrink-0">
-                <span className="typography-ui-label text-foreground">Override Model</span>
+                <span className="typography-ui-label text-foreground">{t('settings.agents.overrideModel')}</span>
               </div>
               <div className="flex min-w-0 flex-1 items-center gap-2 sm:w-fit sm:flex-initial">
                 <ModelSelector
@@ -765,17 +765,17 @@ export const AgentsPage: React.FC = () => {
             <div className={cn("py-1.5", isMobile ? "flex flex-col gap-3" : "flex items-center gap-8")}>
               <div className={cn("flex min-w-0 flex-col", isMobile ? "w-full" : "sm:w-56 shrink-0")}>
                 <div className="flex items-center gap-1.5">
-                  <span className="typography-ui-label text-foreground">Temperature</span>
+                  <span className="typography-ui-label text-foreground">{t('settings.agents.temperature')}</span>
                   <Tooltip delayDuration={1000}>
                     <TooltipTrigger asChild>
                       <RiInformationLine className="h-3.5 w-3.5 text-muted-foreground/60 cursor-help" />
                     </TooltipTrigger>
                     <TooltipContent sideOffset={8} className="max-w-xs">
-                      Controls randomness. Higher = creative, Lower = focused.
+                      {t('settings.agents.temperatureHint')}
                     </TooltipContent>
                   </Tooltip>
                 </div>
-                <span className="typography-meta text-muted-foreground">0.0 to 2.0</span>
+                <span className="typography-meta text-muted-foreground">{t('settings.agents.temperatureRange')}</span>
               </div>
               <div className={cn("flex items-center gap-2", isMobile ? "w-full" : "w-fit")}>
                 <NumberInput
@@ -797,8 +797,8 @@ export const AgentsPage: React.FC = () => {
                     variant="ghost"
                     onClick={() => setTemperature(undefined)}
                     className="h-7 w-7 px-0 text-muted-foreground hover:text-foreground"
-                    aria-label="Clear temperature override"
-                    title="Clear"
+                    aria-label={t('settings.agents.clearTemperature')}
+                    title={t('settings.agents.clearTemperature')}
                   >
                     <RiCloseLine className="h-3.5 w-3.5" />
                   </ButtonSmall>
@@ -809,17 +809,17 @@ export const AgentsPage: React.FC = () => {
             <div className={cn("py-1.5", isMobile ? "flex flex-col gap-3" : "flex items-center gap-8")}>
               <div className={cn("flex min-w-0 flex-col", isMobile ? "w-full" : "sm:w-56 shrink-0")}>
                 <div className="flex items-center gap-1.5">
-                  <span className="typography-ui-label text-foreground">Top P</span>
+                  <span className="typography-ui-label text-foreground">{t('settings.agents.topP')}</span>
                   <Tooltip delayDuration={1000}>
                     <TooltipTrigger asChild>
                       <RiInformationLine className="h-3.5 w-3.5 text-muted-foreground/60 cursor-help" />
                     </TooltipTrigger>
                     <TooltipContent sideOffset={8} className="max-w-xs">
-                      Nucleus sampling diversity. Lower = likely tokens only.
+                      {t('settings.agents.topPHint')}
                     </TooltipContent>
                   </Tooltip>
                 </div>
-                <span className="typography-meta text-muted-foreground">0.0 to 1.0</span>
+                <span className="typography-meta text-muted-foreground">{t('settings.agents.topPRange')}</span>
               </div>
               <div className={cn("flex items-center gap-2", isMobile ? "w-full" : "w-fit")}>
                 <NumberInput
@@ -841,8 +841,8 @@ export const AgentsPage: React.FC = () => {
                     variant="ghost"
                     onClick={() => setTopP(undefined)}
                     className="h-7 w-7 px-0 text-muted-foreground hover:text-foreground"
-                    aria-label="Clear top p override"
-                    title="Clear"
+                    aria-label={t('settings.agents.clearTopP')}
+                    title={t('settings.agents.clearTopP')}
                   >
                     <RiCloseLine className="h-3.5 w-3.5" />
                   </ButtonSmall>
@@ -857,7 +857,7 @@ export const AgentsPage: React.FC = () => {
         <div className="mb-8">
           <div className="mb-1 px-1">
             <h3 className="typography-ui-header font-medium text-foreground">
-              System Prompt
+              {t('settings.agents.systemPrompt')}
             </h3>
           </div>
 
@@ -865,7 +865,7 @@ export const AgentsPage: React.FC = () => {
             <Textarea
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
-              placeholder="You are an expert coding assistant..."
+              placeholder={t('settings.agents.systemPromptPlaceholder')}
               rows={8}
               className="w-full font-mono typography-meta min-h-[120px] max-h-[60vh] bg-transparent resize-y"
             />
@@ -876,7 +876,7 @@ export const AgentsPage: React.FC = () => {
         <div className="mb-2">
           <div className="mb-1 px-1 flex items-center justify-between gap-4">
             <h3 className="typography-ui-header font-medium text-foreground">
-              Tool Permissions
+              {t('settings.agents.toolPermissions')}
             </h3>
             <ButtonSmall
               variant="outline"
@@ -884,7 +884,7 @@ export const AgentsPage: React.FC = () => {
               className="!font-normal"
               onClick={() => setShowPermissionEditor((prev) => !prev)}
             >
-              {showPermissionEditor ? 'Hide Editor' : 'Advanced Editor'}
+              {showPermissionEditor ? t('settings.agents.hideEditor') : t('settings.agents.advancedEditor')}
             </ButtonSmall>
           </div>
 
@@ -915,10 +915,10 @@ export const AgentsPage: React.FC = () => {
               })}
             </section>
           ) : (
-            <div className="space-y-6 px-2">
+              <div className="space-y-6 px-2">
               <div className="flex items-center justify-between gap-4 py-1.5">
                 <div className="flex items-center gap-2">
-                  <span className="typography-ui-label text-foreground">Global Default</span>
+                  <span className="typography-ui-label text-foreground">{t('settings.agents.globalDefault')}</span>
                   <span className="typography-micro text-muted-foreground/70 font-mono">*</span>
                 </div>
                 <Select
@@ -929,9 +929,9 @@ export const AgentsPage: React.FC = () => {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="allow">Allow</SelectItem>
-                    <SelectItem value="ask">Ask</SelectItem>
-                    <SelectItem value="deny">Deny</SelectItem>
+                    <SelectItem value="allow">{t('settings.agents.allow')}</SelectItem>
+                    <SelectItem value="ask">{t('settings.agents.ask')}</SelectItem>
+                    <SelectItem value="deny">{t('settings.agents.deny')}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -953,14 +953,14 @@ export const AgentsPage: React.FC = () => {
                           <span className="typography-micro text-muted-foreground/70 font-mono">{permissionName}</span>
                         </div>
                         <div className="typography-micro text-muted-foreground">
-                          {patternRulesCount > 0 ? `Global: ${defaultAction}` : defaultAction}
+                          {patternRulesCount > 0 ? `${t('settings.agents.rulesGlobal')} ${defaultAction}` : defaultAction}
                         </div>
                       </div>
 
                       <div className="space-y-1 pl-2 mt-1">
                         <div className="flex flex-wrap items-center justify-between gap-2 py-0.5">
                           <div className="flex items-center gap-2">
-                            <span className="typography-micro text-muted-foreground">Pattern</span>
+                            <span className="typography-micro text-muted-foreground">{t('settings.agents.pattern')}</span>
                             <span className="typography-micro font-mono text-foreground bg-[var(--surface-muted)] px-1 rounded">*</span>
                             {wildcardOverride && (
                               <ButtonSmall
@@ -986,7 +986,7 @@ export const AgentsPage: React.FC = () => {
                                <SelectValue />
                              </SelectTrigger>
                              <SelectContent>
-                               <SelectItem value="global">Global</SelectItem>
+                               <SelectItem value="global">{t('settings.agents.global')}</SelectItem>
                               {wildcardOptions.map((action) => (
                                 <SelectItem key={action} value={action} className="capitalize">
                                   {action}
@@ -1005,10 +1005,10 @@ export const AgentsPage: React.FC = () => {
                           return (
                             <div key={ruleKey} className="flex flex-wrap items-center justify-between gap-2 py-0.5 border-t border-[var(--surface-subtle)]">
                               <div className="flex items-center gap-2">
-                                <span className="typography-micro text-muted-foreground">Pattern</span>
+                                <span className="typography-micro text-muted-foreground">{t('settings.agents.pattern')}</span>
                                 <span className="typography-micro font-mono text-foreground bg-[var(--surface-muted)] px-1 rounded">{rule.pattern}</span>
-                                {isAdded && <span className="typography-micro text-[var(--status-success)]">New</span>}
-                                {isModified && <span className="typography-micro text-[var(--status-warning)]">Modified</span>}
+                                {isAdded && <span className="typography-micro text-[var(--status-success)]">{t('settings.agents.ruleNew')}</span>}
+                                {isModified && <span className="typography-micro text-[var(--status-warning)]">{t('settings.agents.ruleModified')}</span>}
                                 {(isAdded || isModified) && (
                                   <ButtonSmall
                                     variant="ghost"
@@ -1027,9 +1027,9 @@ export const AgentsPage: React.FC = () => {
                                    <SelectValue />
                                  </SelectTrigger>
                                  <SelectContent>
-                                   <SelectItem value="allow">Allow</SelectItem>
-                                  <SelectItem value="ask">Ask</SelectItem>
-                                  <SelectItem value="deny">Deny</SelectItem>
+                                   <SelectItem value="allow">{t('settings.agents.allow')}</SelectItem>
+                                  <SelectItem value="ask">{t('settings.agents.ask')}</SelectItem>
+                                  <SelectItem value="deny">{t('settings.agents.deny')}</SelectItem>
                                 </SelectContent>
                               </Select>
                             </div>
@@ -1042,14 +1042,14 @@ export const AgentsPage: React.FC = () => {
               </div>
 
               <div className="border-t border-[var(--surface-subtle)] pt-3">
-                <h4 className="typography-ui-label text-foreground mb-2">Add Custom Rule</h4>
+                <h4 className="typography-ui-label text-foreground mb-2">{t('settings.agents.addCustomRule')}</h4>
                 <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2">
                   <Select value={pendingRuleName} onValueChange={setPendingRuleName}>
                     <SelectTrigger className="w-full sm:w-[160px]">
                       {pendingRuleName ? (
                         <span className="truncate">{formatPermissionLabel(pendingRuleName)}</span>
                       ) : (
-                        <span className="text-muted-foreground">Permission...</span>
+                        <span className="text-muted-foreground">{t('settings.agents.permissionPlaceholder')}</span>
                       )}
                     </SelectTrigger>
                     <SelectContent>
@@ -1066,14 +1066,14 @@ export const AgentsPage: React.FC = () => {
                   <Input
                     value={pendingRulePattern}
                     onChange={(e) => setPendingRulePattern(e.target.value)}
-                    placeholder="Pattern (e.g. *)"
+                    placeholder={t('settings.agents.patternPlaceholder')}
                     className="h-7 flex-1 font-mono text-xs"
                   />
 
                   <div className="flex gap-1">
-                    <ButtonSmall variant="outline" size="xs" className="!font-normal" onClick={() => applyPendingRule('allow')}>Allow</ButtonSmall>
-                    <ButtonSmall variant="outline" size="xs" className="!font-normal" onClick={() => applyPendingRule('ask')}>Ask</ButtonSmall>
-                    <ButtonSmall variant="outline" size="xs" className="!font-normal" onClick={() => applyPendingRule('deny')}>Deny</ButtonSmall>
+                    <ButtonSmall variant="outline" size="xs" className="!font-normal" onClick={() => applyPendingRule('allow')}>{t('settings.agents.allow')}</ButtonSmall>
+                    <ButtonSmall variant="outline" size="xs" className="!font-normal" onClick={() => applyPendingRule('ask')}>{t('settings.agents.ask')}</ButtonSmall>
+                    <ButtonSmall variant="outline" size="xs" className="!font-normal" onClick={() => applyPendingRule('deny')}>{t('settings.agents.deny')}</ButtonSmall>
                   </div>
                 </div>
               </div>

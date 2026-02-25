@@ -111,7 +111,7 @@ export const ProvidersSidebar: React.FC<ProvidersSidebarProps> = ({ onItemSelect
         <h2 className="text-base font-semibold text-foreground mb-3">{t('settings.providers.title')}</h2>
         <SettingsProjectSelector className="mb-3" />
         <div className="flex items-center justify-between gap-2">
-          <span className="typography-meta text-muted-foreground">Total {providers.length}</span>
+          <span className="typography-meta text-muted-foreground">{t('settings.providers.total', { count: providers.length })}</span>
           <ButtonSmall
             variant="ghost"
             className="h-7 w-7 px-0 -my-1 text-muted-foreground"

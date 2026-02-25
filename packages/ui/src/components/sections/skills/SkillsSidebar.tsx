@@ -451,12 +451,12 @@ const SkillListItem: React.FC<SkillListItemProps> = ({
             </span>
             {skill.source === 'claude' && (
               <span className="typography-micro text-muted-foreground bg-muted px-1 rounded flex-shrink-0 leading-none pb-px border border-border/50">
-                claude
+                {t('features.skills.sourceClaude')}
               </span>
             )}
             {skill.source === 'agents' && (
               <span className="typography-micro text-muted-foreground bg-muted px-1 rounded flex-shrink-0 leading-none pb-px border border-border/50">
-                agents
+                {t('features.skills.sourceAgents')}
               </span>
             )}
           </div>

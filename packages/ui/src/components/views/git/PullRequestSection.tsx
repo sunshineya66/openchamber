@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   RiChat4Line,
   RiCheckLine,
@@ -274,6 +275,7 @@ export const PullRequestSection: React.FC<{
   variant?: 'framed' | 'plain';
   onGeneratedDescription?: () => void;
 }> = ({ directory, branch, baseBranch, trackingBranch, remotes = [], remoteBranches = [], variant = 'framed', onGeneratedDescription }) => {
+  const { t } = useTranslation();
   const { github } = useRuntimeAPIs();
   const githubAuthStatus = useGitHubAuthStore((state) => state.status);
   const githubAuthChecked = useGitHubAuthStore((state) => state.hasChecked);
@@ -1637,9 +1639,9 @@ export const PullRequestSection: React.FC<{
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="squash">Squash</SelectItem>
-                              <SelectItem value="merge">Merge</SelectItem>
-                              <SelectItem value="rebase">Rebase</SelectItem>
+                              <SelectItem value="squash">{t('features.git.squash')}</SelectItem>
+                              <SelectItem value="merge">{t('features.git.merge')}</SelectItem>
+                              <SelectItem value="rebase">{t('features.git.rebase')}</SelectItem>
                             </SelectContent>
                           </Select>
                           <Tooltip delayDuration={300}>
@@ -1649,12 +1651,12 @@ export const PullRequestSection: React.FC<{
                                 className="w-8 px-0"
                                 onClick={() => mergePr(pr)}
                                 disabled={isMerging || isMarkingReady || pr.state !== 'open' || pr.draft || isUpdating || isEditingPr}
-                                aria-label="Merge pull request"
+                                aria-label={t('features.git.mergePullRequest')}
                               >
                                 {isMerging ? <RiLoader4Line className="size-4 animate-spin" /> : <RiGitMergeLine className="size-4" />}
                               </Button>
                             </TooltipTrigger>
-                            <TooltipContent><p>Merge pull request</p></TooltipContent>
+                            <TooltipContent><p>{t('features.git.mergePullRequest')}</p></TooltipContent>
                           </Tooltip>
                         </>
                       ) : null}
@@ -1666,7 +1668,7 @@ export const PullRequestSection: React.FC<{
               <div className="flex flex-col gap-3">
                 <div className="flex items-center justify-between gap-2">
                   <div className="min-w-0">
-                    <div className="typography-ui-label text-foreground">Create PR</div>
+                    <div className="typography-ui-label text-foreground">{t('features.git.createPr')}</div>
                     <div className="typography-micro text-muted-foreground truncate">
                       {branch} → {targetBaseBranch}
                     </div>
@@ -1675,18 +1677,18 @@ export const PullRequestSection: React.FC<{
                     <Button variant="outline" size="sm" asChild>
                       <a href={repoUrl} target="_blank" rel="noopener noreferrer">
                         <RiExternalLinkLine className="size-4" />
-                        Repo
+                        {t('features.git.repo')}
                       </a>
                     </Button>
                   ) : null}
                 </div>
 
                 <label className="space-y-1">
-                  <div className="typography-micro text-muted-foreground">Title</div>
+                  <div className="typography-micro text-muted-foreground">{t('features.git.title')}</div>
                   <Input
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    placeholder="PR title"
+                    placeholder={t('features.git.prTitle')}
                     autoCorrect={hasTouchInput ? "on" : "off"}
                     autoCapitalize={hasTouchInput ? "sentences" : "off"}
                     spellCheck={hasTouchInput}
@@ -1694,11 +1696,11 @@ export const PullRequestSection: React.FC<{
                 </label>
 
                 <label className="space-y-1">
-                  <div className="typography-micro text-muted-foreground">Base branch</div>
+                  <div className="typography-micro text-muted-foreground">{t('features.git.baseBranch')}</div>
                   {availableBaseBranches.length > 0 ? (
                     <Select value={targetBaseBranch} onValueChange={setTargetBaseBranch}>
                       <SelectTrigger className="h-9">
-                        <SelectValue placeholder="Select base branch" />
+                        <SelectValue placeholder={t('features.git.selectBaseBranch')} />
                       </SelectTrigger>
                       <SelectContent>
                         {availableBaseBranches.map((candidate) => (
@@ -1716,12 +1718,12 @@ export const PullRequestSection: React.FC<{
                 </label>
 
                 <label className="space-y-1">
-                  <div className="typography-micro text-muted-foreground">Description</div>
+                  <div className="typography-micro text-muted-foreground">{t('features.git.description')}</div>
                   <Textarea
                     value={body}
                     onChange={(e) => setBody(e.target.value)}
                     className="min-h-[110px] bg-background/80"
-                    placeholder="What changed and why"
+                    placeholder={t('features.git.whatChangedAndWhy')}
                     autoCorrect={hasTouchInput ? "on" : "off"}
                     autoCapitalize={hasTouchInput ? "sentences" : "off"}
                     spellCheck={hasTouchInput}
@@ -1757,7 +1759,7 @@ export const PullRequestSection: React.FC<{
                       <RiCheckboxBlankLine className="size-4" />
                     )}
                   </button>
-                  <span className="typography-ui-label text-foreground select-none">Draft</span>
+                  <span className="typography-ui-label text-foreground select-none">{t('features.git.draft')}</span>
                 </div>
 
                 {/* Additional Context Section */}
@@ -1765,20 +1767,20 @@ export const PullRequestSection: React.FC<{
                   <div className="space-y-2">
                     <div className="flex items-center justify-between gap-2">
                       <span className="typography-micro text-muted-foreground">
-                        Additional context (optional)
+                        {t('features.git.additionalContextOptional')}
                       </span>
                       <Button
                         variant="outline"
                         size="sm"
                         onClick={() => setIsContextSheetOpen(true)}
                       >
-                        {additionalContext.trim() ? 'Edit' : 'Add'}
+                        {additionalContext.trim() ? t('features.git.edit') : t('features.git.add')}
                       </Button>
                     </div>
                     {additionalContext.trim() && (
                       <div className="flex items-center gap-2">
                         <span className="inline-flex items-center rounded-full bg-[var(--interactive-selection)] px-2 py-0.5 text-xs text-[var(--interactive-selection-foreground)]">
-                          Context added
+                          {t('features.git.contextAdded')}
                         </span>
                       </div>
                     )}
@@ -1787,10 +1789,10 @@ export const PullRequestSection: React.FC<{
                   <Collapsible open={isContextOpen} onOpenChange={setIsContextOpen}>
                     <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg border border-[var(--interactive-border)] bg-[var(--surface-elevated)] px-3 py-2 hover:bg-[var(--interactive-hover)]">
                       <span className="typography-micro text-muted-foreground">
-                        Additional context (optional)
+                        {t('features.git.additionalContextOptional')}
                       </span>
                       <span className="typography-micro text-[var(--primary-base)]">
-                        {isContextOpen ? 'Hide' : additionalContext.trim() ? 'Edit' : 'Add'}
+                        {isContextOpen ? t('features.git.hide') : additionalContext.trim() ? t('features.git.edit') : t('features.git.add')}
                       </span>
                     </CollapsibleTrigger>
                     <CollapsibleContent>
@@ -1813,14 +1815,14 @@ export const PullRequestSection: React.FC<{
                 <MobileOverlayPanel
                   open={isContextSheetOpen}
                   onClose={() => setIsContextSheetOpen(false)}
-                  title="Additional context"
+                  title={t('features.git.additionalContextOptional')}
                   footer={
                     <Button
                       size="sm"
                       onClick={() => setIsContextSheetOpen(false)}
                       className="w-full"
                     >
-                      Done
+                      {t('features.git.done')}
                     </Button>
                   }
                 >
@@ -1846,7 +1848,7 @@ export const PullRequestSection: React.FC<{
                     disabled={isGenerating || isCreating}
                   >
                     {isGenerating ? <RiLoader4Line className="size-4 animate-spin" /> : <RiAiGenerate2 className="size-4 text-primary" />}
-                    Generate
+                    {t('features.git.generate')}
                   </Button>
                   <div className="flex-1" />
                   <Button
@@ -1858,7 +1860,7 @@ export const PullRequestSection: React.FC<{
                     <span className="inline-flex size-4 items-center justify-center">
                       {isCreating ? <RiLoader4Line className="size-4 animate-spin" /> : <RiGitPullRequestLine className="size-4" />}
                     </span>
-                    <span>Create PR</span>
+                    <span>{t('features.git.createPr')}</span>
                   </Button>
                 </div>
               </div>
@@ -1870,10 +1872,10 @@ export const PullRequestSection: React.FC<{
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <RiGitPullRequestLine className="h-5 w-5" />
-              Check Details
+              {t('features.git.checkDetails')}
             </DialogTitle>
             <DialogDescription>
-              {pr ? `PR #${pr.number}` : 'Pull request'}
+              {pr ? `PR #${pr.number}` : t('features.git.pullRequest')}
             </DialogDescription>
           </DialogHeader>
 
@@ -1881,7 +1883,7 @@ export const PullRequestSection: React.FC<{
             {isLoadingCheckDetails ? (
               <div className="text-center text-muted-foreground py-8 flex items-center justify-center gap-2">
                 <RiLoader4Line className="h-4 w-4 animate-spin" />
-                Loading...
+                {t('common.loading')}
               </div>
             ) : null}
 
@@ -1897,7 +1899,7 @@ export const PullRequestSection: React.FC<{
                     );
                   })
                 ) : (
-                  <div className="text-center text-muted-foreground py-8">No check details available.</div>
+                  <div className="text-center text-muted-foreground py-8">{t('features.git.noCheckDetailsAvailable')}</div>
                 )}
               </div>
             ) : null}
@@ -1911,7 +1913,7 @@ export const PullRequestSection: React.FC<{
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <RiGitPullRequestLine className="h-5 w-5" />
-              PR Comments
+              {t('features.git.prComments')}
               {pr ? (
                 <span className="typography-meta text-muted-foreground">PR #{pr.number}</span>
               ) : null}
@@ -1922,7 +1924,7 @@ export const PullRequestSection: React.FC<{
             {isLoadingCommentsDetails ? (
               <div className="text-center text-muted-foreground py-8 flex items-center justify-center gap-2">
                 <RiLoader4Line className="h-4 w-4 animate-spin" />
-                Loading...
+                {t('common.loading')}
               </div>
             ) : null}
 
@@ -1958,13 +1960,13 @@ export const PullRequestSection: React.FC<{
                                       size="sm"
                                       className="h-6 px-0 has-[>svg]:px-0 sm:px-2 sm:has-[>svg]:px-2.5 text-[var(--status-success)] hover:bg-[var(--status-success-background)] hover:text-[var(--status-success)] justify-start"
                                       onClick={() => sendSingleCommentToChat(comment)}
-                                      aria-label="Send this comment to agent"
+                                      aria-label={t('features.git.sendThisCommentToAgent')}
                                     >
                                       <RiAiGenerate2 className="size-3.5" />
-                                      Send to agent
+                                      {t('features.git.sendToAgent')}
                                     </Button>
                                   </TooltipTrigger>
-                                  <TooltipContent><p>Send this comment to agent</p></TooltipContent>
+                                  <TooltipContent><p>{t('features.git.sendThisCommentToAgent')}</p></TooltipContent>
                                 </Tooltip>
                               </div>
                               <div className="typography-micro text-muted-foreground">
@@ -1986,7 +1988,7 @@ export const PullRequestSection: React.FC<{
                     </div>
                   </div>
                 ) : (
-                  <div className="text-center text-muted-foreground py-8">No comments found.</div>
+                  <div className="text-center text-muted-foreground py-8">{t('features.git.noCommentsFound')}</div>
                 )}
               </div>
             ) : null}

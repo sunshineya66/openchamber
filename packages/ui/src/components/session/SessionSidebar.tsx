@@ -100,6 +100,7 @@ import { ProjectNotesTodoPanel } from './ProjectNotesTodoPanel';
 import { BranchPickerDialog } from './BranchPickerDialog';
 import { useSessionFoldersStore } from '@/stores/useSessionFoldersStore';
 import { SessionFolderItem } from './SessionFolderItem';
+import { useTranslation } from 'react-i18next';
 
 const ATTENTION_DIAMOND_INDICES = new Set([1, 3, 4, 5, 7]);
 
@@ -114,7 +115,7 @@ const PROJECT_ACTIVE_SESSION_STORAGE_KEY = 'oc.sessions.activeSessionByProject';
 const SESSION_EXPANDED_STORAGE_KEY = 'oc.sessions.expandedParents';
 const SESSION_PINNED_STORAGE_KEY = 'oc.sessions.pinned';
 
-const formatDateLabel = (value: string | number) => {
+const formatDateLabel = (value: string | number, t: (key: string) => string) => {
   const targetDate = new Date(value);
   const today = new Date();
   const isSameDay = (a: Date, b: Date) =>
@@ -126,10 +127,10 @@ const formatDateLabel = (value: string | number) => {
   yesterday.setDate(today.getDate() - 1);
 
   if (isSameDay(targetDate, today)) {
-    return 'Today';
+    return t('chat.session.today');
   }
   if (isSameDay(targetDate, yesterday)) {
-    return 'Yesterday';
+    return t('chat.session.yesterday');
   }
   const formatted = targetDate.toLocaleDateString('en-US', {
     month: 'short',
@@ -140,7 +141,7 @@ const formatDateLabel = (value: string | number) => {
 };
 
 /** Returns relative time if updated today, otherwise falls back to formatDateLabel using updated time. */
-const formatSessionDateLabel = (updatedMs: number): string => {
+const formatSessionDateLabel = (updatedMs: number, t: (key: string) => string): string => {
   const today = new Date();
   const updatedDate = new Date(updatedMs);
   const isSameDay = (a: Date, b: Date) =>
@@ -155,7 +156,7 @@ const formatSessionDateLabel = (updatedMs: number): string => {
     return `${Math.floor(diff / 3_600_000)}h ago`;
   }
 
-  return formatDateLabel(updatedMs);
+  return formatDateLabel(updatedMs, t);
 };
 
 const normalizePath = (value?: string | null) => {
@@ -462,6 +463,7 @@ const SortableProjectItem: React.FC<SortableProjectItemProps> = ({
   showCreateButtons = true,
   hideHeader = false,
 }) => {
+  const { t } = useTranslation();
   const {
     attributes,
     listeners,
@@ -596,43 +598,43 @@ const SortableProjectItem: React.FC<SortableProjectItemProps> = ({
                 {showCreateButtons && isRepo && !hideDirectoryControls && settingsAutoCreateWorktree && onNewSession && (
                   <DropdownMenuItem onClick={onNewSession}>
                     <RiAddLine className="mr-1.5 h-4 w-4" />
-                    New Session
+                    {t('layout.sidebar.newSession')}
                   </DropdownMenuItem>
                 )}
                 {showCreateButtons && isRepo && !hideDirectoryControls && !settingsAutoCreateWorktree && onNewWorktreeSession && (
                   <DropdownMenuItem onClick={onNewWorktreeSession}>
                     <RiGitBranchLine className="mr-1.5 h-4 w-4" />
-                    New Session in Worktree
+                    {t('layout.sidebar.newSessionInWorktree')}
                   </DropdownMenuItem>
                 )}
                 {showCreateButtons && isRepo && !hideDirectoryControls && onNewSessionFromGitHubIssue && (
                   <DropdownMenuItem onClick={onNewSessionFromGitHubIssue}>
                     <RiGithubLine className="mr-1.5 h-4 w-4" />
-                    New session from GitHub issue
+                    {t('layout.sidebar.newSessionFromGitHubIssue')}
                   </DropdownMenuItem>
                 )}
                 {showCreateButtons && isRepo && !hideDirectoryControls && onNewSessionFromGitHubPR && (
                   <DropdownMenuItem onClick={onNewSessionFromGitHubPR}>
                     <RiGitPullRequestLine className="mr-1.5 h-4 w-4" />
-                    New session from GitHub PR
+                    {t('layout.sidebar.newSessionFromGitHubPR')}
                   </DropdownMenuItem>
                 )}
                 {showCreateButtons && isRepo && !hideDirectoryControls && (
                   <DropdownMenuItem onClick={onOpenMultiRunLauncher}>
                     <ArrowsMerge className="mr-1.5 h-4 w-4" />
-                    New Multi-Run
+                    {t('layout.sidebar.newMultiRun')}
                   </DropdownMenuItem>
                 )}
                 <DropdownMenuItem onClick={onRenameStart}>
                   <RiPencilAiLine className="mr-1.5 h-4 w-4" />
-                  Rename
+                  {t('layout.sidebar.rename')}
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={onClose}
                   className="text-destructive focus:text-destructive"
                 >
                   <RiCloseLine className="mr-1.5 h-4 w-4" />
-                  Close Project
+                  {t('layout.sidebar.closeProject')}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -651,13 +653,13 @@ const SortableProjectItem: React.FC<SortableProjectItemProps> = ({
                     'inline-flex h-6 w-6 items-center justify-center rounded-md text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 hover:text-foreground hover:bg-interactive-hover/50 flex-shrink-0',
                     mobileVariant ? 'opacity-70' : 'opacity-100',
                   )}
-                  aria-label="New session in worktree"
+                  aria-label={t('layout.sidebar.newSessionInWorktree')}
                 >
                   <RiGitBranchLine className="h-4 w-4" />
                 </button>
               </TooltipTrigger>
               <TooltipContent side="bottom" sideOffset={4}>
-                <p>New session in worktree</p>
+                <p>{t('layout.sidebar.newSessionInWorktree')}</p>
               </TooltipContent>
             </Tooltip>
           )}
@@ -671,13 +673,13 @@ const SortableProjectItem: React.FC<SortableProjectItemProps> = ({
                     onNewSession();
                   }}
                   className="inline-flex h-6 w-6 items-center justify-center text-muted-foreground hover:text-foreground hover:bg-interactive-hover/50 flex-shrink-0 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
-                  aria-label="New session"
+                  aria-label={t('layout.sidebar.newSession')}
                 >
                   <RiAddLine className="h-4 w-4" />
                 </button>
               </TooltipTrigger>
               <TooltipContent side="bottom" sideOffset={4}>
-                <p>New session</p>
+                <p>{t('layout.sidebar.newSession')}</p>
               </TooltipContent>
             </Tooltip>
           )}
@@ -911,6 +913,8 @@ export const SessionSidebar: React.FC<SessionSidebarProps> = ({
   const availableWorktreesByProject = useSessionStore((state) => state.availableWorktreesByProject);
   const getSessionsByDirectory = useSessionStore((state) => state.getSessionsByDirectory);
   const openNewSessionDraft = useSessionStore((state) => state.openNewSessionDraft);
+
+  const { t } = useTranslation();
 
   const tauriIpcAvailable = React.useMemo(() => isTauriShell(), []);
   const isDesktopShellRuntime = React.useMemo(() => isDesktopShell(), []);
@@ -2156,7 +2160,7 @@ export const SessionSidebar: React.FC<SessionSidebarProps> = ({
                     )}
                   </span>
                 ) : null}
-                <span className="flex-shrink-0">{formatSessionDateLabel(session.time?.updated || session.time?.created || Date.now())}</span>
+                <span className="flex-shrink-0">{formatSessionDateLabel(session.time?.updated || session.time?.created || Date.now(), t)}</span>
                 {session.share ? (
                   <RiShare2Line className="h-3 w-3 text-[color:var(--status-info)] flex-shrink-0" />
                 ) : null}
@@ -2287,7 +2291,7 @@ export const SessionSidebar: React.FC<SessionSidebarProps> = ({
                       )}
                     </span>
                   ) : null}
-                  <span className="flex-shrink-0">{formatSessionDateLabel(session.time?.updated || session.time?.created || Date.now())}</span>
+                <span className="flex-shrink-0">{formatSessionDateLabel(session.time?.updated || session.time?.created || Date.now(), t)}</span>
                   {session.share ? (
                     <RiShare2Line className="h-3 w-3 text-[color:var(--status-info)] flex-shrink-0" />
                   ) : null}
@@ -3061,12 +3065,12 @@ export const SessionSidebar: React.FC<SessionSidebarProps> = ({
                     type="button"
                     onClick={() => setIssuePickerOpen(true)}
                     className={headerActionButtonClass}
-                    aria-label="New from issue"
+                    aria-label={t('layout.sidebar.newFromIssue')}
                   >
                     <RiGithubLine className="h-4.5 w-4.5" />
                   </button>
                 </TooltipTrigger>
-                <TooltipContent side="bottom" sideOffset={4}><p>New from issue</p></TooltipContent>
+                <TooltipContent side="bottom" sideOffset={4}><p>{t('layout.sidebar.newFromIssue')}</p></TooltipContent>
               </Tooltip>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -3074,12 +3078,12 @@ export const SessionSidebar: React.FC<SessionSidebarProps> = ({
                     type="button"
                     onClick={() => setPullRequestPickerOpen(true)}
                     className={headerActionButtonClass}
-                    aria-label="New from PR"
+                    aria-label={t('layout.sidebar.newFromPR')}
                   >
                     <RiGitPullRequestLine className="h-4.5 w-4.5" />
                   </button>
                 </TooltipTrigger>
-                <TooltipContent side="bottom" sideOffset={4}><p>New from PR</p></TooltipContent>
+                <TooltipContent side="bottom" sideOffset={4}><p>{t('layout.sidebar.newFromPR')}</p></TooltipContent>
               </Tooltip>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -3087,12 +3091,12 @@ export const SessionSidebar: React.FC<SessionSidebarProps> = ({
                     type="button"
                     onClick={openMultiRunLauncher}
                     className={headerActionButtonClass}
-                    aria-label="New multi-run"
+                    aria-label={t('layout.sidebar.newMultiRunSession')}
                   >
                     <ArrowsMerge className="h-4.5 w-4.5" />
                   </button>
                 </TooltipTrigger>
-                <TooltipContent side="bottom" sideOffset={4}><p>New multi-run</p></TooltipContent>
+                <TooltipContent side="bottom" sideOffset={4}><p>{t('layout.sidebar.newMultiRunSession')}</p></TooltipContent>
               </Tooltip>
                 </>
               ) : null}
@@ -3103,12 +3107,12 @@ export const SessionSidebar: React.FC<SessionSidebarProps> = ({
                       type="button"
                       onClick={() => setIsBranchPickerOpen(true)}
                       className={headerActionButtonClass}
-                      aria-label="Manage branches"
+                      aria-label={t('layout.sidebar.manageBranches')}
                     >
                       <RiGitRepositoryLine className="h-4.5 w-4.5" />
                     </button>
                   </TooltipTrigger>
-                  <TooltipContent side="bottom" sideOffset={4}><p>Manage branches</p></TooltipContent>
+                  <TooltipContent side="bottom" sideOffset={4}><p>{t('layout.sidebar.manageBranches')}</p></TooltipContent>
                 </Tooltip>
               ) : null}
               {useMobileNotesPanel ? (
@@ -3118,12 +3122,12 @@ export const SessionSidebar: React.FC<SessionSidebarProps> = ({
                       type="button"
                       onClick={() => setProjectNotesPanelOpen(true)}
                       className={headerActionButtonClass}
-                      aria-label="Project notes and todos"
+                      aria-label={t('layout.sidebar.projectNotesAndTodos')}
                     >
                       <RiStickyNoteLine className="h-4.5 w-4.5" />
                     </button>
                   </TooltipTrigger>
-                  <TooltipContent side="bottom" sideOffset={4}><p>Project notes</p></TooltipContent>
+                  <TooltipContent side="bottom" sideOffset={4}><p>{t('layout.sidebar.projectNotes')}</p></TooltipContent>
                 </Tooltip>
               ) : (
                 <DropdownMenu open={projectNotesPanelOpen} onOpenChange={setProjectNotesPanelOpen} modal={false}>
@@ -3133,7 +3137,7 @@ export const SessionSidebar: React.FC<SessionSidebarProps> = ({
                         <button
                           type="button"
                           className={headerActionButtonClass}
-                          aria-label="Project notes and todos"
+                          aria-label={t('layout.sidebar.projectNotesAndTodos')}
                         >
                           <RiStickyNoteLine className="h-4.5 w-4.5" />
                         </button>
@@ -3383,7 +3387,7 @@ export const SessionSidebar: React.FC<SessionSidebarProps> = ({
         <MobileOverlayPanel
           open={projectNotesPanelOpen}
           onClose={() => setProjectNotesPanelOpen(false)}
-          title="Project notes"
+          title={t('layout.sidebar.projectNotes')}
         >
           <ProjectNotesTodoPanel
             projectRef={activeProjectRefForHeader}

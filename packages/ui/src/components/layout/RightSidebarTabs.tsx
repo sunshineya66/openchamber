@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { RiFolder3Line, RiGitBranchLine } from '@remixicon/react';
 
 import { AnimatedTabs } from '@/components/ui/animated-tabs';
@@ -9,6 +10,7 @@ import { SidebarFilesTree } from './SidebarFilesTree';
 type RightTab = 'git' | 'files';
 
 export const RightSidebarTabs: React.FC = () => {
+  const { t } = useTranslation();
   const rightSidebarTab = useUIStore((state) => state.rightSidebarTab);
   const setRightSidebarTab = useUIStore((state) => state.setRightSidebarTab);
 
@@ -22,8 +24,8 @@ export const RightSidebarTabs: React.FC = () => {
           collapseLabelsOnSmall
           collapseLabelsOnNarrow
           tabs={[
-            { value: 'git', label: 'Git', icon: RiGitBranchLine },
-            { value: 'files', label: 'Files', icon: RiFolder3Line },
+            { value: 'git', label: t('layout.rightSidebar.git'), icon: RiGitBranchLine },
+            { value: 'files', label: t('layout.rightSidebar.files'), icon: RiFolder3Line },
           ]}
         />
       </div>

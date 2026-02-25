@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -55,6 +56,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
     allowedProviderIds,
     placeholder
 }) => {
+    const { t } = useTranslation();
     const { providers, modelsMetadata } = useConfigStore();
     const isMobile = useUIStore(state => state.isMobile);
     const hiddenModels = useUIStore(state => state.hiddenModels);
@@ -263,14 +265,14 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
             <MobileOverlayPanel
                 open={isMobilePanelOpen}
                 onClose={closeMobilePanel}
-                title="Select model"
+                title={t('chat.model.select')}
             >
                 <div className="space-y-1">
                     {/* Favorites Section for Mobile */}
                     {favoriteModelsList.length > 0 && (
                         <div className="rounded-xl border border-border/40 bg-[var(--surface-elevated)] mb-2">
                             <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                                Favorites
+                                {t('chat.model.favorites')}
                             </div>
                             <div className="border-t border-border/20">
                                 {favoriteModelsList.map(({ model, providerID, modelID }) => {
@@ -324,7 +326,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
                     {recentModelsList.length > 0 && (
                         <div className="rounded-xl border border-border/40 bg-[var(--surface-elevated)] mb-2">
                             <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                                Recents
+                                {t('chat.model.recent')}
                             </div>
                             <div className="border-t border-border/20">
                                 {recentModelsList.map(({ model, providerID, modelID }) => {
@@ -397,7 +399,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
                                             {provider.name}
                                         </span>
                                         {isActiveProvider && (
-                                            <span className="typography-micro text-primary/80">Current</span>
+                                            <span className="typography-micro text-primary/80">{t('chat.model.current')}</span>
                                         )}
                                     </div>
                                     {isExpanded ? (
@@ -475,7 +477,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
                             closeMobilePanel();
                         }}
                     >
-                        <span className="typography-meta text-muted-foreground">{placeholder || 'No model (optional)'}</span>
+                        <span className="typography-meta text-muted-foreground">{placeholder || t('chat.model.noModelOptional')}</span>
                     </button>
                 </div>
             </MobileOverlayPanel>
@@ -527,7 +529,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
                                 <RiPencilAiLine className="h-3.5 w-3.5 text-muted-foreground" />
                             )}
                             <span className="typography-ui-label font-normal whitespace-nowrap text-foreground">
-                                {providerId && modelId ? `${providerId}/${modelId}` : (placeholder || 'Not selected')}
+                                {providerId && modelId ? `${providerId}/${modelId}` : (placeholder || t('chat.model.notSelected'))}
                             </span>
                             <RiArrowDownSLine className="h-4 w-4 flex-shrink-0 text-muted-foreground/50" />
                         </div>
@@ -592,7 +594,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
                                             <RiSearchLine className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
                                             <Input
                                                 type="text"
-                                                placeholder="Search models"
+                                                placeholder={t('chat.model.searchModels')}
                                                 value={searchQuery}
                                                 onChange={(e) => setSearchQuery(e.target.value)}
                                                 onKeyDown={handleKeyDown}
@@ -614,7 +616,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
                                                 onClick={() => handleProviderAndModelChange('', '')}
                                             >
                                                 <RiCloseLine className="h-3.5 w-3.5 text-muted-foreground" />
-                                                <span className="text-muted-foreground">{placeholder || 'Not selected'}</span>
+                                                <span className="text-muted-foreground">{placeholder || t('chat.model.notSelected')}</span>
                                                 {!providerId && !modelId && (
                                                     <RiCheckLine className="h-4 w-4 text-primary ml-auto" />
                                                 )}
@@ -624,7 +626,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
 
                                             {!hasResults && searchQuery && (
                                                 <div className="px-2 py-4 text-center typography-meta text-muted-foreground">
-                                                    No models found
+                                                    {t('chat.model.noModelsFound')}
                                                 </div>
                                             )}
 
@@ -633,7 +635,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
                                                 <>
                                                     <DropdownMenuLabel style={{ backgroundColor: 'var(--surface-elevated)' }} className="typography-micro font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-2 -mx-1 px-3 py-1.5 sticky top-0 z-10 border-b border-border/30">
                                                         <RiStarFill className="h-4 w-4 text-primary" />
-                                                        Favorites
+                                                        {t('chat.model.favorites')}
                                                     </DropdownMenuLabel>
                                                     {filteredFavorites.map(({ model, providerID, modelID }) => {
                                                         const idx = currentFlatIndex++;
@@ -648,7 +650,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
                                                     {filteredFavorites.length > 0 && <DropdownMenuSeparator />}
                                                     <DropdownMenuLabel style={{ backgroundColor: 'var(--surface-elevated)' }} className="typography-micro font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-2 -mx-1 px-3 py-1.5 sticky top-0 z-10 border-b border-border/30">
                                                         <RiTimeLine className="h-4 w-4" />
-                                                        Recent
+                                                        {t('chat.model.recent')}
                                                     </DropdownMenuLabel>
                                                     {filteredRecents.map(({ model, providerID, modelID }) => {
                                                         const idx = currentFlatIndex++;

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { RiEyeLine, RiEyeOffLine } from '@remixicon/react';
 
@@ -22,9 +23,10 @@ export const PreviewToggleButton: React.FC<PreviewToggleButtonProps> = ({
   currentMode,
   onToggle,
 }) => {
+  const { t } = useTranslation();
   const isPreview = currentMode === 'preview';
-  const ariaLabel = isPreview ? 'Switch to edit mode' : 'Switch to preview mode';
-  const tooltipText = isPreview ? 'Edit' : 'Preview';
+  const ariaLabel = isPreview ? t('chat.preview.switchToEditMode') : t('chat.preview.switchToPreviewMode');
+  const tooltipText = isPreview ? t('common.edit') : t('chat.preview.preview');
 
   return (
     <Tooltip delayDuration={500}>

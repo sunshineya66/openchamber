@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   RiAddLine,
   RiArrowDownSLine,
@@ -49,6 +50,7 @@ interface AgentGroupItemProps {
 }
 
 const AgentGroupItem: React.FC<AgentGroupItemProps> = ({ group, isSelected, onSelect }) => {
+  const { t } = useTranslation();
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [isDeleting, setIsDeleting] = React.useState(false);
@@ -57,17 +59,17 @@ const AgentGroupItem: React.FC<AgentGroupItemProps> = ({ group, isSelected, onSe
   const handleDeleteGroup = React.useCallback(async () => {
     if (isDeleting) return;
     setIsDeleting(true);
-    toast.info(`Deleting "${group.name}"...`);
+    toast.info(t('agentManager.sidebar.deletingGroup', { name: group.name }));
     const ok = await deleteGroup(group.name);
     if (ok) {
-      toast.success(`Deleted "${group.name}"`);
+      toast.success(t('agentManager.sidebar.deleted', { name: group.name }));
     } else {
       const error = useAgentGroupsStore.getState().error;
-      toast.error(error || `Failed to delete "${group.name}"`);
+      toast.error(error || t('agentManager.sidebar.deleteFailed', { name: group.name }));
     }
     setIsDeleting(false);
     setConfirmOpen(false);
-  }, [deleteGroup, group.name, isDeleting]);
+  }, [deleteGroup, group.name, isDeleting, t]);
   
   return (
     <>
@@ -122,7 +124,7 @@ const AgentGroupItem: React.FC<AgentGroupItemProps> = ({ group, isSelected, onSe
                     setConfirmOpen(true);
                   }}
                 >
-                  Delete
+                  {t('agentManager.sidebar.delete')}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -133,17 +135,17 @@ const AgentGroupItem: React.FC<AgentGroupItemProps> = ({ group, isSelected, onSe
       <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
         <DialogContent className="max-w-md" keyboardAvoid>
           <DialogHeader>
-            <DialogTitle>Delete agent group</DialogTitle>
+            <DialogTitle>{t('agentManager.sidebar.deleteGroup')}</DialogTitle>
             <DialogDescription>
-              Delete <span className="text-foreground font-medium">{group.name}</span>? This removes all worktrees and sessions in this group.
+              {t('agentManager.sidebar.deleteConfirm', { name: group.name })}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <Button variant="outline" onClick={() => setConfirmOpen(false)} disabled={isDeleting}>
-              Cancel
+              {t('agentManager.sidebar.cancel')}
             </Button>
             <Button variant="destructive" onClick={() => void handleDeleteGroup()} disabled={isDeleting}>
-              {isDeleting ? 'Deleting…' : 'Delete'}
+              {isDeleting ? t('agentManager.sidebar.deleting') : t('agentManager.sidebar.delete')}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -165,6 +167,7 @@ export const AgentManagerSidebar: React.FC<AgentManagerSidebarProps> = ({
   onGroupSelect,
   onNewAgent,
 }) => {
+  const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = React.useState('');
   const [showAll, setShowAll] = React.useState(false);
   
@@ -200,7 +203,7 @@ export const AgentManagerSidebar: React.FC<AgentManagerSidebarProps> = ({
           <Input
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search Agent Groups..."
+            placeholder={t('agentManager.sidebar.search')}
             className="pl-8 h-8 rounded-lg border-border/40 bg-background/50 typography-meta"
           />
         </div>
@@ -214,7 +217,7 @@ export const AgentManagerSidebar: React.FC<AgentManagerSidebarProps> = ({
           onClick={onNewAgent}
         >
           <RiAddLine className="h-4 w-4" />
-          <span className="typography-ui-label">New Agent Group</span>
+          <span className="typography-ui-label">{t('agentManager.sidebar.newGroup')}</span>
         </Button>
       </div>
       
@@ -222,11 +225,11 @@ export const AgentManagerSidebar: React.FC<AgentManagerSidebarProps> = ({
       <div className="px-2.5 py-1.5 flex items-center gap-1">
         <RiArrowDownSLine className="h-4 w-4 text-muted-foreground" />
         <span className="typography-micro font-medium text-muted-foreground uppercase tracking-wider">
-          Agent Groups
+          {t('agentManager.sidebar.groups')}
         </span>
         {isLoading && (
           <span className="typography-micro text-muted-foreground/50 ml-auto">
-            Loading...
+            {t('agentManager.sidebar.loading')}
           </span>
         )}
       </div>
@@ -252,7 +255,7 @@ export const AgentManagerSidebar: React.FC<AgentManagerSidebarProps> = ({
             onClick={() => setShowAll(true)}
             className="mt-1 flex items-center justify-start rounded-md px-1.5 py-0.5 text-left typography-micro text-muted-foreground/70 hover:text-foreground hover:underline"
           >
-            ... More ({remainingCount})
+            {t('agentManager.sidebar.more', { count: remainingCount })}
           </button>
         )}
         
@@ -263,7 +266,7 @@ export const AgentManagerSidebar: React.FC<AgentManagerSidebarProps> = ({
             onClick={() => setShowAll(false)}
             className="mt-1 flex items-center justify-start rounded-md px-1.5 py-0.5 text-left typography-micro text-muted-foreground/70 hover:text-foreground hover:underline"
           >
-            Show less
+            {t('agentManager.sidebar.showLess')}
           </button>
         )}
         
@@ -271,11 +274,11 @@ export const AgentManagerSidebar: React.FC<AgentManagerSidebarProps> = ({
         {!isLoading && filteredGroups.length === 0 && (
           <div className="py-4 text-center">
             <p className="typography-meta text-muted-foreground">
-              {searchQuery.trim() ? 'No groups found' : 'No agent groups yet'}
+              {searchQuery.trim() ? t('agentManager.sidebar.noGroupsFound') : t('agentManager.sidebar.noGroupsYet')}
             </p>
             {!searchQuery.trim() && (
               <p className="typography-micro text-muted-foreground/60 mt-1">
-                Create a new agent group to get started
+                {t('agentManager.sidebar.createNewHint')}
               </p>
             )}
           </div>

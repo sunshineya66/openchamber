@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Select,
   SelectContent,
@@ -33,6 +34,7 @@ export const AgentSelector: React.FC<AgentSelectorProps> = ({
   disabled,
   id,
 }) => {
+  const { t } = useTranslation();
   const getVisibleAgents = useConfigStore((state) => state.getVisibleAgents);
   const loadAgents = useConfigStore((state) => state.loadAgents);
   const defaultAgentName = useConfigStore((state) => state.currentAgentName);
@@ -87,7 +89,7 @@ export const AgentSelector: React.FC<AgentSelectorProps> = ({
         size="lg"
         className={className ?? 'max-w-full typography-meta text-foreground'}
       >
-        <SelectValue placeholder="Select an agent" />
+        <SelectValue placeholder={t('multirun.agentSelector.selectAgent')} />
       </SelectTrigger>
       <SelectContent fitContent>
         {selectableAgents.length > 0 && (
