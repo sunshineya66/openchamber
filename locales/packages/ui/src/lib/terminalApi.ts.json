@@ -1,0 +1,17 @@
+{
+  "Failed to send terminal input": "发送终端输入失败",
+  "Failed to create terminal": "创建终端失败",
+  "Failed to create terminal session": "创建终端会话失败",
+  "Attempted to create duplicate EventSource, skipping": "尝试创建重复的 EventSource，跳过",
+  "Terminal connection timeout": "终端连接超时",
+  "Connection timeout": "连接超时",
+  "Failed to parse terminal event:": "解析终端事件失败：",
+  "Terminal stream error:": "终端流错误：",
+  "Terminal stream connection error": "终端流连接错误",
+  "Reconnecting to terminal stream (attempt {retryCount}/{maxRetries}) in {delay}ms": "正在重新连接终端流（尝试 {retryCount}/{maxRetries}），{delay}毫秒后",
+  "Terminal connection failed after {retryCount} attempts": "终端连接在 {retryCount} 次尝试后失败",
+  "Failed to resize terminal": "调整终端大小失败",
+  "Failed to close terminal": "关闭终端失败",
+  "Failed to restart terminal": "重启终端失败",
+  "Failed to force kill terminal": "强制终止终端失败"
+}

@@ -1,0 +1,18 @@
+{
+  "Preparing workspace…": "准备工作区中…",
+  "Too many attempts": "尝试次数过多",
+  "Unable to reach server": "无法连接到服务器",
+  "Please wait {minutes} minute{plural} before trying again.": "请等待 {minutes} 分钟后再重试。",
+  "We couldn't verify the UI session. Check that the service is running and try again.": "无法验证UI会话。请检查服务是否正在运行，然后重试。",
+  "Retry": "重试",
+  "Unlock OpenChamber": "解锁OpenChamber",
+  "This session is password-protected.": "此会话受密码保护。",
+  "Use Local if remote is unreachable.": "如果远程无法连接，请使用本地。",
+  "Enter password": "输入密码",
+  "Unlocking": "解锁中",
+  "Unlock": "解锁",
+  "Incorrect password. Try again.": "密码错误，请重试。",
+  "URL token invalid. Please enter password manually.": "URL 令牌无效，请手动输入密码。",
+  "Unexpected response from server.": "服务器响应异常。",
+  "Network error. Check connection and retry.": "网络错误，请检查连接并重试。"
+}

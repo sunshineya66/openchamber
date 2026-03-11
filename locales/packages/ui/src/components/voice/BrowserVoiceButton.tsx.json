@@ -1,0 +1,19 @@
+{
+  "Start Voice": "开始语音",
+  "Listening": "聆听中",
+  "Processing": "处理中",
+  "AI Speaking": "AI 说话中",
+  "Voice Error": "语音错误",
+  "Start Voice (Continuous mode on)": "开始语音（连续模式已开启）",
+  "Start voice conversation": "开始语音对话",
+  "Stop voice conversation": "停止语音对话",
+  "Start voice conversation (Shift+Click for continuous mode) • Cmd/Ctrl+Shift+V to toggle": "开始语音对话（Shift+点击开启连续模式）• Cmd/Ctrl+Shift+V 切换",
+  "Voice requires a secure connection (HTTPS) or localhost. Please use HTTPS or access via localhost.": "语音需要安全连接（HTTPS）或 localhost。请使用 HTTPS 或通过 localhost 访问。",
+  "Microphone access is unavailable in this runtime. On desktop, check System Settings -> Privacy & Security -> Microphone for OpenChamber.": "此运行时无法访问麦克风。在桌面上，请检查系统设置 -> 隐私与安全 -> 麦克风 -> OpenChamber。",
+  "Voice requires HTTPS or localhost. Please use a secure connection.": "语音需要 HTTPS 或 localhost。请使用安全连接。",
+  "Speech recognition not supported in this browser. Try Chrome, Edge, or Safari.": "此浏览器不支持语音识别。请尝试 Chrome、Edge 或 Safari。",
+  "Speech synthesis not supported in this browser.": "此浏览器不支持语音合成。",
+  "Voice not supported in this browser": "此浏览器不支持语音",
+  "Continuous mode on": "连续模式已开启",
+  "Continuous mode off": "连续模式已关闭"
+}

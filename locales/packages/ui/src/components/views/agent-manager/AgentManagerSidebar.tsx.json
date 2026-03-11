@@ -1,0 +1,20 @@
+{
+  "Search Agent Groups...": "搜索智能体组...",
+  "New Agent Group": "新建智能体组",
+  "Agent Groups": "智能体组",
+  "Loading...": "加载中...",
+  "... More ($)": "... 还有 ($)",
+  "Show less": "显示更少",
+  "No groups found": "未找到组",
+  "No agent groups yet": "暂无智能体组",
+  "Create a new agent group to get started": "创建一个新的智能体组以开始",
+  "Delete": "删除",
+  "Delete agent group": "删除智能体组",
+  "Delete $? This removes all worktrees and sessions in this group.": "删除 $？这将删除该组中的所有工作树和会话。",
+  "Cancel": "取消",
+  "Deleting…": "删除中…",
+  "Deleting \"$\"...": "正在删除 \"$\"...",
+  "Deleted \"$\"": "已删除 \"$\"",
+  "Failed to delete \"$\"": "删除 \"$\" 失败",
+  "now": "刚刚"
+}

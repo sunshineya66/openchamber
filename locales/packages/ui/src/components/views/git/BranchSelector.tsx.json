@@ -1,0 +1,15 @@
+{
+  "Detached HEAD": "分离的 HEAD",
+  "Current branch": "当前分支",
+  "Search branches...": "搜索分支...",
+  "No branches found.": "未找到分支。",
+  "Create new branch...": "创建新分支...",
+  "New branch name": "新分支名称",
+  "Push $ to:": "推送到：",
+  "Local branches": "本地分支",
+  "ahead · behind": "领先 · 落后",
+  "Current": "当前",
+  "No local branches": "无本地分支",
+  "Remote branches": "远程分支",
+  "No remote branches": "无远程分支"
+}

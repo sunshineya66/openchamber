@@ -1,0 +1,18 @@
+{
+  "Fix the failing tests": "修复失败的测试",
+  "Refactor this to be more readable": "重构使其更易读",
+  "Add form validation": "添加表单验证",
+  "Optimize this function": "优化此函数",
+  "Write tests for this": "为此编写测试",
+  "Explain how this works": "解释这如何工作",
+  "Add a new feature": "添加新功能",
+  "Help me debug this": "帮我调试这个",
+  "Review my code": "审查我的代码",
+  "Simplify this logic": "简化此逻辑",
+  "Add error handling": "添加错误处理",
+  "Create a new component": "创建新组件",
+  "Update the documentation": "更新文档",
+  "Find the bug here": "在这里找到bug",
+  "Improve performance": "提高性能",
+  "Add type definitions": "添加类型定义"
+}

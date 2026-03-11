@@ -1,0 +1,12 @@
+{
+  "Skills already exist": "技能已存在",
+  "Some selected skills are already installed in this scope. Choose whether to skip or overwrite them.": "部分选中的技能已在此范围安装。请选择跳过还是覆盖。",
+  "{count} conflict(s)": "{count} 个冲突",
+  "Skip all": "全部跳过",
+  "Overwrite all": "全部覆盖",
+  "Installed in {scope} / {source}": "已安装在 {scope} / {source}",
+  "Skip": "跳过",
+  "Overwrite": "覆盖",
+  "Cancel": "取消",
+  "Continue": "继续"
+}

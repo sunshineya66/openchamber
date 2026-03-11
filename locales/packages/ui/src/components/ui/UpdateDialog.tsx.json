@@ -1,0 +1,19 @@
+{
+  "Updating OpenChamber...": "正在更新 OpenChamber...",
+  "Update Available": "有可用更新",
+  "What's new": "更新内容",
+  "Installing update...": "正在安装更新...",
+  "Server restarting...": "服务器正在重启...",
+  "Waiting for server...": "正在等待服务器...",
+  "The page will reload automatically when the update is complete.": "更新完成后页面将自动刷新。",
+  "Or update via terminal:": "或通过终端更新：",
+  "Copy command": "复制命令",
+  "Copied!": "已复制！",
+  "Downloading update payload...": "正在下载更新内容...",
+  "Download Update": "下载更新",
+  "Downloading...": "下载中...",
+  "Restart to Update": "重启以更新",
+  "Update Now": "立即更新",
+  "Updating...": "更新中...",
+  "GitHub": "GitHub"
+}

@@ -1,0 +1,23 @@
+{
+  "GitHub": "GitHub",
+  "Connect a GitHub account for in-app PR and issue workflows.": "连接 GitHub 账户以应用内 PR 和问题工作流程。",
+  "Not Connected": "未连接",
+  "Connect GitHub": "连接 GitHub",
+  "Disconnect": "断开",
+  "Other Accounts": "其他账户",
+  "Active": "活动",
+  "Switch to": "切换到",
+  "Add Account": "添加账户",
+  "Authorize OpenChamber": "授权 OpenChamber",
+  "In GitHub, enter the following code to authorize this device:": "在 GitHub 中，输入以下代码以授权此设备：",
+  "Open GitHub": "打开 GitHub",
+  "Waiting for approval… (auto-refresh)": "等待批准…（自动刷新）",
+  "Failed to start GitHub connect": "启动 GitHub 连接失败",
+  "GitHub connected": "GitHub 已连接",
+  "GitHub disconnected": "GitHub 已断开",
+  "Failed to disconnect GitHub": "断开 GitHub 失败",
+  "GitHub account switched": "GitHub 账户已切换",
+  "Failed to switch GitHub account": "切换 GitHub 账户失败",
+  "GitHub authorization failed": "GitHub 授权失败",
+  "Scopes: {scope}": "范围：{scope}"
+}

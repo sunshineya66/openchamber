@@ -1,0 +1,20 @@
+{
+  "No active project": "无活动项目",
+  "Not a Git repository": "不是 Git 仓库",
+  "Please select a project first.": "请先选择一个项目。",
+  "Worktrees can only be created in Git repositories.": "只能在 Git 仓库中创建工作树。",
+  "Creating new worktree session...": "正在创建新的工作树会话...",
+  "Creating new worktree...": "正在创建新的工作树...",
+  "Creating worktree session...": "正在创建工作树会话...",
+  "Project is not registered in OpenChamber": "项目未在 OpenChamber 中注册",
+  "Branch name is required": "分支名称是必需的",
+  "Could not create a session for the worktree.": "无法为工作树创建会话。",
+  "Failed to create session": "创建会话失败",
+  "Failed to create worktree session": "创建工作树会话失败",
+  "Failed to create worktree session": "创建工作树会话失败",
+  "Failed to create worktree": "创建工作树失败",
+  "Worktree created": "工作树已创建",
+  "Created (dirty)": "已创建（未保存）",
+  "Ready": "就绪",
+  "Branch: ": "分支："
+}

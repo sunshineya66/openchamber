@@ -1,0 +1,10 @@
+{
+  "Current (HEAD)": "当前 (HEAD)",
+  "Current (HEAD: {branchData.current})": "当前 (HEAD: {branchData.current})",
+  "Loading branches…": "加载分支中...",
+  "Select a branch": "选择一个分支",
+  "Default": "默认",
+  "Local branches": "本地分支",
+  "Remote branches": "远程分支",
+  "Not in a git repository.": "不在 Git 仓库中。"
+}

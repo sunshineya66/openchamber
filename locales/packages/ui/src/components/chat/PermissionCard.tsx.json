@@ -1,0 +1,20 @@
+{
+  "Permission Required": "需要权限",
+  "From subagent": "来自子代理",
+  "Working Directory:": "工作目录：",
+  "Timeout:": "超时：",
+  "Request:": "请求：",
+  "Headers:": "请求头：",
+  "Body:": "请求体：",
+  "Replace All Occurrences": "⚠️ 替换所有匹配项",
+  "Patterns:": "匹配模式：",
+  "Allow Once": "允许一次",
+  "Always Allow": "始终允许",
+  "Deny": "拒绝",
+  "Action:": "操作：",
+  "Details:": "详情：",
+  "Response format:": "响应格式：",
+  "Timeout: ${timeout}ms": "超时：${timeout}毫秒",
+  "Response format: ${format}": "响应格式：${format}",
+  "Always: ${text}...": "始终允许：${text}..."
+}

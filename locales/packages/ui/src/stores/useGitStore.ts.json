@@ -1,0 +1,6 @@
+{
+  "Failed to fetch git status": "获取 Git 状态失败",
+  "Failed to fetch git branches": "获取 Git 分支失败",
+  "Failed to fetch git log": "获取 Git 日志失败",
+  "Failed to fetch git identity": "获取 Git 身份失败"
+}

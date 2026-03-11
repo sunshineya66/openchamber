@@ -1,0 +1,11 @@
+{
+  "Copy table": "复制表格",
+  "CSV": "CSV",
+  "TSV": "TSV",
+  "Download table": "下载表格",
+  "Markdown": "Markdown",
+  "Copy": "复制",
+  "Diagram": "图表",
+  "Diagram {index}": "图表 {index}",
+  "Table downloaded as {format}": "表格已下载为 {format}"
+}

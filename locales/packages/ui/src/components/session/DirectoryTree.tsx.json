@@ -1,0 +1,14 @@
+{
+  "Locating home directory...": "正在定位主目录...",
+  "Loading...": "加载中...",
+  "No directories found": "未找到目录",
+  "Create new directory": "创建新目录",
+  "Create directory": "创建目录",
+  "Pin directory": "固定目录",
+  "Unpin directory": "取消固定目录",
+  "Pinned": "已固定",
+  "Browse": "浏览",
+  "Select working directory": "选择工作目录",
+  "new_directory": "新目录",
+  "Cancel": "取消"
+}

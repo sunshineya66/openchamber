@@ -1,0 +1,9 @@
+{
+  "Metadata request to ${source} returned status ${status}": "元数据请求到 ${source} 返回状态 ${status}",
+  "Model metadata request aborted (${source})": "模型元数据请求已中止 (${source})",
+  "Failed to fetch model metadata from ${source}": "从 ${source} 获取模型元数据失败",
+  "Failed to load providers": "加载提供者失败",
+  "Failed to load agents:": "加载智能体失败：",
+  "Failed to reach OpenCode after retrying:": "重试后仍无法连接 OpenCode：",
+  "Failed to initialize app:": "初始化应用失败："
+}

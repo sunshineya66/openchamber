@@ -1,0 +1,20 @@
+{
+  "Sessions": "会话",
+  "Session": "会话",
+  "Chat": "聊天",
+  "New session": "新会话",
+  "Rate limits": "速率限制",
+  "Used": "已用",
+  "Remaining": "剩余",
+  "Last updated {time}": "上次更新 {time}",
+  "No rate limits available.": "没有可用的速率限制。",
+  "No rate limits reported.": "未报告速率限制。",
+  "Open sessions": "打开会话",
+  "Settings": "设置",
+  "Back to sessions": "返回会话列表",
+  "New session": "新建会话",
+  "Open Agent Manager": "打开智能体管理器",
+  "Show used quota": "显示已用配额",
+  "Show remaining quota": "显示剩余配额",
+  "Refresh rate limits": "刷新速率限制"
+}

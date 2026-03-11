@@ -1,0 +1,11 @@
+{
+  "Failed to read raw file: {status}": "读取原始文件失败：{status}",
+  "Failed to read raw file": "读取原始文件失败",
+  "File \"{fileName}\" is too large. Maximum size is 50MB.": "文件 \"{fileName}\" 太大。最大大小为 50MB。",
+  "File \"{fileName}\" is already attached": "文件 \"{fileName}\" 已附加",
+  "is already attached": "已附加",
+  "File type \"{mimeType}\" might not be supported": "文件类型 \"{mimeType}\" 可能不支持",
+  "might not be supported": "可能不支持",
+  "Server file \"{fileName}\" is already attached": "服务器文件 \"{fileName}\" 已附加",
+  "Failed to inline binary server file, falling back to file://": "无法内联二进制服务器文件，回退到 file://"
+}

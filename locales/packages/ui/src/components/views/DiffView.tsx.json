@@ -1,0 +1,21 @@
+{
+  "Content of this file cannot be viewed.": "无法查看此文件的内容。",
+  "Untracked file": "未跟踪的文件",
+  "New file": "新文件",
+  "Deleted file": "已删除的文件",
+  "Renamed file": "重命名的文件",
+  "Copied file": "复制的文件",
+  "Modified file": "修改的文件",
+  "Select file": "选择文件",
+  "View mode": "查看模式",
+  "Single file": "单个文件",
+  "All files": "所有文件",
+  "Show one file at a time": "一次显示一个文件",
+  "Stack all modified files together": "将所有修改的文件堆叠在一起",
+  "Original": "原始",
+  "Modified": "修改后",
+  "New": "新建",
+  "Failed to load diff": "加载差异失败",
+  "Retry": "重试",
+  "Loading diff...": "加载差异中..."
+}

@@ -1,0 +1,15 @@
+{
+  "Server file": "服务器文件",
+  "Local file": "本地文件",
+  "Remove image": "移除图片",
+  "Remove file": "移除文件",
+  "Attached": "已附加",
+  "Unnamed file": "未命名文件",
+  "Failed to attach file": "附加文件失败",
+  "Some files were skipped:": "部分文件被跳过：",
+  "Failed to pick files in VS Code": "在 VS Code 中选择文件失败",
+  "Attach files": "附加文件",
+  "Image": "图片",
+  "Diagram": "图表",
+  "Open": "打开"
+}

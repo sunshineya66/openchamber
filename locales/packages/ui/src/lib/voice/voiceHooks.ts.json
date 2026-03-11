@@ -1,0 +1,8 @@
+{
+  "[Voice] Skipping contextual update - no active session": "[Voice] 跳过上下文更新 - 无活动会话",
+  "[Voice] Sending contextual update:": "[Voice] 发送上下文更新：",
+  "[Voice] Failed to send contextual update:": "[Voice] 发送上下文更新失败：",
+  "[Voice] Message forwarding disabled": "[Voice] 消息转发已禁用",
+  "[Voice] Permission request forwarding disabled": "[Voice] 权限请求转发已禁用",
+  "[Voice] Ready event forwarding disabled": "[Voice] 就绪事件转发已禁用"
+}

@@ -1,0 +1,21 @@
+{
+  "Failed to update default identity": "更新默认身份失败",
+  "Default identity updated": "默认身份已更新",
+  "Default identity unset": "默认身份已取消",
+  "Profile \"{name}\" deleted": "配置文件 \"{name}\" 已删除",
+  "Failed to delete profile": "删除配置文件失败",
+  "Identities": "身份",
+  "New": "新建",
+  "No identities configured": "未配置身份",
+  "Create one to manage Git author settings per project": "创建一个以管理每个项目的 Git 作者设置",
+  "Found in ~/.git-credentials": "发现于 ~/.git-credentials",
+  "Delete Profile": "删除配置文件",
+  "Are you sure you want to delete \"{name}\"?": "确定要删除 \"{name}\" 吗？",
+  "Cancel": "取消",
+  "Delete": "删除",
+  "Unset default": "取消默认",
+  "Set as default": "设为默认",
+  "default": "默认",
+  "system": "系统",
+  "Import": "导入"
+}

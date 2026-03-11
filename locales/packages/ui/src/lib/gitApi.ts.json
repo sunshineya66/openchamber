@@ -1,0 +1,7 @@
+{
+  "Select existing session for generation": "请选择一个现有会话以进行生成",
+  "Structured output missing subject": "结构化输出缺少主题",
+  "No commits found in range ${payload.base}...${payload.head}": "在范围 ${payload.base}...${payload.head} 内未找到提交",
+  "Failed to generate ${kind} output": "生成 ${kind} 输出失败",
+  "No structured output returned by session": "会话未返回结构化输出"
+}

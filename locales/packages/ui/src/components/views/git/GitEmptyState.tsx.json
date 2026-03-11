@@ -1,0 +1,6 @@
+{
+  "Working tree clean": "工作树干净",
+  "All changes have been committed": "所有更改已提交",
+  "Pull ${behind} commit": "拉取 ${behind} 个提交",
+  "Pull ${behind} commits": "拉取 ${behind} 个提交"
+}

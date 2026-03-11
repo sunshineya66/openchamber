@@ -1,0 +1,16 @@
+{
+  "Failed to load shared settings from runtime settings API:": "从运行时设置API加载共享设置失败：",
+  "Failed to load shared settings from server:": "从服务器加载共享设置失败：",
+  "Failed to synchronise settings:": "同步设置失败：",
+  "Failed to update settings via runtime settings API:": "通过运行时设置API更新设置失败：",
+  "Failed to update shared settings via API:": "通过API更新共享设置失败：",
+  "Failed to load appearance preferences:": "加载外观偏好设置失败：",
+  "Task Complete": "任务完成",
+  "Your task has finished.": "您的任务已完成。",
+  "Error Occurred": "发生错误",
+  "An error occurred while processing your task.": "处理您的任务时发生错误。",
+  "Input Needed": "需要输入",
+  "Please provide input to continue.": "请提供输入以继续。",
+  "Subtask Complete": "子任务完成",
+  "A subtask has finished.": "一个子任务已完成。"
+}

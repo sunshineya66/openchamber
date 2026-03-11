@@ -1,0 +1,12 @@
+{
+  "OpenCode CLI": "OpenCode CLI",
+  "Optional absolute path to the opencode binary.": "opencode 二进制文件的可选绝对路径。",
+  "OpenCode Binary Path": "OpenCode 二进制路径",
+  "/Users/you/.bun/bin/opencode": "/Users/you/.bun/bin/opencode",
+  "Browse": "浏览",
+  "Tip: you can also use OPENCODE_BINARY env var, but this setting persists in ~/.config/openchamber/settings.json.": "提示：您也可以使用 OPENCODE_BINARY 环境变量，但此设置会保存在 ~/.config/openchamber/settings.json 中。",
+  "Saving…": "保存中…",
+  "Save + Reload": "保存并重新加载",
+  "Select opencode binary": "选择 opencode 二进制文件",
+  "Browse for OpenCode binary path": "浏览 OpenCode 二进制文件路径"
+}

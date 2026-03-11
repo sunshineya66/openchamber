@@ -1,0 +1,13 @@
+{
+  "Keyboard Shortcuts": "键盘快捷键",
+  "Reset All": "全部重置",
+  "Capture a new key combo, save it, and bindings will update immediately.": "捕获新的按键组合，保存后绑定将立即更新。",
+  "This combo is already used by another shortcut. Overwrite and clear that other mapping?": "此组合已被另一个快捷键使用。覆盖并清除其他映射？",
+  "Overwrite": "覆盖",
+  "Cancel": "取消",
+  "This shortcut can conflict with browser defaults. It is still saved.": "此快捷键可能与浏览器默认设置冲突。仍然会保存。",
+  "Press keys...": "按下按键...",
+  "Capture a shortcut first.": "请先捕获快捷键。",
+  "Save": "保存",
+  "Reset": "重置"
+}

@@ -1,0 +1,15 @@
+{
+  "Select a provider to view usage details.": "选择一个提供商查看使用量详情。",
+  "Refreshing usage...": "正在刷新使用量...",
+  "Last updated:": "最后更新：",
+  "Show in Header Menu": "显示在标题菜单",
+  "When enabled, this provider's usage will be visible in the quick access dropdown menu in the app header.": "启用后，该提供商的使用量将在应用标题的快速访问下拉菜单中可见。",
+  "No usage data available yet.": "暂无使用量数据。",
+  "Failed to refresh usage data": "刷新使用量数据失败",
+  "Provider not configured": "提供商未配置",
+  "Add credentials in the Providers tab to enable usage tracking.": "在提供商标签中添加凭据以启用使用量跟踪。",
+  "Model Quotas": "模型配额",
+  "Other Models": "其他模型",
+  "No quota windows reported": "未报告配额窗口",
+  "This provider does not currently report any rate limits or usage quotas.": "此提供商当前未报告任何速率限制或使用量配额。"
+}

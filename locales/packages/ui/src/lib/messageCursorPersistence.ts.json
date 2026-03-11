@@ -1,0 +1,10 @@
+{
+  "IndexedDB not supported": "不支持IndexedDB",
+  "Failed to open IndexedDB": "打开IndexedDB失败",
+  "Cursor write failed": "光标写入失败",
+  "Cursor write aborted": "光标写入已中止",
+  "Cursor read failed": "光标读取失败",
+  "Cursor read aborted": "光标读取已中止",
+  "Cursor delete failed": "光标删除失败",
+  "Cursor delete aborted": "光标删除已中止"
+}

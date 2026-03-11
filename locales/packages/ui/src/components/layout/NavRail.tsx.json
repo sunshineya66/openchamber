@@ -1,0 +1,19 @@
+{
+  "Project options": "项目选项",
+  "Add project": "添加项目",
+  "Edit project": "编辑项目",
+  "Close project": "关闭项目",
+  "Settings": "设置",
+  "About OpenChamber": "关于 OpenChamber",
+  "Shortcuts": "快捷键",
+  "Collapse": "折叠",
+  "Expand": "展开",
+  "Expand sidebar": "展开侧边栏",
+  "Collapse sidebar": "折叠侧边栏",
+  "Update available": "有可用更新",
+  "Project navigation": "项目导航",
+  "Keyboard shortcuts": "键盘快捷键",
+  "Failed to add project": "添加项目失败",
+  "Please select a valid directory.": "请选择一个有效的目录。",
+  "Failed to select directory": "选择目录失败"
+}

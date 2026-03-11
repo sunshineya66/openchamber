@@ -1,0 +1,16 @@
+{
+  "MCP server \"{name}\" deleted": "MCP 服务器 \"{name}\" 已删除",
+  "Failed to delete MCP server": "删除 MCP 服务器失败",
+  "MCP Servers": "MCP 服务器",
+  "Total {count}": "共 {count} 个",
+  "Add MCP server": "添加 MCP 服务器",
+  "No MCP servers configured": "未配置 MCP 服务器",
+  "Use the + button above to add one": "使用上方的 + 按钮添加",
+  "Project Servers": "项目服务器",
+  "User Servers": "用户服务器",
+  "Delete": "删除",
+  "Delete MCP Server": "删除 MCP 服务器",
+  "Are you sure you want to delete \"{name}\"? This will remove it from opencode.json.": "确定要删除 \"{name}\" 吗？这将从 opencode.json 中移除它。",
+  "Cancel": "取消",
+  "Deleting…": "删除中…"
+}

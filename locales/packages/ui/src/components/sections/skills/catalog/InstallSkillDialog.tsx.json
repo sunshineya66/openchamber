@@ -1,0 +1,14 @@
+{
+  "Skill installed successfully": "技能安装成功",
+  "Authentication required": "需要身份验证",
+  "Failed to install skill": "安装技能失败",
+  "Install skill": "安装技能",
+  "Install {skillName} into one of four target locations.": "将 {skillName} 安装到四个目标位置之一。",
+  "Destination": "目标位置",
+  "Project": "项目",
+  "No projects available": "没有可用的项目",
+  "Choose project": "选择项目",
+  "Cancel": "取消",
+  "Installing...": "安装中...",
+  "Install": "安装"
+}

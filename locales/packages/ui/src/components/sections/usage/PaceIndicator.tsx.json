@@ -1,0 +1,12 @@
+{
+  "On track": "正常",
+  "Slightly fast": "略快",
+  "Too fast": "太快",
+  "Used up": "已用完",
+  "Pace": "速度",
+  "Pace: ": "速度：",
+  "Pred": "预测",
+  "Pred: ": "预测：",
+  "Wait": "等待",
+  "Predicted usage at window end based on current pace:": "基于当前速度预测窗口结束时的使用量："
+}

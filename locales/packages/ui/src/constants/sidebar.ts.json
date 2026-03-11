@@ -1,0 +1,20 @@
+{
+  "Sessions": "会话",
+  "Browse and manage chat sessions scoped to the current directory.": "浏览和管理当前目录范围内的聊天会话。",
+  "Agents": "代理",
+  "Configure OpenCode agents, prompts, and permissions.": "配置 OpenCode 代理、提示词和权限。",
+  "Commands": "命令",
+  "Create and maintain custom slash commands for OpenCode.": "为 OpenCode 创建和维护自定义斜杠命令。",
+  "Skills": "技能",
+  "Create reusable instruction files for agents to load on-demand.": "创建可重用的指令文件，供代理按需加载。",
+  "MCP": "MCP",
+  "Manage Model Context Protocol servers and their configurations.": "管理 Model Context Protocol 服务器及其配置。",
+  "Providers": "提供商",
+  "Configure AI model providers and API credentials.": "配置 AI 模型提供商和 API 凭据。",
+  "Usage": "使用情况",
+  "Monitor API quota and usage across providers.": "监控各提供商的 API 配额和使用情况。",
+  "Git Identities": "Git 身份",
+  "Manage Git profiles with different credentials and SSH keys.": "使用不同的凭据和 SSH 密钥管理 Git 配置。",
+  "OpenChamber": "OpenChamber",
+  "OpenChamber app settings: themes, fonts, and preferences.": "OpenChamber 应用设置：主题、字体和偏好设置。"
+}

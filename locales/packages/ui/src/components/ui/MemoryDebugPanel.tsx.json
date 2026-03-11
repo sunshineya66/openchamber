@@ -1,0 +1,17 @@
+{
+  "Memory Debug Panel": "内存调试面板",
+  "Total Messages": "消息总数",
+  "Cached Sessions": "缓存的会话",
+  "Viewport Window": "视窗",
+  "Background Stream Limit": "后台流限制",
+  "Zombie Timeout": "僵尸超时",
+  "Sessions in Memory": "内存中的会话",
+  "Force Trim (10)": "强制修剪 (10)",
+  "Trim current session to only 10 most recent messages": "将当前会话修剪为仅保留最近10条消息",
+  "Evict LRU": "清除 LRU",
+  "Remove least recently used sessions from memory cache": "从内存缓存中移除最近最少使用的会话",
+  "Log State": "记录状态",
+  "Log current memory state to browser console": "将当前内存状态记录到浏览器控制台",
+  "minutes": "分钟",
+  "msgs": "条消息"
+}

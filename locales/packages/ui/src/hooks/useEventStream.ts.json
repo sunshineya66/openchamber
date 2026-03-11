@@ -1,0 +1,15 @@
+{
+  "Plan mode active": "计划模式已激活",
+  "Build mode active": "构建模式已激活",
+  "Edits restricted to plan file": "编辑仅限于计划文件",
+  "You can now edit files": "您现在可以编辑文件",
+  "Agent is ready": "助手已就绪",
+  "Task completed": "任务完成",
+  "Tool error": "工具错误",
+  "An error occurred": "发生错误",
+  "Agent is waiting for your approval": "助手正在等待您的批准",
+  "Permission required": "需要权限",
+  "Session": "会话",
+  "Input needed": "需要输入",
+  "Agent is waiting for your response": "助手正在等待您的回复"
+}

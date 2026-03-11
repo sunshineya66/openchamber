@@ -1,0 +1,8 @@
+{
+  "waiting for permission": "等待权限",
+  "Retrying": "重试中",
+  "Retrying in {n}s...": "{n}秒后重试中...",
+  "Retrying (attempt {n})...": "重试中 (第{n}次)...",
+  "Retrying in {n}s (attempt {m})...": "{n}秒后重试中 (第{m}次)...",
+  "attempt": "次尝试"
+}

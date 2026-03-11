@@ -1,0 +1,6 @@
+{
+  "Failed to obtain filesystem home directory": "无法获取文件系统主目录",
+  "Failed to get home directory from system info": "无法从系统信息获取主目录",
+  "Failed to obtain desktop-integrated home directory": "无法获取桌面集成主目录",
+  "Failed to invalidate file search cache": "无法使文件搜索缓存失效"
+}

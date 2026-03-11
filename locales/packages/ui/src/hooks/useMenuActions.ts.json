@@ -1,0 +1,9 @@
+{
+  "Failed to select directory": "选择目录失败",
+  "Directory selection cancelled": "目录选择已取消",
+  "Failed to open directory": "打开目录失败",
+  "Desktop could not grant file access.": "桌面无法授予文件访问权限。",
+  "Failed to add project": "添加项目失败",
+  "Please select a valid directory path.": "请选择有效的目录路径。",
+  "Failed to collect OpenCode status": "收集 OpenCode 状态失败"
+}

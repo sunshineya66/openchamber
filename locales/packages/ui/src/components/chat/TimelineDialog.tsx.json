@@ -1,0 +1,14 @@
+{
+  "Conversation Timeline": "对话时间线",
+  "Navigate to any point in the conversation or fork a new session": "导航到对话中的任何位置或创建新会话分支",
+  "Search messages...": "搜索消息...",
+  "No messages found": "未找到消息",
+  "No messages in this session yet": "此会话中暂无消息",
+  "[No text content]": "[无文本内容]",
+  "Revert from here": "恢复到此处",
+  "Fork from here": "从此处分支",
+  "Actions": "操作",
+  "Click on a message to scroll to it in the conversation": "点击消息以在对话中滚动到该位置",
+  "Undo to this point (message text will populate input)": "撤销到此点（消息文本将填充到输入框）",
+  "Create a new session starting from here": "创建一个以此处为起点的新会话"
+}

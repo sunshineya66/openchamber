@@ -1,0 +1,13 @@
+{
+  "Creating command configuration…": "正在创建命令配置…",
+  "Updating command configuration…": "正在更新命令配置…",
+  "Deleting command configuration…": "正在删除命令配置…",
+  "Waiting for OpenCode… (attempt ${attempt})": "正在等待 OpenCode…（第 ${attempt} 次尝试）",
+  "Refreshing commands…": "正在刷新命令…",
+  "OpenCode refresh failed. Please retry refreshing configuration manually.": "OpenCode 刷新失败。请手动重试刷新配置。",
+  "Reloading OpenCode configuration…": "正在重新加载 OpenCode 配置…",
+  "Failed to reload configuration. Please try again.": "重新加载配置失败。请重试。",
+  "Failed to create command": "创建命令失败",
+  "Failed to update command": "更新命令失败",
+  "Failed to delete command": "删除命令失败"
+}

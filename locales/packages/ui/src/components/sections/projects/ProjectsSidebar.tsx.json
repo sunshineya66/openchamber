@@ -1,0 +1,8 @@
+{
+  "Projects": "项目",
+  "Total {projects.length}": "总计 {projects.length}",
+  "Add project": "添加项目",
+  "Failed to add project": "添加项目失败",
+  "Please select a valid directory.": "请选择一个有效的目录。",
+  "Failed to select directory": "选择目录失败"
+}

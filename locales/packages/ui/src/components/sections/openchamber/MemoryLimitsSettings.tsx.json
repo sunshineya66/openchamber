@@ -1,0 +1,7 @@
+{
+  "Message Memory": "消息记忆",
+  "Limit how many messages are loaded per session in memory.": "限制每个会话在内存中加载的消息数量。",
+  "Older messages are available via \"Load more\". Background sessions are trimmed automatically.": "较旧的消息可通过\"加载更多\"获取后台会话会自动修剪。",
+  "Message Limit": "消息限制",
+  "Reset message limit": "重置消息限制"
+}

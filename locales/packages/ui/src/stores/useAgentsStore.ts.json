@@ -1,0 +1,13 @@
+{
+  "Creating agent configuration…": "正在创建智能体配置…",
+  "Updating agent configuration…": "正在更新智能体配置…",
+  "Deleting agent configuration…": "正在删除智能体配置…",
+  "Waiting for OpenCode… (attempt ${attempt})": "正在等待 OpenCode…（第 ${attempt} 次尝试）",
+  "Refreshing configuration…": "正在刷新配置…",
+  "OpenCode refresh failed. Please retry.": "OpenCode 刷新失败。请重试。",
+  "Reloading OpenCode configuration…": "正在重新加载 OpenCode 配置…",
+  "Failed to reload configuration. Please try again.": "重新加载配置失败。请重试。",
+  "Failed to create agent": "创建智能体失败",
+  "Failed to update agent": "更新智能体失败",
+  "Failed to delete agent": "删除智能体失败"
+}

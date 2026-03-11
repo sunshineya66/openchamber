@@ -1,0 +1,17 @@
+{
+  "Session Retention": "会话保留",
+  "Automatically delete inactive sessions based on their last activity. Keeps recent 5 sessions.": "根据最后活动自动删除非活动会话。保留最近 5 个会话。",
+  "Enable Auto-Cleanup": "启用自动清理",
+  "Retention Period": "保留期限",
+  "days": "天",
+  "Reset": "重置",
+  "Manual Cleanup": "手动清理",
+  "Cleaning up...": "清理中...",
+  "Run cleanup now": "立即运行清理",
+  "Eligible for deletion right now: {count}": "当前可删除：{count}",
+  "No sessions eligible for deletion": "没有符合删除条件的会话",
+  "Deleted {count} session(s)": "已删除 {count} 个会话",
+  "Failed to delete {count} session(s)": "删除 {count} 个会话失败",
+  "Retention period in days": "保留期限（天）",
+  "Reset retention period": "重置保留期限"
+}

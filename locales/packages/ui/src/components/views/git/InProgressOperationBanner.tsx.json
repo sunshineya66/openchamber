@@ -1,0 +1,15 @@
+{
+  "Merge": "合并",
+  "Rebase": "变基",
+  "Merge in progress": "合并进行中",
+  "Rebase in progress": "变基进行中",
+  "Merging: ${message}": "正在合并：${message}",
+  "Merge in progress (${head})": "合并进行中 (${head})",
+  "Rebasing ${headName} onto ${onto}": "正在将 ${headName} 变基到 ${onto}",
+  "Rebase in progress": "变基进行中",
+  "${operationLabel} in Progress": "${operationLabel} 进行中",
+  "Resolve with AI": "使用 AI 解决",
+  "Abort": "中止",
+  "Continue": "继续",
+  "Conflicts must be resolved before continuing. Use \"Resolve with AI\" or resolve manually, then stage changes and click Continue.": "必须先解决冲突才能继续。使用「使用 AI 解决」或手动解决，然后暂存更改并点击继续。"
+}

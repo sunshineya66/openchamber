@@ -1,0 +1,10 @@
+{
+  "Comment on `": "评论 `",
+  "lines ": "行 ",
+  " (`": " (",
+  "):\n```\n": "):\n```\n",
+  ":\n```\n": ":\n```\n",
+  "```\n\n": "```\n\n",
+  "Comment on `${fileLabel}` lines ${startLine}-${endLine} (${side}):": "评论 `${fileLabel}` 的第 ${startLine}-${endLine} 行 (${side}):",
+  "Comment on `${fileLabel}` lines ${startLine}-${endLine}:": "评论 `${fileLabel}` 的第 ${startLine}-${endLine} 行:"
+}

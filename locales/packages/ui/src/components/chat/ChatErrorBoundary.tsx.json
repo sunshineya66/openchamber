@@ -1,0 +1,8 @@
+{
+  "Chat Error": "聊天错误",
+  "The chat interface encountered an error. This might be due to a temporary network issue or corrupted message data.": "聊天界面遇到错误。这可能是由于临时网络问题或消息数据损坏导致的。",
+  "Session:": "会话：",
+  "Error details": "错误详情",
+  "Reset Chat": "重置聊天",
+  "If the problem persists, try refreshing the page.": "如果问题仍然存在，请尝试刷新页面。"
+}

@@ -1,0 +1,19 @@
+{
+  "[Voice] Invalid message parameter:": "[Voice] 无效的消息参数：",
+  "[Voice] No active session": "[Voice] 无活动会话",
+  "[Voice] No provider/model selected": "[Voice] 未选择供应商/模型",
+  "[Voice] Sending message to session:": "[Voice] 正在向会话发送消息：",
+  "[Voice] Failed to send message:": "[Voice] 发送消息失败：",
+  "[Voice] Invalid decision parameter:": "[Voice] 无效的决策参数：",
+  "[Voice] No pending permission requests": "[Voice] 无待处理的权限请求",
+  "error (invalid message parameter)": "错误（无效的消息参数）",
+  "error (no active session)": "错误（无活动会话）",
+  "error (no provider or model selected)": "错误（未选择供应商或模型）",
+  "error (failed to send message)": "错误（发送消息失败）",
+  "error (invalid decision parameter, expected 'allow' or 'deny')": "错误（无效的决策参数，期望 'allow' 或 'deny'）",
+  "error (no pending permission request)": "错误（无待处理的权限请求）",
+  "error (failed to allow permission)": "错误（允许权限失败）",
+  "error (failed to deny permission)": "错误（拒绝权限失败）",
+  "sent": "已发送",
+  "done": "完成"
+}

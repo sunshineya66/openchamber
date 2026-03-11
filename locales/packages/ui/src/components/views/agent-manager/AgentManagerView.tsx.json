@@ -1,0 +1,5 @@
+{
+  "Creating agent group \"$\" with $ model(s)...": "正在创建包含 $ 个模型的智能体组 \"$\"...",
+  "Agent group \"$\" created with $ session(s)": "智能体组 \"$\" 已创建，包含 $ 个会话",
+  "Failed to create agent group": "创建智能体组失败"
+}

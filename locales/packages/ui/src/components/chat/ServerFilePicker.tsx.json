@@ -1,0 +1,15 @@
+{
+  "Select Project Files": "选择项目文件",
+  "Search files...": "搜索文件...",
+  "Loading files...": "加载文件中...",
+  "Failed to load directory contents": "加载目录内容失败",
+  "Loading…": "加载中...",
+  "Searching files…": "搜索文件中...",
+  "No files in this directory": "此目录中没有文件",
+  "No files found": "未找到文件",
+  "No files selected": "未选择文件",
+  "{count} file selected": "{count} 个文件已选择",
+  "{count} files selected": "{count} 个文件已选择",
+  "Attaching...": "附加中...",
+  "Attach Files": "附加文件"
+}

@@ -1,0 +1,13 @@
+{
+  "Session Defaults": "会话默认设置",
+  "New sessions will start with:": "新会话将使用以下配置启动：",
+  "opencode agent default": "opencode 代理默认",
+  "default": "默认",
+  "Default Model": "默认模型",
+  "Default Thinking": "默认思考模式",
+  "Thinking": "思考模式",
+  "Default": "默认",
+  "Default Agent": "默认代理",
+  "Show Deletion Dialog": "显示删除对话框",
+  "Always Create Worktree": "始终创建工作树"
+}

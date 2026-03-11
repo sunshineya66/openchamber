@@ -1,0 +1,14 @@
+{
+  "Select Working Directory": "选择工作目录",
+  "Directory selection cancelled": "目录选择已取消",
+  "Failed to request directory access (tauri)": "请求目录访问失败 (tauri)",
+  "Failed to send assistant completion notification (tauri)": "发送助手完成通知失败 (tauri)",
+  "Failed to check for updates (tauri)": "检查更新失败 (tauri)",
+  "Failed to download update (tauri)": "下载更新失败 (tauri)",
+  "Failed to restart for update (tauri)": "重启以应用更新失败 (tauri)",
+  "Failed to open path (tauri)": "打开路径失败 (tauri)",
+  "Failed to check installed apps (tauri)": "检查已安装应用失败 (tauri)",
+  "Failed to fetch installed app icons (tauri)": "获取已安装应用图标失败 (tauri)",
+  "Failed to fetch installed apps (tauri)": "获取已安装应用失败 (tauri)",
+  "Failed to clear cache": "清除缓存失败"
+}

@@ -1,0 +1,12 @@
+{
+  "Failed to load sessions": "加载会话失败",
+  "Failed to create session": "创建会话失败",
+  "New session": "新会话",
+  "Failed to delete session": "删除会话失败",
+  "Failed to delete worktree": "删除工作树失败",
+  "Failed to delete sessions": "删除会话失败",
+  "Failed to delete some sessions": "部分会话删除失败",
+  "Failed to update session title": "更新会话标题失败",
+  "Failed to share session": "分享会话失败",
+  "Failed to unshare session": "取消分享会话失败"
+}

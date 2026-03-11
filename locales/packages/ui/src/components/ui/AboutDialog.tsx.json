@@ -1,0 +1,16 @@
+{
+  "OpenChamber": "OpenChamber",
+  "Version": "版本",
+  "A fan-made interface for": "为以下产品的粉丝制作界面",
+  "OpenCode": "OpenCode",
+  "agent": "智能体",
+  "Diagnostics copied": "诊断信息已复制",
+  "Preparing diagnostics...": "正在准备诊断信息...",
+  "Copy diagnostics": "复制诊断信息",
+  "Includes OpenChamber state, OpenCode health, directories, and projects.": "包括 OpenChamber 状态、OpenCode 运行状况、目录和项目。",
+  "GitHub": "GitHub",
+  "Discord": "Discord",
+  "Made with love to comunity": "用爱心为社区制作",
+  "Copy failed": "复制失败",
+  "Diagnostics not ready yet. Wait a second and retry.": "诊断信息尚未准备就绪。请稍等后重试。"
+}

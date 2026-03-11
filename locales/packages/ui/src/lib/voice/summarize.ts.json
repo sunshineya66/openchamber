@@ -1,0 +1,5 @@
+{
+  "[summarize] HTTP error": "[summarize] HTTP 错误",
+  "[summarize] Failed to summarize:": "[summarize] 总结失败：",
+  "Summarization failed: {status}": "总结失败：{status}"
+}

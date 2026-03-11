@@ -1,0 +1,18 @@
+{
+  "No conflict details available": "没有可用的冲突详情",
+  "No active session": "没有活动会话",
+  "Open a chat session first or use \"New Session\".": "请先打开聊天会话或使用「新建会话」。",
+  "Merge Conflicts Detected": "检测到合并冲突",
+  "Rebase Conflicts Detected": "检测到变基冲突",
+  "The merge operation resulted in conflicts that need to be resolved.": "合并操作产生了需要解决的冲突。",
+  "The rebase operation resulted in conflicts that need to be resolved.": "变基操作产生了需要解决的冲突。",
+  "Loading conflict details...": "正在加载冲突详情...",
+  "Error loading details: ": "加载详情错误：",
+  "Conflicted files:": "冲突文件：",
+  "HEAD information:": "HEAD 信息：",
+  "Resolve in New Session": "在新会话中解决",
+  "Resolve in Current Session": "在当前会话中解决",
+  "Continue Later": "稍后继续",
+  "Abort Merge": "中止合并",
+  "Abort Rebase": "中止变基"
+}

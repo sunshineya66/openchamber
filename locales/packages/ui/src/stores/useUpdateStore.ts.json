@@ -1,0 +1,5 @@
+{
+  "Server responded with {status}": "服务器响应状态 {status}",
+  "Desktop update only works on Local instance": "桌面更新仅在本地实例上有效",
+  "Desktop restart only works on Local instance": "桌面重启仅在本地实例上有效"
+}

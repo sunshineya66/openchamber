@@ -1,0 +1,9 @@
+{
+  "Providers": "供应商",
+  "Total {count}": "总计 {count}",
+  "Connect provider": "连接供应商",
+  "No providers found": "未找到供应商",
+  "Check your OpenCode configuration": "检查您的 OpenCode 配置",
+  "User Providers": "用户供应商",
+  "Project Providers": "项目供应商"
+}

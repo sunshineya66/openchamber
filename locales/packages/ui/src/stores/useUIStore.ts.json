@@ -1,0 +1,11 @@
+{
+  "Server not connected": "服务器未连接",
+  "App initialized successfully": "应用初始化成功",
+  "Runtime APIs not provided for legacy UI entrypoint.": "未为旧版 UI 入口点提供运行时 API。",
+  "Root element not found": "未找到根元素",
+  "Failed to check for updates": "检查更新失败",
+  "Desktop update only works on Local instance": "桌面更新仅在本地实例上有效",
+  "Failed to download update": "下载更新失败",
+  "Desktop restart only works on Local instance": "桌面重启仅在本地实例上有效",
+  "Failed to restart": "重启失败"
+}

@@ -1,0 +1,9 @@
+{
+  "Failed to load MCP configs": "加载 MCP 配置失败",
+  "Failed to create MCP server": "创建 MCP 服务器失败",
+  "Failed to update MCP server": "更新 MCP 服务器失败",
+  "Failed to delete MCP server": "删除 MCP 服务器失败",
+  "Creating MCP server configuration…": "正在创建 MCP 服务器配置…",
+  "Updating MCP server configuration…": "正在更新 MCP 服务器配置…",
+  "Deleting MCP server configuration…": "正在删除 MCP 服务器配置…"
+}

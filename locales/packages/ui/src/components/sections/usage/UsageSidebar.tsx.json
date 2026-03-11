@@ -1,0 +1,12 @@
+{
+  "Usage": "使用量",
+  "Total": "总计",
+  "Auto-refresh usage data at set interval": "按设定间隔自动刷新使用量数据",
+  "Interval": "间隔",
+  "Display": "显示",
+  "Display mode": "显示模式",
+  "Usage": "使用量",
+  "Quota remaining": "剩余配额",
+  "Not set": "未设置",
+  "Refresh usage": "刷新使用量"
+}

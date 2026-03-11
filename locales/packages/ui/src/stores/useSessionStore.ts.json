@@ -1,0 +1,10 @@
+{
+  "Failed to create session": "创建会话失败",
+  "Undid to: ${preview}": "已撤销到：${preview}",
+  "Redid to: ${preview}": "已重做到：${preview}",
+  "Restored all messages": "已恢复所有消息",
+  "Failed to fork session": "分叉会话失败",
+  "Message not found": "未找到消息",
+  "Failed to analyze session choices": "分析会话选项失败",
+  "Forked from ${existingSession.title}": "已从 ${existingSession.title} 分叉"
+}

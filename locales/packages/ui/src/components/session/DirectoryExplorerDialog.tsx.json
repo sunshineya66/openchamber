@@ -1,0 +1,17 @@
+{
+  "Add project directory": "添加项目目录",
+  "Choose a folder to add as a project.": "选择一个文件夹作为项目添加。",
+  "Show hidden": "显示隐藏",
+  "Enter path or select from tree...": "输入路径或从树中选择...",
+  "Cancel": "取消",
+  "Adding...": "添加中...",
+  "Add Project": "添加项目",
+  "Unable to access directory": "无法访问目录",
+  "Desktop denied directory access.": "桌面拒绝目录访问。",
+  "Failed to open directory": "打开目录失败",
+  "Desktop could not grant file access.": "桌面无法授予文件访问权限。",
+  "Failed to add project": "添加项目失败",
+  "Please select a valid directory path.": "请选择有效的目录路径。",
+  "Failed to select directory": "选择目录失败",
+  "Unknown error occurred.": "发生未知错误。"
+}

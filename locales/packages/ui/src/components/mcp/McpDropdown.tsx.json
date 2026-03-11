@@ -1,0 +1,11 @@
+{
+  "Unknown": "未知",
+  "Connected": "已连接",
+  "Failed: {error}": "失败：{error}",
+  "Needs authentication": "需要认证",
+  "Needs registration: {error}": "需要注册：{error}",
+  "MCP Servers": "MCP 服务器",
+  "Configure MCP servers in Opencode config.": "在 Opencode 配置中配置 MCP 服务器。",
+  "Refresh": "刷新",
+  "MCP status": "MCP 状态"
+}

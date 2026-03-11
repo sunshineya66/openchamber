@@ -1,0 +1,10 @@
+{
+  "Fetch": "获取",
+  "Pull": "拉取",
+  "Push": "推送",
+  "Fetch from remote": "从远程获取",
+  "Pull changes": "拉取更改",
+  "Pull changes (${behindCount} behind)": "拉取更改（落后 ${behindCount}）",
+  "Push changes": "推送更改",
+  "Push changes (${aheadCount} ahead)": "推送更改（领先 ${aheadCount}）"
+}

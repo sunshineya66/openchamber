@@ -1,0 +1,23 @@
+{
+  "No provider or model configured. Please configure them in settings.": "未配置提供商或模型。请在设置中配置它们。",
+  "Failed to create session": "创建会话失败",
+  "Using OpenAI server TTS with voice:": "使用 OpenAI 服务器 TTS，声音：",
+  "Server TTS started": "服务器 TTS 已启动",
+  "Server TTS ended": "服务器 TTS 已结束",
+  "Server TTS error:": "服务器 TTS 错误：",
+  "OpenAI voice failed: ${errorMsg}. Please check your OpenAI API key or switch to Browser voice.": "OpenAI 语音失败：${errorMsg}。请检查您的 OpenAI API 密钥或切换到浏览器语音。",
+  "Using macOS Say TTS with voice:": "使用 macOS Say TTS，声音：",
+  "Say TTS started": "Say TTS 已启动",
+  "Say TTS ended": "Say TTS 已结束",
+  "Say TTS error:": "Say TTS 错误：",
+  "Using browser TTS": "使用浏览器 TTS",
+  "OpenAI voice selected but unavailable, falling back to browser voice": "已选择 OpenAI 语音但不可用，回退到浏览器语音",
+  "OpenAI voice unavailable (API key not configured). Using browser voice instead.": "OpenAI 语音不可用（未配置 API 密钥）。改用浏览器语音。",
+  "Audio blocked by browser. Please click the voice button again to enable audio.": "浏览器阻止了音频。请再次点击语音按钮以启用音频。",
+  "Browser voice not supported": "不支持浏览器语音",
+  "No active session": "没有活动会话",
+  "Failed to start voice": "启动语音失败",
+  "Microphone permission denied": "麦克风权限被拒绝",
+  "Microphone source changed. Tap mic to continue.": "麦克风源已更改。点击麦克风继续。",
+  "Session changed, stopping voice": "会话已更改，停止语音"
+}

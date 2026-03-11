@@ -1,0 +1,22 @@
+{
+  "Context": "上下文",
+  "Open a session to inspect context.": "打开会话以检查上下文。",
+  "Untitled Session": "未命名会话",
+  "% used": "% 已使用",
+  "User": "用户",
+  "Assistant": "助手",
+  "Tool Calls": "工具调用",
+  "Other": "其他",
+  "Messages": "消息",
+  "Cost": "成本",
+  "Last Assistant Message": "最后一条助手消息",
+  "Input": "输入",
+  "Output": "输出",
+  "Reasoning": "推理",
+  "Cache Read": "缓存读取",
+  "Cache Write": "缓存写入",
+  "Raw Messages": "原始消息",
+  "Copied": "已复制",
+  "Copy JSON": "复制 JSON",
+  "Copy": "复制"
+}

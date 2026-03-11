@@ -1,0 +1,23 @@
+{
+  "Delegated task": "委托任务",
+  "Show prompt": "显示提示",
+  "Hide prompt": "隐藏提示",
+  "Open subtask session": "打开子任务会话",
+  "Shell command": "Shell命令",
+  "Show output": "显示输出",
+  "Hide output": "隐藏输出",
+  "Copy output": "复制输出",
+  "Copied": "已复制",
+  "Revert to this message": "恢复到此消息",
+  "Revert from here": "从此处恢复",
+  "Fork from here": "从此处Fork",
+  "Copy message text": "复制消息文本",
+  "Copy message": "复制消息",
+  "Copy answer": "复制答案",
+  "Start new session from this answer": "以此答案开始新会话",
+  "Start new multi-run from this answer": "以此答案开始新的多轮运行",
+  "Stop speaking": "停止朗读",
+  "Read aloud": "朗读",
+  "Read aloud (Browser voice)": "朗读（浏览器语音）",
+  "Read aloud (OpenAI voice)": "朗读（OpenAI语音）"
+}

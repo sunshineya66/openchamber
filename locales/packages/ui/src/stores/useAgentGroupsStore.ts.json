@@ -1,0 +1,8 @@
+{
+  "No project directory selected": "没有选择项目目录",
+  "Failed to load agent groups": "加载代理组失败",
+  "Failed to delete some sessions": "删除部分会话失败",
+  "Failed to delete group": "删除组失败",
+  "Failed to delete worktree": "删除工作树失败",
+  "Failed to remove other worktrees": "删除其他工作树失败"
+}

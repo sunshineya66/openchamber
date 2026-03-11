@@ -1,0 +1,9 @@
+{
+  "No session selected": "未选择会话",
+  "Network error while sending message. The message may still be processing.": "发送消息时出现网络错误，消息可能仍在处理中。",
+  "Request timed out. The message may still be processing.": "请求超时，消息可能仍在处理中。",
+  "Session not found or unauthorized. Please refresh the page.": "会话未找到或未授权，请刷新页面。",
+  "OpenCode is restarting. Please wait a moment and try again.": "OpenCode 正在重启，请稍等后重试。",
+  "Gateway timeout - your message is being processed. Please wait for response.": "网关超时 - 您的消息正在处理中，请等待响应。",
+  "Authentication failed for this provider. Please re-authenticate and retry.": "此提供商的身份验证失败，请重新认证后重试。"
+}

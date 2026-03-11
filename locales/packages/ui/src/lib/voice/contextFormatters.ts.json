@@ -1,0 +1,10 @@
+{
+  "Claude Code is requesting permission to use {toolName}. Say \"allow\" or \"deny\".": "Claude Code 正在请求使用 {toolName} 的权限。请说 \"允许\" 或 \"拒绝\"。",
+  "Claude Code finished working. Ready for next instruction.": "Claude Code 已完成工作。可以进行下一个指令。",
+  "[Voice] Formatting {messages.length} messages for session {sessionId}": "[Voice] 正在格式化 {messages.length} 条消息用于会话 {sessionId}",
+  "[Voice] Formatting permission request {requestId} for session {sessionId}": "[Voice] 正在格式化权限请求 {requestId} 用于会话 {sessionId}",
+  "[Voice] Formatting ready event for session {sessionId}": "[Voice] 正在格式化会话 {sessionId} 的就绪事件",
+  "Claude Code: ": "Claude Code：",
+  "User: ": "用户：",
+  "[code block]": "[代码块]"
+}

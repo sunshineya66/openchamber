@@ -1,0 +1,14 @@
+{
+  "Creating skill...": "正在创建技能...",
+  "Updating skill...": "正在更新技能...",
+  "Deleting skill...": "正在删除技能...",
+  "Waiting for OpenCode… (attempt ${attempt})": "等待 OpenCode... (尝试 ${attempt})",
+  "Refreshing skills…": "正在刷新技能...",
+  "OpenCode refresh failed. Please retry.": "OpenCode 刷新失败，请重试。",
+  "Failed to create skill": "创建技能失败",
+  "Failed to update skill": "更新技能失败",
+  "Failed to delete skill": "删除技能失败",
+  "Failed to list skills: {status}": "列出技能失败：{status}",
+  "OpenCode health check reported not ready": "OpenCode 健康检查报告未就绪",
+  "OpenCode did not become ready in time": "OpenCode 未能在时间内就绪"
+}

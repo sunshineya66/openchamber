@@ -1,0 +1,9 @@
+{
+  "No commits to move": "没有要移动的提交",
+  "Target branch has local changes; abort integration and retry": "目标分支有本地更改；中止集成并重试",
+  "Failed to create temp directory": "创建临时目录失败",
+  "Failed to create temp worktree": "创建临时工作树失败",
+  "Fast-forward failed": "快进失败",
+  "Cherry-pick failed": "Cherry-pick 失败",
+  "Cherry-pick continue failed": "Cherry-pick 继续失败"
+}

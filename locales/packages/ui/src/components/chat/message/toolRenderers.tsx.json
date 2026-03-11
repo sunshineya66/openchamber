@@ -1,0 +1,18 @@
+{
+  "Found": "找到",
+  "match": "匹配",
+  "matches": "匹配",
+  "Line": "行",
+  "file": "文件",
+  "files": "文件",
+  "Total:": "总计：",
+  "Total": "总计",
+  "In Progress:": "进行中：",
+  "In Progress": "进行中",
+  "Pending:": "待处理：",
+  "Pending": "待处理",
+  "Completed:": "已完成：",
+  "Completed": "已完成",
+  "Cancelled:": "已取消：",
+  "Cancelled": "已取消"
+}

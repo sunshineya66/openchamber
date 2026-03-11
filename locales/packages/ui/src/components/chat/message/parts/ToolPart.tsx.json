@@ -1,0 +1,22 @@
+{
+  "Result": "结果",
+  "Result:": "结果：",
+  "Error:": "错误：",
+  "Patch": "补丁",
+  "Output": "输出",
+  "New file": "新文件",
+  "tool": "工具",
+  "Switching to planning": "正在切换到计划模式",
+  "Switching to building": "正在切换到构建模式",
+  "Open subAgent session": "打开子 Agent 会话",
+  "No output produced": "无输出",
+  "Awaiting response...": "等待响应中...",
+  "Processing todo list...": "正在处理待办事项...",
+  "Unable to parse todo list": "无法解析待办事项列表",
+  "{files.length} files": "{files.length} 个文件",
+  "Asked {count} question(s)": "已提问 {count} 个问题",
+  "+{hiddenCount} more…": "还有 {hiddenCount} 个…",
+  "{hunk.file} (line {hunk.oldStart})": "{hunk.file} (第 {hunk.oldStart} 行)",
+  "line 1": "第 1 行",
+  "lines 1-{lineCount}": "第 1-{lineCount} 行"
+}

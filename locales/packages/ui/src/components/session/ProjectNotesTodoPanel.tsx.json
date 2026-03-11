@@ -1,0 +1,21 @@
+{
+  "Select a project to add notes and todos.": "选择一个项目来添加笔记和待办事项。",
+  "Quick notes": "快速笔记",
+  "Capture context, reminders, or links": "记录上下文、提醒或链接",
+  "Todo": "待办",
+  "item": "项",
+  "items": "项",
+  "Clear completed": "清除已完成",
+  "Add a todo": "添加待办",
+  "No todos yet. Add a small checklist for this project.": "暂无待办。为该项目添加一个小 checklist。",
+  "Send to current session": "发送到当前会话",
+  "Send to new session": "发送到新会话",
+  "Send to new worktree session": "发送到新工作树会话",
+  "Failed to save project notes": "保存项目笔记失败",
+  "Failed to load project notes": "加载项目笔记失败",
+  "Todo sent to new session": "待办已发送到新会话",
+  "Todo sent to current session": "待办已发送到当前会话",
+  "No active session selected": "未选择活动会话",
+  "Todo sent to new worktree session": "待办已发送到新工作树会话",
+  "Worktree actions are only available for Git repositories": "工作树操作仅适用于 Git 仓库"
+}

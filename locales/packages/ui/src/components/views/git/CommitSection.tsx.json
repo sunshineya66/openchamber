@@ -1,0 +1,12 @@
+{
+  "Commit": "提交",
+  "No files selected": "未选择文件",
+  "Select files in Changes to enable commit.": "在更改中选择文件以启用提交。",
+  "Commit message": "提交信息",
+  "Add gitmoji": "添加 gitmoji",
+  "Generate": "生成",
+  "Committing...": "正在提交...",
+  "Commit & Push": "提交并推送",
+  "Pushing...": "正在推送...",
+  "file(s) selected": "个文件已选择"
+}

@@ -1,0 +1,10 @@
+{
+  "Group name is required": "组名是必填项",
+  "Prompt is required": "提示是必填项",
+  "Select at least 1 model": "请至少选择1个模型",
+  "Maximum 5 models allowed": "最多允许5个模型",
+  "Select a project": "请选择一个项目",
+  "Not in a git repository": "不在git仓库中",
+  "Failed to create any sessions": "创建会话失败",
+  "Failed to create Multi-Run": "创建多运行失败"
+}

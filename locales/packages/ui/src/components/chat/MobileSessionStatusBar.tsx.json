@@ -1,0 +1,14 @@
+{
+  "No projects": "暂无项目",
+  "Add project": "添加项目",
+  "Remove Project": "移除项目",
+  "New session": "新会话",
+  "No sessions in this project": "此项目中暂无会话",
+  "← Swipe here to open sidebars →": "← 滑动此处打开侧边栏 →",
+  "Failed to add project": "添加项目失败",
+  "Failed to select directory": "选择目录失败",
+  "Failed to select directory.": "选择目录失败。",
+  "Please select a valid directory.": "请选择有效的目录。",
+  "Cancel": "取消",
+  "Remove": "移除"
+}
